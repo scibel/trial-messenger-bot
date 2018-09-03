@@ -327,15 +327,17 @@ function handlePostback(sender_psid, received_postback) {
 
 
     keyv.set(sender_psid,currentStateResponse.state,6000);
-    callSendAPI(sender_psid, response)})
+    callSendAPI(sender_psid, response)
 
      return response;
     }
-
     // Send the message to acknowledge the postback
+    );
   };
   test().then( response => {
     console.log(response)
+  
+  })
 
   console.log("my sender_psid again= "+sender_psid); 
   // callSendAPI(sender_psid, {text:'Welcome Mr. Tarek to ABCBank'});
