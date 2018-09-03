@@ -45,8 +45,6 @@ app.post("/webhook", (req, res) => {
     await keyv.clear(); // undefined})();
 })()
 
-  // Call start
-  start();
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
