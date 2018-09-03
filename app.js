@@ -305,6 +305,24 @@ function handleMessage(sender_psid, received_message) {
     }
   }
   }
+  else if (received_message.text == "Test1") {
+    response = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"What do you want to do next?",
+        "buttons":[
+           {
+  "type":"phone_number",
+  "title":"<BUTTON_TEXT>",
+  "payload":"<PHONE_NUMBER>"
+}
+        ]
+      }
+    }
+  }
+  }
   else  {
     response = {
       "text": `This is not a recognized command`
