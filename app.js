@@ -17,8 +17,21 @@ const
   body_parser = require('body-parser'),
   app = express().use(body_parser.json()); // creates express http server
 
+  const Keyv = require('keyv');
+ 
+// One of the following
+const keyv = new Keyv();
+ 
+// Handle DB connection errors
+
+
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening' ));
+app.listen(process.env.PORT || 1337, () => {
+  console.log('webhook is listening' );
+  keyv.on('error', err => console.log('Connection Error', err));
+
+}
+);
  
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {  
@@ -27,6 +40,13 @@ app.post('/webhook', (req, res) => {
 
   // Parse the request body from the POST
   let body = req.body;
+
+ 
+await keyv.set('foo', 'expires in 1 second', 1000); // true
+await keyv.set('foo', 'never expires'); // true
+console.log("key" , await keyv.get('foo')); // 'never expires'
+await keyv.delete('foo'); // true
+await keyv.clear(); // undefined
 
   // Check the webhook event is from a Page subscription
   if (body.object === 'page') {
