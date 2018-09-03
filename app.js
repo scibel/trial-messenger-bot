@@ -333,7 +333,6 @@ function handlePostback(sender_psid, received_postback) {
     }
 
     // Send the message to acknowledge the postback
-    );
   };
   test().then( response => {
     console.log(response)
