@@ -310,8 +310,9 @@ function handlePostback(sender_psid, received_postback) {
   } 
     
   facebookUserState = keyv.get(sender_psid);
-
+  console.log(facebookUserState.state);
   var currentState=stateList[facebookUserState.state];
+  console.log(currentState);
   let currentStateResponse = currentState.executeAction(payload,facebookUserState);
 
   response = currentStateResponse.response;
