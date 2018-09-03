@@ -30,10 +30,7 @@ app.listen(process.env.PORT || 1337, () => {
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
-  // console.log('req' + JSON.stringify(req));
-  // console.log('res' + JSON.stringify(res));
-
-  // Parse the request body from the POST
+ 
   let body = req.body;
   keyv.on("error", err => console.log("Connection Error", err));
 
