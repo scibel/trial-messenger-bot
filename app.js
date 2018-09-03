@@ -311,7 +311,8 @@ function handlePostback(sender_psid, received_postback) {
   async function test() {
    
     await keyv.get(sender_psid).then(result =>  { 
-    console.log("my result = "+JSON.stringify(result));  
+      console.log("my sender_psid = "+sender_psid); 
+      console.log("my result = "+JSON.stringify(result));  
     facebookUserState =result;
     console.log(facebookUserState.state);
     var currentState=stateList[facebookUserState.state];
@@ -333,7 +334,8 @@ function handlePostback(sender_psid, received_postback) {
   };
   test().then( response => callSendAPI(sender_psid, response))
 
-
+  console.log("my sender_psid again= "+sender_psid); 
+  callSendAPI(sender_psid, {text:'Welcome Mr. Tarek to ABCBank'});
 
 }
 
