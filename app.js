@@ -5,7 +5,7 @@
   express = require("express"),
   body_parser = require("body-parser"),
   app = express().use(body_parser.json()); // creates express http server
-  const stateList = require("stateList");
+  const stateList = require("./stateMachineInitializer");
 
 const Keyv = require("keyv");
 
@@ -309,7 +309,7 @@ function handlePostback(sender_psid, received_postback) {
     
   let facebookUserState = keyv.get(sender_psid);
 
-  var currentState=stateList.stateList[facebookUserState.state];
+  var currentState=stateList[facebookUserState.state];
   let currentStateResponse = currentState.executeAction(payload,facebookUserState);
 
   response = currentStateResponse.response;

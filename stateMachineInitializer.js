@@ -1,7 +1,11 @@
 "use strict";
 
-const helloState = require("helloState");
+const helloState = require("./helloState");
 
-this.stateList["helloState"] = helloState;
+console.log(helloState);
 
-module.exports = "stateList";
+var stateList = [];
+
+stateList["helloState"] = helloState;
+
+module.exports = stateList;
