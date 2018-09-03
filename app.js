@@ -308,7 +308,7 @@ function handlePostback(sender_psid, received_postback) {
 
 
   } 
-  (async () => {
+  async function test() {
    
     await keyv.get(sender_psid).then(result =>  { 
     console.log("my result = "+JSON.stringify(result));  
@@ -326,13 +326,14 @@ function handlePostback(sender_psid, received_postback) {
 
 
     keyv.set(sender_psid,currentStateResponse.state,6000);
-     
-  
+     return response;
+    }
     // Send the message to acknowledge the postback
-    callSendAPI(sender_psid, response);} ); 
-   
-  })();
-    
+    );
+  };
+  test().then( response => callSendAPI(sender_psid, response))
+
+
 
 }
 
