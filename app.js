@@ -28,7 +28,6 @@ const keyv = new Keyv();
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => {
   console.log('webhook is listening' );
-  keyv.on('error', err => console.log('Connection Error', err));
 
 }
 );
@@ -40,13 +39,14 @@ app.post('/webhook', (req, res) => {
 
   // Parse the request body from the POST
   let body = req.body;
-
+  keyv.on('error', err => console.log('Connection Error', err));
  
-keyv.set('foo', 'expires in 1 second', 1000); // true
-keyv.set('foo', 'never expires'); // true
-console.log("key" , keyv.get('foo')); // 'never expires'
-keyv.delete('foo'); // true
-keyv.clear(); // undefined
+  await keyv.set('foo', 'expires in 1 second', 1000); // true
+  await keyv.set('foo', 'never expires'); // true
+  await keyv.get('foo'); // 'never expires'
+  await keyv.delete('foo'); // true
+  await keyv.clear(); // undefined
+  console.log("key" , keyv.get('foo')); // 'never expires'
 
   // Check the webhook event is from a Page subscription
   if (body.object === 'page') {
