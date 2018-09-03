@@ -311,7 +311,7 @@ function handlePostback(sender_psid, received_postback) {
   (async () => {
    
     await keyv.get(sender_psid).then(result =>  { 
-    console.log("my result = "+result);  
+    console.log("my result = "+JSON.stringify(result));  
     facebookUserState =result;
     console.log(facebookUserState.state);
     var currentState=stateList[facebookUserState.state];
