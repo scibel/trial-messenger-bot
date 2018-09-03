@@ -3,8 +3,8 @@
 
 // var exports = module.exports = {};
 
- var helloState = function() {
-    this.executeAction=function(action,state){
+ var helloState =  {
+    executeAction:function(action,state){
         if(action==="DISPLAY_WELCOME_MESSAGE"){
             return {"state":{"state":"welcomeMessageState"},"response":{"text":"Welcome Mr. Tarek to ABCBank"}};
         }
