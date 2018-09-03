@@ -310,23 +310,25 @@ function handlePostback(sender_psid, received_postback) {
   } 
   (async () => {
    
-    await keyv.get(sender_psid).then(test => console.log("test", test)); // 'never expires'
+    await keyv.get(sender_psid).then(result =>  { 
+      
+    facebookUserState =result;
+    console.log(facebookUserState.state);
+    var currentState=stateList[facebookUserState.state];
+    console.log(currentState);
+    let currentStateResponse = currentState.executeAction(payload,facebookUserState);
+  
+    response = currentStateResponse.response;
+  
+    keyv.set(sender_psid,currentStateResponse.state,6000);
+     
+  
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);} ); 
    
   })();
-    console.log( `keyv ${keyv.get(sender_psid)}`)
-  facebookUserState = keyv.get(sender_psid);
-  console.log(facebookUserState.state);
-  var currentState=stateList[facebookUserState.state];
-  console.log(currentState);
-  let currentStateResponse = currentState.executeAction(payload,facebookUserState);
+    
 
-  response = currentStateResponse.response;
-
-  keyv.set(sender_psid,currentStateResponse.state,6000);
-   
-
-  // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
