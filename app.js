@@ -296,9 +296,11 @@ function handlePostback(sender_psid, received_postback) {
 
   let response;
 
+  let facebookUserState={};
+
   if(payload==="BOOTBOT_GET_STARTED"){
  
-    let facebookUserState={"state":"helloState"};
+    facebookUserState={"state":"helloState"};
     
     keyv.set(sender_psid,facebookUserState,6000);
 
