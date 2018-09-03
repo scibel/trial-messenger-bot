@@ -320,7 +320,7 @@ function handlePostback(sender_psid, received_postback) {
   
     console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
 
-    response = currentStateResponse.response;
+    response = {text:'Welcome Mr. Tarek to ABCBank'};
 
     console.log("my response = "+JSON.stringify(response));  
 
