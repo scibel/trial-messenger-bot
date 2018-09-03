@@ -305,23 +305,9 @@ function handleMessage(sender_psid, received_message) {
     }
   }
   }
-  else if (received_message.text == "Test1") {
-    response = {
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"button",
-        "text":"What do you want to do next?",
-        "buttons":[
-           {
-  "type":"phone_number",
-  "title":"<BUTTON_TEXT>",
-  "payload":"<PHONE_NUMBER>"
-}
-        ]
-      }
-    }
-  }
+  else if (received_message.text == "Test1") {   
+     response = { "text": "integration succedded" }
+
   }
   else  {
     response = {
