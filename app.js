@@ -296,7 +296,7 @@ function handlePostback(sender_psid, received_postback) {
 
   let response;
 
-  let facebookUserState={};
+  var facebookUserState={};
 
   if(payload==="BOOTBOT_GET_STARTED"){
  
