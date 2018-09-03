@@ -44,7 +44,7 @@ app.post('/webhook', (req, res) => {
  
 keyv.set('foo', 'expires in 1 second', 1000); // true
 keyv.set('foo', 'never expires'); // true
-console.log("key" , await keyv.get('foo')); // 'never expires'
+console.log("key" , keyv.get('foo')); // 'never expires'
 keyv.delete('foo'); // true
 keyv.clear(); // undefined
 
