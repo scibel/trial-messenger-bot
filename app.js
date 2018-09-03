@@ -308,7 +308,7 @@ function handlePostback(sender_psid, received_postback) {
 
 
   } 
-    
+    console.log( `keyv ${keyv.get(sender_psid)}`)
   facebookUserState = keyv.get(sender_psid);
   console.log(facebookUserState.state);
   var currentState=stateList[facebookUserState.state];
