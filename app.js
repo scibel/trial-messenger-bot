@@ -308,6 +308,11 @@ function handlePostback(sender_psid, received_postback) {
 
 
   } 
+  (async () => {
+   
+    await keyv.get(sender_psid).then(test => console.log("test", test)); // 'never expires'
+   
+  })();
     console.log( `keyv ${keyv.get(sender_psid)}`)
   facebookUserState = keyv.get(sender_psid);
   console.log(facebookUserState.state);
