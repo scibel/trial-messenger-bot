@@ -1,58 +1,38 @@
-/*
- * Starter Project for Messenger Platform Quick Start Tutorial
- *
- * Remix this as the starting point for following the Messenger Platform
- * quick start tutorial.
- *
- * https://developers.facebook.com/docs/messenger-platform/getting-started/quick-start/
- *
- */
-
 "use strict";
 
 // Imports dependencies and set up http server
-const request = require("request"),
+  const request = require("request"),
   express = require("express"),
   body_parser = require("body-parser"),
   app = express().use(body_parser.json()); // creates express http server
+  const stateList = require("stateList");
 
 const Keyv = require("keyv");
 
 // One of the following
 const keyv = new Keyv();
 
-// Handle DB connection errors
-
-// Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
 });
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
- 
   let body = req.body;
   keyv.on("error", err => console.log("Connection Error", err));
 
   (async () => {
-    await keyv.set('foo', 'expires in 1 second', 1000); // true
-    await keyv.set('foo', 'never expires'); // true
-    await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-    await keyv.delete('foo'); // true
+    await keyv.set("foo", "expires in 1 second", 1000); // true
+    await keyv.set("foo", "never expires"); // true
+    await keyv.get("foo").then(test => console.log(test)); // 'never expires'
+    await keyv.delete("foo"); // true
     await keyv.clear(); // undefined})();
-})()
-
+  })();
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
     console.log("body", JSON.stringify(body));
-    //     if(!body.entry.messaging){
-    //         console.log('persistent menu');
 
-    // return
-    //     }
-
-    //   else{
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
       // Get the webhook event. entry.messaging is an array, but
@@ -115,20 +95,6 @@ app.get("/webhook", (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   console.log("handleMessage");
-
-  //  let response;
-
-  //   // Check if the message contains text
-  //   if (received_message.text) {
-
-  //     // Create the payload for a basic text message
-  //     response = {
-  //       "text": `You sent the message: "${received_message.text}". Now send me an image!`
-  //     }
-  //   }
-
-  //   // Sends the response message
-  //   callSendAPI(sender_psid, response);
 
   let response;
   console.log("received_message" + JSON.stringify(received_message) + "\n");
@@ -325,23 +291,31 @@ function handleMessage(sender_psid, received_message) {
 function handlePostback(sender_psid, received_postback) {
   console.log("handlePostback");
 
+  let payload = received_postback.payload;
+  
+
   let response;
 
-  // Get the payload for the postback
-  let payload = received_postback.payload;
-  console.log(payload);
-  // Set the response based on the postback payload
-  if (payload === "yes") {
-    response = { text: "Thanks!" };
-  } else if (payload === "no") {
-    response = { text: "Oops, try sending another image." };
-  } else if (payload === "PAYBILL_PAYLOAD") {
-    response = { text: "you are not signed in you need to sign in" };
-  } else if (payload == "BOOTBOT_GET_STARTED") {
-    response = {
-      text: "Welcome sir we are checking if you have an account with us"
-    };
-  }
+  if(payload==="BOOTBOT_GET_STARTED"){
+ 
+    let facebookUserState={"state":"helloState"};
+    
+    keyv.set(sender_psid,facebookUserState,6000);
+
+    payload = "DISPLAY_WELCOME_MESSAGE";
+
+
+  } 
+    
+  let facebookUserState = keyv.get(sender_psid);
+
+  var currentState=stateList.stateList[facebookUserState.state];
+  let currentStateResponse = currentState.executeAction(payload,facebookUserState);
+
+  response = currentStateResponse.response;
+
+  keyv.set(sender_psid,currentStateResponse.state,6000);
+   
 
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
