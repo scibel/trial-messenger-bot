@@ -335,7 +335,7 @@ function handlePostback(sender_psid, received_postback) {
   test().then( response => callSendAPI(sender_psid, response))
 
   console.log("my sender_psid again= "+sender_psid); 
-  callSendAPI(sender_psid, {text:'Welcome Mr. Tarek to ABCBank'});
+  // callSendAPI(sender_psid, {text:'Welcome Mr. Tarek to ABCBank'});
 
 }
 
