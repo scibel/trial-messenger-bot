@@ -99,192 +99,50 @@ function handleMessage(sender_psid, received_message) {
   let response;
   console.log("received_message" + JSON.stringify(received_message) + "\n");
 
-  // Checks if the message contains text
-  if (received_message.text == "Hello") {
-    // Create the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response = {
-      text: `You sent the message: "${
-        received_message.text
-      }". Now send me an attachment!`
-    };
-  } else if (received_message.attachments) {
-    console.log(
-      "attachments" + JSON.stringify(received_message.attachments) + "\n"
+  let payload = received_message.text;
+
+  let response;
+
+  var facebookUserState={};
+
+  async function executeActionAgainstPayload() {
+   
+    await keyv.get(sender_psid).then(result =>  { 
+      console.log("my sender_psid = "+sender_psid); 
+      console.log("my result = "+JSON.stringify(result));  
+    facebookUserState =result;
+    console.log(facebookUserState.state);
+    var currentState=stateList[facebookUserState.state];
+    console.log(currentState);
+    let currentStateResponse = currentState.executeAction(payload,facebookUserState);
+  
+    console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
+    console.log("my currentStateResponse.response = "+JSON.stringify(currentStateResponse.response));  
+
+    // response = {text:'Welcome Mr. Tarek to ABCBank'};
+    response =  currentStateResponse.response;
+    console.log("my response = "+JSON.stringify(response));  
+
+
+    keyv.set(sender_psid,currentStateResponse.state,6000);
+    
+    for (const element of response) {
+      console.log(element)
+      callSendAPI(sender_psid, element);
+
+    }
+
+     return response;
+    }
+    // Send the message to acknowledge the postback
     );
-
-    // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    console.log("attachment_url" + attachment_url);
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Is this the right picture?",
-              subtitle: "Tap a button to answer.",
-              image_url: attachment_url,
-              buttons: [
-                {
-                  type: "postback",
-                  title: "Yes!",
-                  payload: "yes"
-                },
-                {
-                  type: "postback",
-                  title: "No!",
-                  payload: "no"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Button_format") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "What do you want to do next?",
-          buttons: [
-            {
-              type: "web_url",
-              url: "https://www.messenger.com",
-              title: "Visit Messenger"
-            },
-            {
-              type: "postback",
-              title: "<BUTTON_TEXT>",
-              payload: "<STRING_SENT_TO_WEBHOOK>"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Element_share") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Breaking News: Record Thunderstorms",
-              subtitle:
-                "The local area is due for record thunderstorms over the weekend.",
-              image_url: "https://thechangreport.com/img/lightning.png",
-              buttons: [
-                {
-                  type: "element_share",
-                  share_contents: {
-                    attachment: {
-                      type: "template",
-                      payload: {
-                        template_type: "generic",
-                        elements: [
-                          {
-                            title: "I took the hat quiz",
-                            subtitle: "My result: Fez",
-                            image_url:
-                              "https://bot.peters-hats.com/img/hats/fez.jpg",
-                            default_action: {
-                              type: "web_url",
-                              url: "http://m.me/petershats?ref=invited_by_24601"
-                            },
-                            buttons: [
-                              {
-                                type: "web_url",
-                                url:
-                                  "http://m.me/petershats?ref=invited_by_24601",
-                                title: "Take Quiz"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Test") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "What do you want to do next?",
-          buttons: [
-            {
-              type: "phone_number",
-              title: "<BUTTON_TEXT>",
-              payload: "<PHONE_NUMBER>"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Call_support") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Call for Help",
-          buttons: [
-            {
-              type: "web_url",
-              title: "Visit web",
-              url:
-                "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-              webview_height_ratio: "full"
-            },
-            {
-              type: "phone_number",
-              title: "Call bank support",
-              payload: "+201006747065"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Démarrer") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Call for Help",
-          buttons: [
-            {
-              type: "web_url",
-              title: "Visit web",
-              url:
-                "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-              webview_height_ratio: "full"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Test1") {
-    response = { text: "integration succedded" };
-  } else {
-    response = {
-      text: `This is not a recognized command`
-    };
+  };
+  
+  executeActionAgainstPayload().then( response => {
+    console.log("test" , response)
+    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
   }
-
-  // Send the response message
-  callSendAPI(sender_psid, response);
+  )
 }
 
 // Handles messaging_postbacks events
@@ -293,7 +151,6 @@ function handlePostback(sender_psid, received_postback) {
 
   let payload = received_postback.payload;
   
-
   let response;
 
   var facebookUserState={};
