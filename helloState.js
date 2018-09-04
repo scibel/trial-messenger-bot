@@ -16,26 +16,19 @@
 
                 response[2] = {
                     attachment: {
-                      type: "template",
-                      payload: {
-                        template_type: "generic",
-                        elements: [
-                          {
-                            title: "Is this the right picture?",
-                            subtitle: "Tap a button to answer.",
-                            image_url: attachment_url,
-                            quick_replies: [
-                              {
-                                content_type:"text",
-                                title:"Green",
-                                payload:"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-                              }
-                            ]
-                          }
-                        ]
-                      }
+                        text: "Check the next article?",
+                        quick_replies: [{
+                                content_type: "text",
+                                title: "More stories",
+                                payload: "more stories"
+                            },
+                            {
+                                content_type: "text",
+                                title: "Sport",
+                                payload: "sport"
+                            }]
                     }
-                  };
+                  }};
 
                 
             }else{
