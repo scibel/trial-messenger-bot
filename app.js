@@ -338,7 +338,9 @@ function handlePostback(sender_psid, received_postback) {
   
   executeActionAgainstPayload().then( response => {
     console.log(response)
-  })
+    await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+  }
+  )
 
 
 }
