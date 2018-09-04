@@ -298,7 +298,7 @@ function handlePostback(sender_psid, received_postback) {
 
   var facebookUserState={};
 
-  if(payload==="BOOTBOT_GET_STARTED"){
+  if(payload==="Welcome to our bank"){
  
     facebookUserState={"state":"helloState"};
     
