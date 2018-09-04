@@ -308,7 +308,7 @@ function handlePostback(sender_psid, received_postback) {
 
 
   } 
-  async function test() {
+  async function executeActionAgainstPayload() {
    
     await keyv.get(sender_psid).then(result =>  { 
       console.log("my sender_psid = "+sender_psid); 
@@ -322,8 +322,8 @@ function handlePostback(sender_psid, received_postback) {
     console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
     console.log("my currentStateResponse.response = "+JSON.stringify(currentStateResponse.response));  
 
-    response = {text:'Welcome Mr. Tarek to ABCBank'};
-
+    // response = {text:'Welcome Mr. Tarek to ABCBank'};
+    response =  currentStateResponse.response;
     console.log("my response = "+JSON.stringify(response));  
 
 
@@ -335,14 +335,11 @@ function handlePostback(sender_psid, received_postback) {
     // Send the message to acknowledge the postback
     );
   };
-  test().then( response => {
+  
+  executeActionAgainstPayload().then( response => {
     console.log(response)
-    callSendAPI(sender_psid, response)
-
   })
 
-  console.log("my sender_psid again= "+sender_psid); 
-  // callSendAPI(sender_psid, {text:'Welcome Mr. Tarek to ABCBank'});
 
 }
 
