@@ -12,33 +12,46 @@
             console.log(state.senderPsid);
 
             if(state.senderPsid === '902533626537343'){
-                response[1] = {text:'We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?'};
-
-                response[2] = {
-                        text: "Here is a quick reply!",
+                response[1] = {
+                        text: 'We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?',
                         quick_replies:[
                           {
                             content_type:"text",
-                            title:"Search",
-                            payload:"<POSTBACK_PAYLOAD>",
-                            image_url:"http://example.com/img/red.png"
+                            title:"Yes",
+                            payload:"YES_USE_MAIN_ACCOUNT"
                           },
                           {
-                            content_type:"location"
+                            content_type:"text",
+                            title:"No",
+                            payload:"NO_USE_ANOTHER_ACCOUNT"                         
                           }
                         ]
-                      
-                  
                     }
-            };
 
-                
-            }else{
-                response[1] ={text:'Do you have a bank account number at OLE Bank?'}; 
+                return {"state":{"state":"chooseAccountState","senderPsid":state.senderPsid},"response":response};
+            } else{
+
+                response[1] = {
+                    text: "Do you have a bank account number at OLE Bank?",
+                    quick_replies:[
+                      {
+                        content_type:"text",
+                        title:"Yes",
+                        payload:"YES_I_HAVE_AN_ACCOUNT"
+                      },
+                      {
+                        content_type:"text",
+                        title:"No",
+                        payload:"NO_I_DO_NOT_HAVE_AN_ACCOUNT"                         
+                      }
+                    ]
+                }
+
+                return {"state":{"state":"doYouHaveAnAccountState","senderPsid":state.senderPsid},"response":response};
             }
             
-            return {"state":{"state":"welcomeMessageState","senderPsid":state.senderPsid},"response":response};
         }
+    }
     
 };
 
