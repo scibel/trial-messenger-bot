@@ -99,7 +99,7 @@ function handleMessage(sender_psid, received_message) {
   let response;
   console.log("received_message" + JSON.stringify(received_message) + "\n");
 
-  let payload = received_message.payload;
+  let payload = received_message.quick_reply.payload;
 
   console.log(payload);
 
