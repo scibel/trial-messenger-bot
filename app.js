@@ -342,7 +342,7 @@ function handlePostback(sender_psid, received_postback) {
   };
   
   executeActionAgainstPayload().then( response => {
-    console.log(response)
+    console.log("test" , response)
     // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
   }
   )
