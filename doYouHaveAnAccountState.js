@@ -5,7 +5,7 @@
 
  var doYouHaveAnAccountState =  {
     executeAction:function(action,state){
-
+        console.log("doYouHaveAnAccountState function:"+action);
         var response=[];
 
         if(action==="NO_I_DO_NOT_HAVE_AN_ACCOUNT"){

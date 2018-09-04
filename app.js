@@ -101,6 +101,7 @@ function handleMessage(sender_psid, received_message) {
 
   let payload = received_message.text;
 
+  console.log(payload);
 
   var facebookUserState={};
 
