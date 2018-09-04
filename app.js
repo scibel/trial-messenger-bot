@@ -329,7 +329,14 @@ function handlePostback(sender_psid, received_postback) {
 
     keyv.set(sender_psid,currentStateResponse.state,6000);
     
+    for (const element in response) {
+      console.log(element)
+      callSendAPI(sender_psid, element);
+
+    }
+
     response.forEach(element => {
+      console.log(element)
       callSendAPI(sender_psid, element);
     });
     
