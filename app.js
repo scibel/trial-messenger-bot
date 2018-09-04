@@ -300,7 +300,7 @@ function handlePostback(sender_psid, received_postback) {
 
   if(payload==="Welcome to our bank"){
  
-    facebookUserState={"state":"helloState"};
+    facebookUserState={"state":"helloState","senderPsid":sender_psid};
     
     keyv.set(sender_psid,facebookUserState,6000);
 
@@ -329,6 +329,8 @@ function handlePostback(sender_psid, received_postback) {
 
     keyv.set(sender_psid,currentStateResponse.state,6000);
     callSendAPI(sender_psid, response)
+    callSendAPI(sender_psid, response)
+
 
      return response;
     }
@@ -338,7 +340,7 @@ function handlePostback(sender_psid, received_postback) {
   
   executeActionAgainstPayload().then( response => {
     console.log(response)
-    await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
   }
   )
 
