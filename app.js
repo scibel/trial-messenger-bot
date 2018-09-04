@@ -101,8 +101,6 @@ function handleMessage(sender_psid, received_message) {
 
   let payload = received_message.text;
 
-  let response;
-
   var facebookUserState={};
 
   async function executeActionAgainstPayload() {
