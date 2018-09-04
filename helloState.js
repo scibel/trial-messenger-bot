@@ -15,7 +15,7 @@
                 response[1] = {text:'We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?'};
 
                 response[2] = {
-                    attachment: {
+                    message: {
                         text: "Check the next article?",
                         quick_replies: [{
                                 content_type: "text",
