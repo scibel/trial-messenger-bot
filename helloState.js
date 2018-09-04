@@ -37,7 +37,7 @@
             
             return {"state":{"state":"welcomeMessageState","senderPsid":state.senderPsid},"response":response};
         }
-    }
+    
 };
 
 module.exports = helloState;
