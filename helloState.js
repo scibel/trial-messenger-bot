@@ -13,6 +13,31 @@
 
             if(state.senderPsid === '902533626537343'){
                 response[1] = {text:'We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?'};
+
+                response[2] = {
+                    attachment: {
+                      type: "template",
+                      payload: {
+                        template_type: "generic",
+                        elements: [
+                          {
+                            title: "Is this the right picture?",
+                            subtitle: "Tap a button to answer.",
+                            image_url: attachment_url,
+                            quick_replies: [
+                              {
+                                content_type:"text",
+                                title:"Green",
+                                payload:"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  };
+
+                
             }else{
                 response[1] ={text:'Do you have a bank account number at OLE Bank?'}; 
             }

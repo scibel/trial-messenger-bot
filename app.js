@@ -335,13 +335,6 @@ function handlePostback(sender_psid, received_postback) {
 
     }
 
-    response.forEach(element => {
-      console.log(element)
-      callSendAPI(sender_psid, element);
-    });
-    
-
-
      return response;
     }
     // Send the message to acknowledge the postback
