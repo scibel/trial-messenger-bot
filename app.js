@@ -320,6 +320,7 @@ function handlePostback(sender_psid, received_postback) {
     let currentStateResponse = currentState.executeAction(payload,facebookUserState);
   
     console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
+    console.log("my currentStateResponse.response = "+JSON.stringify(currentStateResponse.response));  
 
     response = {text:'Welcome Mr. Tarek to ABCBank'};
 
