@@ -101,6 +101,7 @@ function handleMessage(sender_psid, received_message) {
 
   let payload = received_message.text;
 
+
   var facebookUserState={};
 
   async function executeActionAgainstPayload() {
@@ -122,7 +123,7 @@ function handleMessage(sender_psid, received_message) {
     console.log("my response = "+JSON.stringify(response));  
 
 
-    keyv.set(sender_psid,currentStateResponse.state,6000);
+    keyv.set(sender_psid,currentStateResponse.state,120000);
     
     for (const element of response) {
       console.log(element)
@@ -157,7 +158,7 @@ function handlePostback(sender_psid, received_postback) {
  
     facebookUserState={"state":"helloState","senderPsid":sender_psid};
     
-    keyv.set(sender_psid,facebookUserState,6000);
+    keyv.set(sender_psid,facebookUserState,120000);
 
     payload = "DISPLAY_WELCOME_MESSAGE";
 
@@ -182,7 +183,7 @@ function handlePostback(sender_psid, received_postback) {
     console.log("my response = "+JSON.stringify(response));  
 
 
-    keyv.set(sender_psid,currentStateResponse.state,6000);
+    keyv.set(sender_psid,currentStateResponse.state,120000);
     
     for (const element of response) {
       console.log(element)
