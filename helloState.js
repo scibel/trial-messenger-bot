@@ -14,24 +14,22 @@
             if(state.senderPsid === '902533626537343'){
                 response[1] = {text:'We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?'};
 
-                response[2] ={
-                    attachment: {
-                      type: "template",
-                      payload: {
-                        template_type: "button",
-                        text: "Call for Help",
-                        buttons: [
+                response[2] = {
+                        text: "Here is a quick reply!",
+                        quick_replies:[
                           {
-                            type: "web_url",
-                            title: "Visit web",
-                            url:
-                              "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-                            webview_height_ratio: "full"
+                            content_type:"text",
+                            title:"Search",
+                            payload:"<POSTBACK_PAYLOAD>",
+                            image_url:"http://example.com/img/red.png"
+                          },
+                          {
+                            content_type:"location"
                           }
                         ]
-                      }
+                      
+                  
                     }
-                  };
             };
 
                 
