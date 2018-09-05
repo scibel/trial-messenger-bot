@@ -186,7 +186,7 @@ function handleMessage(sender_psid, received_message) {
       });
 
       async function test() {
-        await keyv.get(sender_psid).then(
+         keyv.get(sender_psid).then(
           result => {
             console.log("my sender_psid = " + sender_psid);
             console.log("my result = " + JSON.stringify(result));
