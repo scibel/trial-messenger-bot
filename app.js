@@ -155,7 +155,7 @@ function handleMessage(sender_psid, received_message) {
       (async () => {
         await keyv.get(sender_psid).then(
           result => {
-            console.log("my sender_psid before = " + result);})
+            console.log("my sender_psid before = " + JSON.stringify(result))})
         await keyv.delete(sender_psid); // true
         await keyv.get(sender_psid).then(
           result => {
