@@ -252,7 +252,7 @@ console.log("undefined Postbacks")
 }
 
 // Sends response messages via the Send API
-async function callSendAPI(sender_psid, response) {
+function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
@@ -261,7 +261,7 @@ async function callSendAPI(sender_psid, response) {
     message: response
   };
   // Send the HTTP request to the Messenger Platform
-  await request(
+  request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
       qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
