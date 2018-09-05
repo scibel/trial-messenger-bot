@@ -1,5 +1,10 @@
 "use strict";
 
+
+const GET_STARTED_POSTBACK =  "<postback_payload>" 
+//  "Welcome to our bank"
+
+
 // Imports dependencies and set up http server
 const request = require("request"),
   express = require("express"),
@@ -166,8 +171,7 @@ function handlePostback(sender_psid, received_postback) {
   let response;
 
   var facebookUserState = {};
-
-  if (payload === "Welcome to our bank") {
+  if (payload === GET_STARTED_POSTBACK) {
     facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
     keyv.set(sender_psid, facebookUserState, 120000);
