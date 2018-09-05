@@ -161,7 +161,7 @@ function handleMessage(sender_psid, received_message) {
         await keyv.delete(sender_psid); // true
         await keyv.get(sender_psid).then(
           result => {
-            console.log("my sender_psid after = " + result);})
+            console.log("my sender_psid after = " + JSON.stringify(result))})
       })();
       response = {
         text: `State has been cleared`
@@ -179,15 +179,15 @@ function handleMessage(sender_psid, received_message) {
           result => {
             console.log("my sender_psid before = " + JSON.stringify(result))})
             facebookUserState = { state: "helloState", senderPsid: sender_psid };
-            await keyv.set(sender_psid, facebookUserState, 120000);
+            await keyv.set(sender_psid, facebookUserState, 120000).then((result)=>{console.log("my sender_psid after = " + JSON.stringify(result))});
             await keyv.get(sender_psid).then(
           result => {
-            console.log("my sender_psid after = " + result);})
+            console.log("my sender_psid after = " + JSON.stringify(result))})
       })();
 
       
       response = {
-        text: `Your state now is ${keyv.get(sender_psid)}`, 
+        text: `Your state now is set to helloState`, 
       };
     }
      else if (received_message.text == "Test") {
