@@ -242,7 +242,7 @@ function handlePostback(sender_psid, received_postback) {
           // callSendAPI(sender_psid, message)
 
           callSendAPI(sender_psid, element)
-          // .then( () => console.log("Hello"));
+          .then( () => console.log("Hello T"));
         
 
           // callSendAPI(sender_psid, element);
@@ -258,6 +258,7 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
+  var deferred = Promise.defer();
   let request_body = {
     recipient: {
       id: sender_psid
@@ -275,9 +276,12 @@ function callSendAPI(sender_psid, response) {
     (err, res, body) => {
       if (!err) {
         console.log("message sent!");
+        deferred.resolve();
       } else {
         console.error("Unable to send message:" + err);
+        deferred.reject();
       }
     }
   );
+  return deferred.promise;
 }
