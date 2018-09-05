@@ -12,9 +12,13 @@ const stateList = require("./stateMachineInitializer");
 const Keyv = require("keyv");
 
 const keyv = new Keyv();
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log("webhook is listening",port);
+});
 
-app.listen(process.env.PORT || 1337, () => {
-  console.log("webhook is listening");
+app.get("/", (req, res) => {
+  res.status(200).send("Deployed");
 });
 
 // Accepts POST requests at /webhook endpoint
@@ -148,10 +152,8 @@ function handleMessage(sender_psid, received_message) {
     // Handle user input
     console.log("undefined input");
 
-    if (received_message.text == "Cancel") {
-      // Create the payload for a basic text message, which
-      // will be added to the body of our request to the Send API
-
+    if (received_message.text == received_message.text.includes("Cancel") // true
+  ) {
       (async () => {
         await keyv.get(sender_psid).then(
           result => {
@@ -162,8 +164,9 @@ function handleMessage(sender_psid, received_message) {
             console.log("my sender_psid after = " + result);})
       })();
       response = {
-        text: `Cancel Logic`
+        text: `State has been cleared`
       };
+      
     } else if (received_message.text == "Reset") {
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
