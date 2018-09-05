@@ -1,7 +1,9 @@
 "use strict";
 
-const GET_STARTED_POSTBACK = "<postback_payload>";
+
+const GET_STARTED_POSTBACK =  "<postback_payload>" 
 //  "Welcome to our bank"
+
 
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -19,29 +21,29 @@ app.listen(process.env.PORT || 1337, () => {
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
+  console.log("started receiveing a message grom facebook page it will be either user input or a postback ");
+
   let body = req.body;
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
-    console.log("body", JSON.stringify(body));
+    console.log("body received /n \n", JSON.stringify(body));
 
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
-      console.log("here");
+      // console.log("here");
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
       console.log("Sender PSID: " + sender_psid);
 
       if (webhook_event.message) {
         console.log("calling handleMessage");
-
         handleMessage(sender_psid, webhook_event.message);
       } else if (webhook_event.postback) {
         console.log("calling handlePostback");
         handlePostback(sender_psid, webhook_event.postback);
       }
     });
-    // }
     // Return a '200 OK' response to all events
     res.status(200).send("EVENT_RECEIVED");
   } else {
@@ -79,14 +81,11 @@ function handleMessage(sender_psid, received_message) {
   console.log("handleMessage");
 
   let response;
-  console.log("received_message \n" + JSON.stringify(received_message) + "\n");
+  console.log("will be handling the following Message \n" + JSON.stringify(received_message) + "\n");
 
   // Handle quick_replies postbacks
 
-  if (
-    received_message.quick_reply.payload &&
-    typeof received_message.quick_reply.payload !== "undefined"
-  ) {
+  if (received_message.quick_reply.payload  && typeof received_message.quick_reply.payload !== 'undefined') {
     console.log("received_message.quick_reply.payload");
 
     let payload = received_message.quick_reply.payload;
@@ -140,7 +139,7 @@ function handleMessage(sender_psid, received_message) {
     });
   } else {
     // Handle user input
-    console.log("undefined input");
+    console.log("undefined input")
 
     if (received_message.text == "Cancel") {
       // Create the payload for a basic text message, which
@@ -154,7 +153,9 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: `Reset Logic`
       };
-    } else if (received_message.text == "Test") {
+    }
+
+    else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
@@ -166,7 +167,9 @@ function handleMessage(sender_psid, received_message) {
       };
     }
     callSendAPI(sender_psid, response);
+
   }
+
 }
 
 // Handles messaging_postbacks events
@@ -189,17 +192,14 @@ function handlePostback(sender_psid, received_postback) {
       console.log("test", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-  } else {
-    console.log("undefined Postbacks");
-    // let message = {
-    //   "sender_action": "typing_on"
-    // };
-    // callSendAPI(sender_psid, message);
-
+  }
+  else {
+console.log("undefined Postbacks")
     response = {
       text: `This command is undefined`
     };
     callSendAPI(sender_psid, response);
+
   }
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
@@ -232,38 +232,27 @@ function handlePostback(sender_psid, received_postback) {
         let message = {
           sender_action: "typing_on"
         };
-        // for (let index = 0; index < response.length; index++) {
-        //   const element = response[index];
-          
-        // }
 
-        for (var i = 0; i < response.length; i+2) {
-          console.log("test" , JSON.stringify(response))
-          callSendAPI(sender_psid,response[i]).then(function () {
-            callSendAPI(sender_psid, response[i+1])
-          });
+        for (const element of response) {
+          // messages.push(element);
+          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+          //   return callSendAPI(sender_psid, element)
+          //  });
+          console.log(element);
+          // callSendAPI(sender_psid, message)
+
+          callSendAPI(sender_psid, element);
+
+          // callSendAPI(sender_psid, element);
         }
-
-        // for (const element of response) {
-        //   // messages.push(element);
-        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-        //   //   return callSendAPI(sender_psid, element)
-        //   //  });
-        //   console.log(element);
-        //   // callSendAPI(sender_psid, message)
-
-        //   callSendAPI(sender_psid, element)
-        //   .then( () => console.log("Hello T"));
-        
-
-        //   // callSendAPI(sender_psid, element);
-        // }
 
         return response;
       }
       // Send the message to acknowledge the postback
     );
   }
+
+ 
 }
 
 // Sends response messages via the Send API
@@ -275,30 +264,20 @@ function callSendAPI(sender_psid, response) {
     },
     message: response
   };
-  let requestObject = {
-    uri: "https://graph.facebook.com/v2.6/me/messages",
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-    method: "POST",
-    json: request_body
-  };
   // Send the HTTP request to the Messenger Platform
-  // request(requestObject,(err, res, body) => {
-  //     if (!err) {
-  //       console.log("message sent!");
-  //     } else {
-  //       console.error("Unable to send message:" + err);
-  //     }
-  //   });
-
-  return new Promise(function(fulfill,reject){
-    request(requestObject,function(err,res,body){
+  request(
+    {
+      uri: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body
+    },
+    (err, res, body) => {
       if (!err) {
         console.log("message sent!");
-        fulfill(res);
       } else {
         console.error("Unable to send message:" + err);
-        reject(err);
       }
-    })
-  });  
+    }
+  );
 }
