@@ -191,8 +191,10 @@ function handlePostback(sender_psid, received_postback) {
 
     payload = "DISPLAY_WELCOME_MESSAGE";
 
-    executeActionAgainstPayload()
-
+    executeActionAgainstPayload().then(response => {
+      console.log("test", response);
+      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    });
   } else {
     console.log("undefined Postbacks");
     response = {
@@ -241,7 +243,7 @@ function handlePostback(sender_psid, received_postback) {
         //   // callSendAPI(sender_psid, element);
         // }
 
-        return ;
+        return response;
       }
       // Send the message to acknowledge the postback
     );
