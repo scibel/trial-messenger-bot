@@ -233,24 +233,18 @@ console.log("undefined Postbacks")
           sender_action: "typing_on"
         };
 
-        for(var i = 0; i < response.length; i++) {
-          chain = chain.then(function() {
-            return callSendAPI(sender_psid, response[i]);
-          });
+        for (const element of response) {
+          // messages.push(element);
+          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+          //   return callSendAPI(sender_psid, element)
+          //  });
+          console.log(element);
+          // callSendAPI(sender_psid, message)
+
+          callSendAPI(sender_psid, element);
+
+          // callSendAPI(sender_psid, element);
         }
-
-        // for (const element of response) {
-        //   // messages.push(element);
-        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-        //   //   return callSendAPI(sender_psid, element)
-        //   //  });
-        //   console.log(element);
-        //   // callSendAPI(sender_psid, message)
-
-        //   callSendAPI(sender_psid, element);
-
-        //   // callSendAPI(sender_psid, element);
-        // }
 
         return response;
       }
