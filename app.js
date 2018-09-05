@@ -232,23 +232,33 @@ function handlePostback(sender_psid, received_postback) {
         let message = {
           sender_action: "typing_on"
         };
+        // for (let index = 0; index < response.length; index++) {
+        //   const element = response[index];
+          
+        // }
 
-        for (const element of response) {
-          // messages.push(element);
-          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-          //   return callSendAPI(sender_psid, element)
-          //  });
-          console.log(element);
-          // callSendAPI(sender_psid, message)
-
-          callSendAPI(sender_psid, element)
-          .then( () => console.log("Hello T"));
-        
-
-          // callSendAPI(sender_psid, element);
+        for (var i = 0; i < response.length; i+2) {
+          callSendAPI(sender_psid,response[i]).then(function () {
+            callSendAPI(sender_psid, response[i+1])
+          });
         }
 
-        return response;
+        // for (const element of response) {
+        //   // messages.push(element);
+        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+        //   //   return callSendAPI(sender_psid, element)
+        //   //  });
+        //   console.log(element);
+        //   // callSendAPI(sender_psid, message)
+
+        //   callSendAPI(sender_psid, element)
+        //   .then( () => console.log("Hello T"));
+        
+
+        //   // callSendAPI(sender_psid, element);
+        // }
+
+        // return response;
       }
       // Send the message to acknowledge the postback
     );
