@@ -185,7 +185,7 @@ function handleMessage(sender_psid, received_message) {
             console.log("my sender_psid after = " + JSON.stringify(result))})
       })();
 
-     let  payload = "DISPLAY_WELCOME_MESSAGE";
+       payload = "DISPLAY_WELCOME_MESSAGE";
 
      test().then(response => {
         console.log("test", response);
