@@ -1,9 +1,7 @@
 "use strict";
 
-
-const GET_STARTED_POSTBACK =  "<postback_payload>" 
+const GET_STARTED_POSTBACK = "<postback_payload>";
 //  "Welcome to our bank"
-
 
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -85,7 +83,10 @@ function handleMessage(sender_psid, received_message) {
 
   // Handle quick_replies postbacks
 
-  if (received_message.quick_reply.payload  && typeof received_message.quick_reply.payload !== 'undefined') {
+  if (
+    received_message.quick_reply.payload &&
+    typeof received_message.quick_reply.payload !== "undefined"
+  ) {
     console.log("received_message.quick_reply.payload");
 
     let payload = received_message.quick_reply.payload;
@@ -139,7 +140,7 @@ function handleMessage(sender_psid, received_message) {
     });
   } else {
     // Handle user input
-    console.log("undefined input")
+    console.log("undefined input");
 
     if (received_message.text == "Cancel") {
       // Create the payload for a basic text message, which
@@ -153,9 +154,7 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: `Reset Logic`
       };
-    }
-
-    else if (received_message.text == "Test") {
+    } else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
@@ -167,9 +166,7 @@ function handleMessage(sender_psid, received_message) {
       };
     }
     callSendAPI(sender_psid, response);
-
   }
-
 }
 
 // Handles messaging_postbacks events
@@ -192,19 +189,17 @@ function handlePostback(sender_psid, received_postback) {
       console.log("test", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-  }
-  else {
-console.log("undefined Postbacks")
-let message = {
-  sender_action: "typing_on"
-};
-callSendAPI(sender_psid, message);
-
-    response = {
-      text: `This command is undefined`
+  } else {
+    console.log("undefined Postbacks");
+    let message = {
+      sender_action: "typing_on"
     };
-    callSendAPI(sender_psid, response);
+    callSendAPI(sender_psid, message);
 
+    // response = {
+    //   text: `This command is undefined`
+    // };
+    // callSendAPI(sender_psid, response);
   }
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
@@ -256,8 +251,6 @@ callSendAPI(sender_psid, message);
       // Send the message to acknowledge the postback
     );
   }
-
- 
 }
 
 // Sends response messages via the Send API
