@@ -233,25 +233,39 @@ function handlePostback(sender_psid, received_postback) {
           sender_action: "typing_on"
         };
 
-        for (const element of response) {
-          // messages.push(element);
-          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-          //   return callSendAPI(sender_psid, element)
-          //  });
-          console.log(element);
-          // callSendAPI(sender_psid, message)
+        // for (const element of response) {
+        //   // messages.push(element);
+        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+        //   //   return callSendAPI(sender_psid, element)
+        //   //  });
+        //   console.log(element);
+        //   // callSendAPI(sender_psid, message)
 
-          callSendAPI(sender_psid, element).then(setTimeout(console.log("Hello"), 3000));
+        //   callSendAPI(sender_psid, element).then(setTimeout(console.log("Hello"), 3000));
         
 
-          // callSendAPI(sender_psid, element);
-        }
+        //   // callSendAPI(sender_psid, element);
+        // }
+
+        iterateRecursively(sender_psid, response,0);
 
         return response;
       }
       // Send the message to acknowledge the postback
     );
   }
+}
+
+function iterateRecursively(senderId,list,index){
+  
+  if(index > list.lenght)
+    return;
+
+  callSendAPI(senderId,list[index]).then(function(){
+    console.log('came back');
+  });
+
+  iterateRecursively(senderId,list,index+1);
 }
 
 // Sends response messages via the Send API
