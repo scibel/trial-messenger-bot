@@ -175,12 +175,19 @@ function handlePostback(sender_psid, received_postback) {
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
         let messages = []
+        let message = {
+          sender_action: "typing_on"
+
+        }
+
         for (const element of response) {
           // messages.push(element);
           // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
           //   return callSendAPI(sender_psid, element)
           //  });
-          console.log(element);     
+          console.log(element);   
+          callSendAPI(sender_psid, message)
+
           callSendAPI(sender_psid, element)
 
           // callSendAPI(sender_psid, element);
