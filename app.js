@@ -230,7 +230,7 @@ function handlePostback(sender_psid, received_postback) {
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
         // sendTextMessages(sender_psid, response, 0)
-        for (const eliement of response) {
+        for (const element of response) {
           // messages.push(element);
           // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
           //   return callSendAPI(sender_psid, element)
@@ -238,7 +238,7 @@ function handlePostback(sender_psid, received_postback) {
           console.log("Element", element);
           // callSendAPI(sender_psid, message)
 
-          callSendAPI(sender_psid, element).then(() => console.log("Element") )
+          callSendAPI(sender_psid, element).then(() => console.log("Element",element) )
 
           // callSendAPI(sender_psid, element);
         }
