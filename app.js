@@ -1,15 +1,13 @@
 "use strict";
 
 // Imports dependencies and set up http server
-  const request = require("request"),
+const request = require("request"),
   express = require("express"),
   body_parser = require("body-parser"),
   app = express().use(body_parser.json()); // creates express http server
-  const stateList = require("./stateMachineInitializer");
-
+const stateList = require("./stateMachineInitializer");
 const Keyv = require("keyv");
 
-// One of the following
 const keyv = new Keyv();
 
 app.listen(process.env.PORT || 1337, () => {
@@ -19,15 +17,6 @@ app.listen(process.env.PORT || 1337, () => {
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
   let body = req.body;
-  // keyv.on("error", err => console.log("Connection Error", err));
-
-  // (async () => {
-  //   await keyv.set("foo", "expires in 1 second", 1000); // true
-  //   await keyv.set("foo", "never expires"); // true
-  //   await keyv.get("foo").then(test => console.log(test)); // 'never expires'
-  //   await keyv.delete("foo"); // true
-  //   await keyv.clear(); // undefined})();
-  // })();
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
@@ -35,21 +24,11 @@ app.post("/webhook", (req, res) => {
 
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
-      // Get the webhook event. entry.messaging is an array, but
-      // will only ever contain one event, so we get index 0
-
       console.log("here");
       let webhook_event = entry.messaging[0];
-
-      // console.log(webhook_event);
-      // console.log('webhook_event' + webhook_event);
-
-      // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log("Sender PSID: " + sender_psid);
 
-      // Check if the event is a message or postback and
-      // pass the event to the appropriate handler function
       if (webhook_event.message) {
         console.log("calling handleMessage");
 
@@ -101,48 +80,54 @@ function handleMessage(sender_psid, received_message) {
 
   let payload = received_message.quick_reply.payload;
 
+
   console.log(payload);
 
-  var facebookUserState={};
+  var facebookUserState = {};
 
   async function executeActionAgainstPayload() {
-   
-    await keyv.get(sender_psid).then(result =>  { 
-      console.log("my sender_psid = "+sender_psid); 
-      console.log("my result = "+JSON.stringify(result));  
-    facebookUserState =result;
-    console.log(facebookUserState.state);
-    var currentState=stateList[facebookUserState.state];
-    console.log(currentState);
-    let currentStateResponse = currentState.executeAction(payload,facebookUserState);
-  
-    console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
-    console.log("my currentStateResponse.response = "+JSON.stringify(currentStateResponse.response));  
+    await keyv.get(sender_psid).then(
+      result => {
+        console.log("my sender_psid = " + sender_psid);
+        console.log("my result = " + JSON.stringify(result));
+        facebookUserState = result;
+        console.log(facebookUserState.state);
+        var currentState = stateList[facebookUserState.state];
+        console.log(currentState);
+        let currentStateResponse = currentState.executeAction(
+          payload,
+          facebookUserState
+        );
 
-    // response = {text:'Welcome Mr. Tarek to ABCBank'};
-    response =  currentStateResponse.response;
-    console.log("my response = "+JSON.stringify(response));  
+        console.log(
+          "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+        );
+        console.log(
+          "my currentStateResponse.response = " +
+            JSON.stringify(currentStateResponse.response)
+        );
 
+        // response = {text:'Welcome Mr. Tarek to ABCBank'};
+        response = currentStateResponse.response;
+        console.log("my response = " + JSON.stringify(response));
 
-    keyv.set(sender_psid,currentStateResponse.state,120000);
-    
-    for (const element of response) {
-      console.log(element)
-      callSendAPI(sender_psid, element);
+        keyv.set(sender_psid, currentStateResponse.state, 120000);
 
-    }
+        for (const element of response) {
+          console.log(element);
+          callSendAPI(sender_psid, element);
+        }
 
-     return response;
-    }
-    // Send the message to acknowledge the postback
+        return response;
+      }
+      // Send the message to acknowledge the postback
     );
-  };
-  
-  executeActionAgainstPayload().then( response => {
-    console.log("test" , response)
-    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
   }
-  )
+
+  executeActionAgainstPayload().then(response => {
+    console.log("test", response);
+    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+  });
 }
 
 // Handles messaging_postbacks events
@@ -150,61 +135,68 @@ function handlePostback(sender_psid, received_postback) {
   console.log("handlePostback");
 
   let payload = received_postback.payload;
-  
+
   let response;
 
-  var facebookUserState={};
+  var facebookUserState = {};
 
-  if(payload==="Welcome to our bank"){
- 
-    facebookUserState={"state":"helloState","senderPsid":sender_psid};
-    
-    keyv.set(sender_psid,facebookUserState,120000);
+  if (payload === "Welcome to our bank") {
+    facebookUserState = { state: "helloState", senderPsid: sender_psid };
+
+    keyv.set(sender_psid, facebookUserState, 120000);
 
     payload = "DISPLAY_WELCOME_MESSAGE";
-
-
-  } 
-  async function executeActionAgainstPayload() {
-   
-    await keyv.get(sender_psid).then(result =>  { 
-      console.log("my sender_psid = "+sender_psid); 
-      console.log("my result = "+JSON.stringify(result));  
-    facebookUserState =result;
-    console.log(facebookUserState.state);
-    var currentState=stateList[facebookUserState.state];
-    console.log(currentState);
-    let currentStateResponse = currentState.executeAction(payload,facebookUserState);
-  
-    console.log("my currentStateResponse = "+JSON.stringify(currentStateResponse));  
-    console.log("my currentStateResponse.response = "+JSON.stringify(currentStateResponse.response));  
-
-    // response = {text:'Welcome Mr. Tarek to ABCBank'};
-    response =  currentStateResponse.response;
-    console.log("my response = "+JSON.stringify(response));  
-
-
-    keyv.set(sender_psid,currentStateResponse.state,120000);
-    
-    for (const element of response) {
-      console.log(element)
-      callSendAPI(sender_psid, element);
-
-    }
-
-     return response;
-    }
-    // Send the message to acknowledge the postback
-    );
-  };
-  
-  executeActionAgainstPayload().then( response => {
-    console.log("test" , response)
-    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
   }
-  )
+  async function executeActionAgainstPayload() {
+    await keyv.get(sender_psid).then(
+      result => {
+        console.log("my sender_psid = " + sender_psid);
+        console.log("my result = " + JSON.stringify(result));
+        facebookUserState = result;
+        console.log(facebookUserState.state);
+        var currentState = stateList[facebookUserState.state];
+        console.log(currentState);
+        let currentStateResponse = currentState.executeAction(
+          payload,
+          facebookUserState
+        );
 
+        console.log(
+          "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+        );
+        console.log(
+          "my currentStateResponse.response = " +
+            JSON.stringify(currentStateResponse.response)
+        );
 
+        // response = {text:'Welcome Mr. Tarek to ABCBank'};
+        response = currentStateResponse.response;
+        console.log("my response = " + JSON.stringify(response));
+
+        keyv.set(sender_psid, currentStateResponse.state, 120000);
+        let messages = []
+        for (const element of response) {
+          // messages.push(element);
+          callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+            return callSendAPI(sender_psid, response2)
+           });
+          console.log(element);     
+
+          // callSendAPI(sender_psid, element);
+        }
+
+    
+
+        return response;
+      }
+      // Send the message to acknowledge the postback
+    );
+  }
+
+  executeActionAgainstPayload().then(response => {
+    console.log("test", response);
+    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+  });
 }
 
 // Sends response messages via the Send API
