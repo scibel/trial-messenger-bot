@@ -153,7 +153,13 @@ function handleMessage(sender_psid, received_message) {
       // will be added to the body of our request to the Send API
 
       (async () => {
+        await keyv.get(sender_psid).then(
+          result => {
+            console.log("my sender_psid before = " + result);})
         await keyv.delete(sender_psid); // true
+        await keyv.get(sender_psid).then(
+          result => {
+            console.log("my sender_psid after = " + result);})
       })();
       response = {
         text: `Cancel Logic`
