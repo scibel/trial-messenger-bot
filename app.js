@@ -174,16 +174,9 @@ function handleMessage(sender_psid, received_message) {
     }
     else if (received_message.text == "Hi") {
 
-      (async () => {
-        await keyv.get(sender_psid).then(
-          result => {
-            console.log("my sender_psid before = " + JSON.stringify(result))})
-            facebookUserState = { state: "helloState", senderPsid: sender_psid };
-            await keyv.set(sender_psid, facebookUserState, 120000).then((result)=>{console.log("my sender_psid after = " + JSON.stringify(result))});
-            await keyv.get(sender_psid).then(
-          result => {
-            console.log("my sender_psid after = " + JSON.stringify(result))})
-      })();
+      facebookUserState = { state: "helloState", senderPsid: sender_psid };
+
+      keyv.set(sender_psid, facebookUserState, 120000);      
 
        payload = "DISPLAY_WELCOME_MESSAGE";
 
@@ -191,9 +184,6 @@ function handleMessage(sender_psid, received_message) {
         console.log("test", response);
         // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
       });
-
-     
-    console.log("trick",     keyv.get(sender_psid).then((result)=>{console.log("my sender_psid after = " + JSON.stringify(result))}))
     
 
       // response = {
