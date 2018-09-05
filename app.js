@@ -191,10 +191,8 @@ function handlePostback(sender_psid, received_postback) {
 
     payload = "DISPLAY_WELCOME_MESSAGE";
 
-    executeActionAgainstPayload().then(response => {
-      console.log("test", response);
-      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
-    });
+    executeActionAgainstPayload()
+
   } else {
     console.log("undefined Postbacks");
     response = {
@@ -230,20 +228,20 @@ function handlePostback(sender_psid, received_postback) {
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
         // sendTextMessages(sender_psid, response, 0)
-        for (const i in response) {
-          // messages.push(element);
-          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-          //   return callSendAPI(sender_psid, element)
-          //  });
-          console.log("Element", i);
-          // callSendAPI(sender_psid, message)
+        // for (const i in response) {
+        //   // messages.push(element);
+        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+        //   //   return callSendAPI(sender_psid, element)
+        //   //  });
+        //   console.log("Element", i);
+        //   // callSendAPI(sender_psid, message)
 
-          callSendAPI(sender_psid, response[i])
+        //   callSendAPI(sender_psid, response[i])
 
-          // callSendAPI(sender_psid, element);
-        }
+        //   // callSendAPI(sender_psid, element);
+        // }
 
-        return response;
+        return ;
       }
       // Send the message to acknowledge the postback
     );
