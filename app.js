@@ -186,7 +186,7 @@ function handlePostback(sender_psid, received_postback) {
           //   return callSendAPI(sender_psid, element)
           //  });
           console.log(element);   
-          callSendAPI(sender_psid, message)
+          // callSendAPI(sender_psid, message)
 
           callSendAPI(sender_psid, element)
 
