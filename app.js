@@ -228,23 +228,19 @@ console.log("undefined Postbacks")
         console.log("my response = " + JSON.stringify(response));
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
-        let messages = [];
-        let message = {
-          sender_action: "typing_on"
-        };
+        sendTextMessages(sender_psid, response, 0) 
+        // for (const element of response) {
+        //   // messages.push(element);
+        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+        //   //   return callSendAPI(sender_psid, element)
+        //   //  });
+        //   console.log(element);
+        //   // callSendAPI(sender_psid, message)
 
-        for (const element of response) {
-          // messages.push(element);
-          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-          //   return callSendAPI(sender_psid, element)
-          //  });
-          console.log(element);
-          // callSendAPI(sender_psid, message)
+        //   callSendAPI(sender_psid, element);
 
-          callSendAPI(sender_psid, element);
-
-          // callSendAPI(sender_psid, element);
-        }
+        //   // callSendAPI(sender_psid, element);
+        // }
 
         return response;
       }
@@ -280,4 +276,27 @@ function callSendAPI(sender_psid, response) {
       }
     }
   );
+}
+
+
+// var a = ["1", "2", "3"] //my result is a array
+function sendTextMessages(sender, text, i) {
+if (i < text.length) {
+request({
+url: 'https://graph.facebook.com/v2.6/me/messages',
+qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+method: 'POST',
+json: {
+recipient: {id:sender},
+message: {text:text[i]},
+}
+}, function(error, response, body) {
+if (error) {
+console.log('Error sending messages: ', error)
+} else if (response.body.error) {
+console.log('Error: ', response.body.error)
+}
+sendTextMessages(sender, text, i+1)
+})
+} else return
 }
