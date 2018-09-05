@@ -191,7 +191,7 @@ function handleMessage(sender_psid, received_message) {
     //     console.log("test", response);
     //     // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     //   });
-
+    keyv.get(sender_psid)
     
 
       response = {
