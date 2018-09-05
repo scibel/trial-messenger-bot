@@ -159,7 +159,10 @@ function handleMessage(sender_psid, received_message) {
         text: `This command is undefined`
       };
     }
+    callSendAPI(sender_psid, response);
+
   }
+
 }
 
 // Handles messaging_postbacks events
@@ -177,6 +180,15 @@ function handlePostback(sender_psid, received_postback) {
     keyv.set(sender_psid, facebookUserState, 120000);
 
     payload = "DISPLAY_WELCOME_MESSAGE";
+
+    executeActionAgainstPayload().then(response => {
+      console.log("test", response);
+      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    });
+  }
+  else {
+
+
   }
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
@@ -229,10 +241,7 @@ function handlePostback(sender_psid, received_postback) {
     );
   }
 
-  executeActionAgainstPayload().then(response => {
-    console.log("test", response);
-    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
-  });
+ 
 }
 
 // Sends response messages via the Send API
