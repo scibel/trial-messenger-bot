@@ -233,9 +233,9 @@ function handleMessage(sender_psid, received_message) {
     console.log("trick",     keyv.get(sender_psid).then((result)=>{console.log("my sender_psid after = " + JSON.stringify(result))}))
     
 
-      response = {
-        text: `Your state now is set to helloState`, 
-      };
+      // response = {
+      //   text: `Your state now is set to helloState`, 
+      // };
     }
      else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
