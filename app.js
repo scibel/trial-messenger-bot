@@ -86,6 +86,8 @@ function handleMessage(sender_psid, received_message) {
   // Handle quick_replies postbacks
 
   if (received_message.quick_reply.payload  && typeof received_message.quick_reply.payload !== 'undefined') {
+    console.log("received_message.quick_reply.payload");
+
     let payload = received_message.quick_reply.payload;
 
     console.log(payload);
@@ -193,6 +195,11 @@ function handlePostback(sender_psid, received_postback) {
   }
   else {
 console.log("undefined Postbacks")
+let message = {
+  sender_action: "typing_on"
+};
+callSendAPI(sender_psid, message);
+
     response = {
       text: `This command is undefined`
     };
