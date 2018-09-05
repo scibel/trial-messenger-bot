@@ -169,6 +169,18 @@ function handleMessage(sender_psid, received_message) {
   }
 }
 
+function iterateRecursively(senderId,list,index){
+  
+  if(index > list.lenght)
+    return;
+
+  callSendAPI(senderId,list[index]).then(function(){
+    console.log('came back');
+  });
+
+  iterateRecursively(senderId,list,index+1);
+}
+
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   console.log("handlePostback");
@@ -256,17 +268,7 @@ function handlePostback(sender_psid, received_postback) {
   }
 }
 
-function iterateRecursively(senderId,list,index){
-  
-  if(index > list.lenght)
-    return;
 
-  callSendAPI(senderId,list[index]).then(function(){
-    console.log('came back');
-  });
-
-  iterateRecursively(senderId,list,index+1);
-}
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
