@@ -238,6 +238,7 @@ function handlePostback(sender_psid, received_postback) {
         // }
 
         for (var i = 0; i < response.length; i+2) {
+          console.log("test" , JSON.stringify(response))
           callSendAPI(sender_psid,response[i]).then(function () {
             callSendAPI(sender_psid, response[i+1])
           });
@@ -258,7 +259,7 @@ function handlePostback(sender_psid, received_postback) {
         //   // callSendAPI(sender_psid, element);
         // }
 
-        // return response;
+        return response;
       }
       // Send the message to acknowledge the postback
     );
