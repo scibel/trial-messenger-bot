@@ -228,7 +228,7 @@ console.log("undefined Postbacks")
         console.log("my response = " + JSON.stringify(response));
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
-        sendTextMessages(sender_psid, response, 0) 
+        sendTextMessages(sender_psid, response, 1) 
         // for (const element of response) {
         //   // messages.push(element);
         //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
