@@ -185,12 +185,51 @@ function handleMessage(sender_psid, received_message) {
             console.log("my sender_psid after = " + JSON.stringify(result))})
       })();
 
-    //  let  payload = "DISPLAY_WELCOME_MESSAGE";
+     let  payload = "DISPLAY_WELCOME_MESSAGE";
 
-    //   executeActionAgainstPayload(payload).then(response => {
-    //     console.log("test", response);
-    //     // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
-    //   });
+     test().then(response => {
+        console.log("test", response);
+        // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+      });
+
+      async function test() {
+        await keyv.get(sender_psid).then(
+          result => {
+            console.log("my sender_psid = " + sender_psid);
+            console.log("my result = " + JSON.stringify(result));
+            facebookUserState = result;
+            console.log(facebookUserState.state);
+            var currentState = stateList[facebookUserState.state];
+            console.log(currentState);
+            let currentStateResponse = currentState.executeAction(
+              payload,
+              facebookUserState
+            );
+  
+            console.log(
+              "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+            );
+  
+            // response = {text:'Welcome Mr. Tarek to ABCBank'};
+            response = currentStateResponse.response;
+            console.log("my response = " + JSON.stringify(response));
+  
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+  
+            for (const element of response) {
+              console.log(element);
+              callSendAPI(sender_psid, element);
+            }
+  
+            return response;
+          }
+          // Send the message to acknowledge the postback
+        );
+      }
     console.log("trick",     keyv.get(sender_psid).then((result)=>{console.log("my sender_psid after = " + JSON.stringify(result))}))
     
 
