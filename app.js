@@ -238,7 +238,7 @@ function handlePostback(sender_psid, received_postback) {
           console.log("Element", element);
           // callSendAPI(sender_psid, message)
 
-          callSendAPI(sender_psid, element).then(() => console.log("Element"); )
+          callSendAPI(sender_psid, element).then(() => console.log("Element", element) )
 
           // callSendAPI(sender_psid, element);
         }
