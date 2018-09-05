@@ -166,14 +166,31 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: `State has been cleared`
       };
-      
+
     } else if (received_message.text == "Reset") {
-      // Create the payload for a basic text message, which
-      // will be added to the body of our request to the Send API
       response = {
         text: `Reset Logic`
       };
-    } else if (received_message.text == "Test") {
+    }
+    else if (received_message.text == "Hi") {
+
+      (async () => {
+        await keyv.get(sender_psid).then(
+          result => {
+            console.log("my sender_psid before = " + JSON.stringify(result))})
+            facebookUserState = { state: "helloState", senderPsid: sender_psid };
+            await keyv.set(sender_psid, facebookUserState, 120000);
+            await keyv.get(sender_psid).then(
+          result => {
+            console.log("my sender_psid after = " + result);})
+      })();
+
+      
+      response = {
+        text: `Your state now is ${keyv.get(sender_psid)}`, 
+      };
+    }
+     else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
