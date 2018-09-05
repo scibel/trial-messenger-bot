@@ -192,7 +192,7 @@ function handlePostback(sender_psid, received_postback) {
   } else {
     console.log("undefined Postbacks");
     let message = {
-      sender_action: "typing_on"
+      "sender_action": "typing_on"
     };
     callSendAPI(sender_psid, message);
 
