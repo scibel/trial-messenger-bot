@@ -185,16 +185,13 @@ function handleMessage(sender_psid, received_message) {
             console.log("my sender_psid after = " + JSON.stringify(result))})
       })();
 
-     
-
       payload = "DISPLAY_WELCOME_MESSAGE";
 
-
-    executeActionAgainstPayload().then(response => {
-      console.log("test", response);
-      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
-    });
-
+      executeActionAgainstPayload().then(response => {
+        console.log("test", response);
+        // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+      });
+      
     async function executeActionAgainstPayload() {
       await keyv.get(sender_psid).then(
         result => {
