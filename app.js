@@ -228,8 +228,8 @@ console.log("undefined Postbacks")
         console.log("my response = " + JSON.stringify(response));
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
-        sendTextMessages(sender_psid, response, 1) 
-        // for (const element of response) {
+        sendTextMessages(sender_psid, response, 0) 
+        // for (const eliement of response) {
         //   // messages.push(element);
         //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
         //   //   return callSendAPI(sender_psid, element)
@@ -282,14 +282,17 @@ function callSendAPI(sender_psid, response) {
 // var a = ["1", "2", "3"] //my result is a array
 function sendTextMessages(sender, text, i) {
 if (i < text.length) {
+  let request_body = {
+    recipient: {
+      id: sender
+    },
+    message: text[i]
+  };
 request({
 url: 'https://graph.facebook.com/v2.6/me/messages',
 qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
 method: 'POST',
-json: {
-recipient: {id:sender},
-message: {text:text[i]},
-}
+json: request_body
 }, function(error, response, body) {
 if (error) {
 console.log('Error sending messages: ', error)
