@@ -81,7 +81,7 @@ function handleMessage(sender_psid, received_message) {
   console.log("handleMessage");
 
   let response;
-  console.log("received_message" + JSON.stringify(received_message) + "\n");
+  console.log("received_message \n" + JSON.stringify(received_message) + "\n");
 
   // Handle quick_replies postbacks
 
@@ -137,6 +137,7 @@ function handleMessage(sender_psid, received_message) {
     });
   } else {
     // Handle user input
+    console.log("undefined input")
 
     if (received_message.text == "Cancel") {
       // Create the payload for a basic text message, which
@@ -150,6 +151,10 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: `Reset Logic`
       };
+    }
+
+    else if (received_message.text == "Test") {
+      response = { text: "integration succedded" };
     }
     // handle user input
     else {
@@ -187,7 +192,11 @@ function handlePostback(sender_psid, received_postback) {
     });
   }
   else {
-
+console.log("undefined Postbacks")
+    response = {
+      text: `This command is undefined`
+    };
+    callSendAPI(sender_psid, response);
 
   }
   async function executeActionAgainstPayload() {
