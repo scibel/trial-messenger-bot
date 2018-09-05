@@ -191,15 +191,15 @@ function handlePostback(sender_psid, received_postback) {
     });
   } else {
     console.log("undefined Postbacks");
-    let message = {
-      "sender_action": "typing_on"
-    };
-    callSendAPI(sender_psid, message);
-
-    // response = {
-    //   text: `This command is undefined`
+    // let message = {
+    //   "sender_action": "typing_on"
     // };
-    // callSendAPI(sender_psid, response);
+    // callSendAPI(sender_psid, message);
+
+    response = {
+      text: `This command is undefined`
+    };
+    callSendAPI(sender_psid, response);
   }
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
@@ -258,27 +258,36 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
-  var deferred = Promise.defer();
   let request_body = {
     recipient: {
       id: sender_psid
     },
     message: response
   };
-  var requestObject = {
+  let requestObject = {
     uri: "https://graph.facebook.com/v2.6/me/messages",
     qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
     method: "POST",
     json: request_body
   };
   // Send the HTTP request to the Messenger Platform
-  request(requestObject,(err, res, body) => {
+  // request(requestObject,(err, res, body) => {
+  //     if (!err) {
+  //       console.log("message sent!");
+  //     } else {
+  //       console.error("Unable to send message:" + err);
+  //     }
+  //   });
+
+  return new Promise(function(fulfill,reject){
+    request(requestObject,function(err,res,body){
       if (!err) {
         console.log("message sent!");
+        fulfill(res);
       } else {
         console.error("Unable to send message:" + err);
+        reject(err);
       }
-    }
-  );
-  return deferred.promise;
+    })
+  });  
 }
