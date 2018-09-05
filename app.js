@@ -230,15 +230,15 @@ function handlePostback(sender_psid, received_postback) {
 
         keyv.set(sender_psid, currentStateResponse.state, 120000);
         // sendTextMessages(sender_psid, response, 0)
-        for (const element of response) {
+        for (const i in response) {
           // messages.push(element);
           // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
           //   return callSendAPI(sender_psid, element)
           //  });
-          console.log("Element", element);
+          console.log("Element", i);
           // callSendAPI(sender_psid, message)
 
-          callSendAPI(sender_psid, element).then(() => console.log("Element",element) )
+          callSendAPI(sender_psid, response[i])
 
           // callSendAPI(sender_psid, element);
         }
@@ -251,7 +251,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-async function callSendAPI(sender_psid, response) {
+ function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
@@ -260,7 +260,7 @@ async function callSendAPI(sender_psid, response) {
     message: response
   };
   // Send the HTTP request to the Messenger Platform
-  await request(
+   request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
       qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
