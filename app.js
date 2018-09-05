@@ -178,7 +178,7 @@ function handlePostback(sender_psid, received_postback) {
         for (const element of response) {
           // messages.push(element);
           callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-            return callSendAPI(sender_psid, response2)
+            return callSendAPI(sender_psid, element)
            });
           console.log(element);     
 
