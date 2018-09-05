@@ -191,7 +191,25 @@ function handleMessage(sender_psid, received_message) {
         console.log("test", response);
         // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
       });
-      
+
+    
+
+      response = {
+        text: `Your state now is set to helloState`, 
+      };
+    }
+     else if (received_message.text == "Test") {
+      response = { text: "integration succedded" };
+    }
+    // handle user input
+    else {
+      // Create the payload for a basic text message, which
+      // will be added to the body of our request to the Send API
+      response = {
+        text: `This command is undefined`
+      };
+    }
+
     async function executeActionAgainstPayload() {
       await keyv.get(sender_psid).then(
         result => {
@@ -231,21 +249,6 @@ function handleMessage(sender_psid, received_message) {
       );
     }
 
-      response = {
-        text: `Your state now is set to helloState`, 
-      };
-    }
-     else if (received_message.text == "Test") {
-      response = { text: "integration succedded" };
-    }
-    // handle user input
-    else {
-      // Create the payload for a basic text message, which
-      // will be added to the body of our request to the Send API
-      response = {
-        text: `This command is undefined`
-      };
-    }
     callSendAPI(sender_psid, response);
   }
 }
