@@ -169,18 +169,6 @@ function handleMessage(sender_psid, received_message) {
   }
 }
 
-function iterateRecursively(senderId,list,index){
-  
-  if(index > list.lenght)
-    return;
-
-  callSendAPI(senderId,list[index]).then(function(){
-    console.log('came back');
-  });
-
-  iterateRecursively(senderId,list,index+1);
-}
-
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   console.log("handlePostback");
@@ -245,21 +233,20 @@ function handlePostback(sender_psid, received_postback) {
           sender_action: "typing_on"
         };
 
-        // for (const element of response) {
-        //   // messages.push(element);
-        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-        //   //   return callSendAPI(sender_psid, element)
-        //   //  });
-        //   console.log(element);
-        //   // callSendAPI(sender_psid, message)
+        for (const element of response) {
+          // messages.push(element);
+          // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
+          //   return callSendAPI(sender_psid, element)
+          //  });
+          console.log(element);
+          // callSendAPI(sender_psid, message)
 
-        //   callSendAPI(sender_psid, element).then(setTimeout(console.log("Hello"), 3000));
+          callSendAPI(sender_psid, element)
+          .then( () => console.log("Hello"));
         
 
-        //   // callSendAPI(sender_psid, element);
-        // }
-
-        iterateRecursively(sender_psid, response,0);
+          // callSendAPI(sender_psid, element);
+        }
 
         return response;
       }
@@ -267,8 +254,6 @@ function handlePostback(sender_psid, received_postback) {
     );
   }
 }
-
-
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
