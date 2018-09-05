@@ -80,7 +80,7 @@ function handleMessage(sender_psid, received_message) {
 
   // Handle quick_replies postbacks
 
-  if (received_message.quick_reply.payload) {
+  if (received_message.quick_reply.payload !== null ) {
     let payload = received_message.quick_reply.payload;
 
     console.log(payload);
