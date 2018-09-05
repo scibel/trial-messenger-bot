@@ -85,7 +85,7 @@ function handleMessage(sender_psid, received_message) {
 
   // Handle quick_replies postbacks
 
-  if (received_message.quick_reply.payload  && typeof received_message.quick_reply.payload !== 'undefined') {
+  if ( received_message.quick_reply.payload !== 'undefined' && received_message.quick_reply.payload ) {
     console.log("received_message.quick_reply.payload");
 
     let payload = received_message.quick_reply.payload;
