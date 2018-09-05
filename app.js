@@ -1,9 +1,7 @@
 "use strict";
 
-
-const GET_STARTED_POSTBACK =  "<postback_payload>" 
+const GET_STARTED_POSTBACK = "<postback_payload>";
 //  "Welcome to our bank"
-
 
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -15,13 +13,47 @@ const Keyv = require("keyv");
 
 const keyv = new Keyv();
 
+async function executeActionAgainstPayload() {
+  await keyv.get(sender_psid).then(
+    result => {
+      console.log("my sender_psid = " + sender_psid);
+      console.log("my result = " + JSON.stringify(result));
+      facebookUserState = result;
+      console.log(facebookUserState.state);
+      var currentState = stateList[facebookUserState.state];
+      console.log(currentState);
+      let currentStateResponse = currentState.executeAction(
+        payload,
+        facebookUserState
+      );
+
+      console.log(
+        "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+      );
+      console.log(
+        "my currentStateResponse.response = " +
+          JSON.stringify(currentStateResponse.response)
+      );
+      response = currentStateResponse.response;
+      console.log("my response = " + JSON.stringify(response));
+
+      keyv.set(sender_psid, currentStateResponse.state, 120000);
+      sendTextMessages(sender_psid, response, 0);
+      return response;
+    }
+    // Send the message to acknowledge the postback
+  );
+}
+
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
 });
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
-  console.log("started receiveing a message grom facebook page it will be either user input or a postback ");
+  console.log(
+    "started receiveing a message grom facebook page it will be either user input or a postback "
+  );
 
   let body = req.body;
 
@@ -81,11 +113,18 @@ function handleMessage(sender_psid, received_message) {
   console.log("handleMessage");
 
   let response;
-  console.log("will be handling the following Message \n" + JSON.stringify(received_message) + "\n");
+  console.log(
+    "will be handling the following Message \n" +
+      JSON.stringify(received_message) +
+      "\n"
+  );
 
   // Handle quick_replies postbacks
 
-  if ( received_message.quick_reply !== 'undefined' && received_message.quick_reply ) {
+  if (
+    received_message.quick_reply !== "undefined" &&
+    received_message.quick_reply
+  ) {
     console.log("received_message.quick_reply.payload");
 
     let payload = received_message.quick_reply.payload;
@@ -139,11 +178,15 @@ function handleMessage(sender_psid, received_message) {
     });
   } else {
     // Handle user input
-    console.log("undefined input")
+    console.log("undefined input");
 
     if (received_message.text == "Cancel") {
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
+        executeActionAgainstPayload().then(response => {
+      console.log("test", response);
+      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    });
       response = {
         text: `Cancel Logic`
       };
@@ -153,9 +196,7 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: `Reset Logic`
       };
-    }
-
-    else if (received_message.text == "Test") {
+    } else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
@@ -167,9 +208,7 @@ function handleMessage(sender_psid, received_message) {
       };
     }
     callSendAPI(sender_psid, response);
-
   }
-
 }
 
 // Handles messaging_postbacks events
@@ -192,63 +231,47 @@ function handlePostback(sender_psid, received_postback) {
       console.log("test", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-  }
-  else {
-console.log("undefined Postbacks")
+  } else if(payload){
+    // the user is 
+
+  }else {
+    console.log("undefined Postbacks");
     response = {
       text: `This command is undefined`
     };
     callSendAPI(sender_psid, response);
-
   }
-  async function executeActionAgainstPayload() {
-    await keyv.get(sender_psid).then(
-      result => {
-        console.log("my sender_psid = " + sender_psid);
-        console.log("my result = " + JSON.stringify(result));
-        facebookUserState = result;
-        console.log(facebookUserState.state);
-        var currentState = stateList[facebookUserState.state];
-        console.log(currentState);
-        let currentStateResponse = currentState.executeAction(
-          payload,
-          facebookUserState
-        );
+  // async function executeActionAgainstPayload() {
+  //   await keyv.get(sender_psid).then(
+  //     result => {
+  //       console.log("my sender_psid = " + sender_psid);
+  //       console.log("my result = " + JSON.stringify(result));
+  //       facebookUserState = result;
+  //       console.log(facebookUserState.state);
+  //       var currentState = stateList[facebookUserState.state];
+  //       console.log(currentState);
+  //       let currentStateResponse = currentState.executeAction(
+  //         payload,
+  //         facebookUserState
+  //       );
 
-        console.log(
-          "my currentStateResponse = " + JSON.stringify(currentStateResponse)
-        );
-        console.log(
-          "my currentStateResponse.response = " +
-            JSON.stringify(currentStateResponse.response)
-        );
+  //       console.log(
+  //         "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+  //       );
+  //       console.log(
+  //         "my currentStateResponse.response = " +
+  //           JSON.stringify(currentStateResponse.response)
+  //       );
+  //       response = currentStateResponse.response;
+  //       console.log("my response = " + JSON.stringify(response));
 
-        // response = {text:'Welcome Mr. Tarek to ABCBank'};
-        response = currentStateResponse.response;
-        console.log("my response = " + JSON.stringify(response));
-
-        keyv.set(sender_psid, currentStateResponse.state, 120000);
-        sendTextMessages(sender_psid, response, 0) 
-        // for (const eliement of response) {
-        //   // messages.push(element);
-        //   // callSendAPI(sender_psid, {"sender_action":"typing_on"}).then(() => {
-        //   //   return callSendAPI(sender_psid, element)
-        //   //  });
-        //   console.log(element);
-        //   // callSendAPI(sender_psid, message)
-
-        //   callSendAPI(sender_psid, element);
-
-        //   // callSendAPI(sender_psid, element);
-        // }
-
-        return response;
-      }
-      // Send the message to acknowledge the postback
-    );
-  }
-
- 
+  //       keyv.set(sender_psid, currentStateResponse.state, 120000);
+  //       sendTextMessages(sender_psid, response, 0);
+  //       return response;
+  //     }
+  //     // Send the message to acknowledge the postback
+  //   );
+  // }
 }
 
 // Sends response messages via the Send API
@@ -278,28 +301,30 @@ function callSendAPI(sender_psid, response) {
   );
 }
 
-
 // var a = ["1", "2", "3"] //my result is a array
 function sendTextMessages(sender, text, i) {
-if (i < text.length) {
-  let request_body = {
-    recipient: {
-      id: sender
-    },
-    message: text[i]
-  };
-request({
-url: 'https://graph.facebook.com/v2.6/me/messages',
-qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-method: 'POST',
-json: request_body
-}, function(error, response, body) {
-if (error) {
-console.log('Error sending messages: ', error)
-} else if (response.body.error) {
-console.log('Error: ', response.body.error)
-}
-sendTextMessages(sender, text, i+1)
-})
-} else return
+  if (i < text.length) {
+    let request_body = {
+      recipient: {
+        id: sender
+      },
+      message: text[i]
+    };
+    request(
+      {
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body
+      },
+      function(error, response, body) {
+        if (error) {
+          console.log("Error sending messages: ", error);
+        } else if (response.body.error) {
+          console.log("Error: ", response.body.error);
+        }
+        sendTextMessages(sender, text, i + 1);
+      }
+    );
+  } else return;
 }
