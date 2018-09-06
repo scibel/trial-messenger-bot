@@ -199,6 +199,7 @@ function handleMessage(sender_psid, received_message) {
 
       keyv.set(sender_psid, currentStateResponse.state, 120000);
       sendTextMessages(sender_psid, response, 0);
+      return;
 
       //  for (const element of response) {
       //    console.log(element);
@@ -220,7 +221,10 @@ function handleMessage(sender_psid, received_message) {
       };
     }
     console.log("corner cases input->response that is going to be send to the user" + JSON.stringify(response));
+   // bug the message get sent twice.
     sendTextMessages(sender_psid, response,0);
+    callSendAPI(sender_psid, response);
+
   }
 }
 

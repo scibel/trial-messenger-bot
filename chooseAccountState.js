@@ -19,7 +19,6 @@
                       {
                         title: "Enter your pin",
                         subtitle: "Tap a button to answer.",
-                        image_url: attachment_url,
                         buttons: [
                           {
                             type: "postback",
