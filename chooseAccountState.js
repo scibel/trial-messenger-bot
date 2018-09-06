@@ -8,14 +8,15 @@
         console.log("chooseAccountState function:"+action);
         var response=[];
 
-        if(action==="NO_I_DO_NOT_WANT_TO_CONTINUE_WITH_THIS_ACCOUNT"){
-            response[0] = {text:'This sceneario will merge in the right part of the tree'};
-            return {"state":{"state":"thankYouState","senderPsid":state.senderPsid},"response":response};
-        } else if(action==="YES_I_WANT_TO_CONTINUE_WITH_THIS_ACCOUNT"){
-            response[0] = {text:'This feature is not yet supported!'};
-            return {"state":{"state":"yiwtcwtaFirstAttempt","senderPsid":state.senderPsid},"response":response};
+        if(action==="YES_USE_MAIN_ACCOUNT"){
+            response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
+            return {"state":{"state":"yumaFirstAttempt","senderPsid":state.senderPsid},"response":response};
+        } else if(action==="NO_USE_ANOTHER_ACCOUNT"){
+            response[0] = {text:'NO_USE_ANOTHER_ACCOUNT'};
+            return {"state":{"state":"nuaaFirstAttempt","senderPsid":state.senderPsid},"response":response};
         }
     }
 };
 
 module.exports = chooseAccountState;
+

@@ -14,9 +14,10 @@ const Keyv = require("keyv");
 const keyv = new Keyv();
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("webhook is listening",port);
+  console.log("webhook is listening", port);
 });
 
+// route to check from a website whether the application is deployed
 app.get("/", (req, res) => {
   res.status(200).send("Deployed");
 });
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
   console.log(
-    "started receiveing a message grom facebook page it will be either user input or a postback "
+    "started receiveing a message grom facebook page it will be either user input or a postback if it is a user input or a quick reply it will be sent to handle_message function if it is a postback it will be sent to handle_postback function"
   );
 
   let body = req.body;
@@ -97,11 +98,15 @@ function handleMessage(sender_psid, received_message) {
     received_message.quick_reply !== "undefined" &&
     received_message.quick_reply
   ) {
-    console.log("received_message.quick_reply.payload");
+    console.log(
+      "received_message.quick_reply.payload",
+      received_message.quick_reply.payload
+    );
 
+    // payload will contain state of the sent quickreply which is coming from a previous state
     let payload = received_message.quick_reply.payload;
 
-    console.log(payload);
+    console.log("received_message.quick_reply.payload", payload);
 
     var facebookUserState = {};
 
@@ -132,11 +137,12 @@ function handleMessage(sender_psid, received_message) {
           console.log("my response = " + JSON.stringify(response));
 
           keyv.set(sender_psid, currentStateResponse.state, 120000);
+          sendTextMessages(sender_psid, response, 0);
 
-          for (const element of response) {
-            console.log(element);
-            callSendAPI(sender_psid, element);
-          }
+          // for (const element of response) {
+          //   console.log(element);
+          //   sendTextMessages(sender_psid, element);
+          // }
 
           return response;
         }
@@ -151,66 +157,63 @@ function handleMessage(sender_psid, received_message) {
   } else {
     // Handle user input
     console.log("undefined input");
-    if ( received_message.text.indexOf('Cancel') > -1 // true
-  ) {
+    if (
+      received_message.text.indexOf("Cancel") > -1 // true
+    ) {
       (async () => {
-        await keyv.get(sender_psid).then(
-          result => {
-            console.log("my sender_psid before = " + JSON.stringify(result))})
+        await keyv.get(sender_psid).then(result => {
+          console.log("my sender_psid before = " + JSON.stringify(result));
+        });
         await keyv.delete(sender_psid); // true
-        await keyv.get(sender_psid).then(
-          result => {
-            console.log("my sender_psid after = " + JSON.stringify(result))})
+        await keyv.get(sender_psid).then(result => {
+          console.log("my sender_psid after = " + JSON.stringify(result));
+        });
       })();
       response = {
         text: `State has been cleared`
       };
-
     } else if (received_message.text == "Reset") {
       response = {
         text: `Reset Logic`
       };
-    }
-    else if (received_message.text == "Hi") {
-
+    } else if (received_message.text == "Hi") {
       facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
-      keyv.set(sender_psid, facebookUserState, 120000);      
+      keyv.set(sender_psid, facebookUserState, 120000);
 
-     let payload = "DISPLAY_WELCOME_MESSAGE";
-    
-     var currentState = stateList[facebookUserState.state];
-     console.log(currentState);
-     let currentStateResponse = currentState.executeAction(
-       payload,
-       facebookUserState
-     );
+      let payload = "DISPLAY_WELCOME_MESSAGE";
 
-     console.log(
-       "my currentStateResponse = " + JSON.stringify(currentStateResponse)
-     );
-     console.log(
-       "my currentStateResponse.response = " +
-         JSON.stringify(currentStateResponse.response)
-     );
+      var currentState = stateList[facebookUserState.state];
+      console.log(currentState);
+      let currentStateResponse = currentState.executeAction(
+        payload,
+        facebookUserState
+      );
 
-     // response = {text:'Welcome Mr. Tarek to ABCBank'};
-     response = currentStateResponse.response;
-     console.log("my response = " + JSON.stringify(response));
+      console.log(
+        "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+      );
+      console.log(
+        "my currentStateResponse.response = " +
+          JSON.stringify(currentStateResponse.response)
+      );
 
-     keyv.set(sender_psid, currentStateResponse.state, 120000);
+      // response = {text:'Welcome Mr. Tarek to ABCBank'};
+      response = currentStateResponse.response;
+      console.log("my response = " + JSON.stringify(response));
 
-     for (const element of response) {
-       console.log(element);
-       callSendAPI(sender_psid, element);
-     }
-    
+      keyv.set(sender_psid, currentStateResponse.state, 120000);
+      sendTextMessages(sender_psid, response, 0);
+
+      //  for (const element of response) {
+      //    console.log(element);
+      //    sendTextMessages(sender_psid, element);
+      //  }
 
       // response = {
-      //   text: `Your state now is set to helloState`, 
+      //   text: `Your state now is set to helloState`,
       // };
-    }
-     else if (received_message.text == "Test") {
+    } else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
@@ -221,10 +224,6 @@ function handleMessage(sender_psid, received_message) {
         text: `This command is undefined`
       };
     }
-
-    
-
-    
 
     sendTextMessages(sender_psid, response);
   }
@@ -255,7 +254,7 @@ function handlePostback(sender_psid, received_postback) {
     response = {
       text: `This command is undefined`
     };
-    callSendAPI(sender_psid, response);
+    sendTextMessages(sender_psid, response);
   }
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
@@ -293,6 +292,7 @@ function handlePostback(sender_psid, received_postback) {
   }
 }
 
+// Not used now
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
