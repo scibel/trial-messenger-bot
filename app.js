@@ -25,27 +25,27 @@ app.get("/", (req, res) => {
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
   console.log(
-    "started receiveing a message grom facebook page it will be either user input or a postback if it is a user input or a quick reply it will be sent to handle_message function if it is a postback it will be sent to handle_postback function"
+    "1) started receiveing a message grom facebook page it will be either user input or a postback if it is a user input or a quick reply it will be sent to handle_message function if it is a postback it will be sent to handle_postback function"
   );
 
   let body = req.body;
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
-    console.log("body received /n \n", JSON.stringify(body));
+    console.log("2) body received /n \n", JSON.stringify(body));
 
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
       // console.log("here");
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
-      console.log("Sender PSID: " + sender_psid);
+      console.log("3) Sender PSID: " + sender_psid);
 
       if (webhook_event.message) {
-        console.log("calling handleMessage");
+        console.log("50) calling handleMessage");
         handleMessage(sender_psid, webhook_event.message);
       } else if (webhook_event.postback) {
-        console.log("calling handlePostback");
+        console.log("`100) calling handlePostback");
         handlePostback(sender_psid, webhook_event.postback);
       }
     });
@@ -83,11 +83,11 @@ app.get("/webhook", (req, res) => {
 
 // Handles user input and quick replies messages events
 function handleMessage(sender_psid, received_message) {
-  console.log("handleMessage");
+  console.log("51) handleMessage");
 
   let response;
   console.log(
-    "will be handling the following Message \n" +
+    "52) will be handling the following Message \n" +
       JSON.stringify(received_message) +
       "\n"
   );
@@ -99,22 +99,22 @@ function handleMessage(sender_psid, received_message) {
     received_message.quick_reply
   ) {
     console.log(
-      "received_message.quick_reply.payload",
+      "70) received_message.quick_reply.payload",
       received_message.quick_reply.payload
     );
 
     // payload will contain state of the sent quickreply which is coming from a previous state
     let payload = received_message.quick_reply.payload;
 
-    console.log("received_message.quick_reply.payload", payload);
+    console.log("71) received_message.quick_reply.payload", payload);
 
     var facebookUserState = {};
 
     async function executeActionAgainstPayload() {
-      await keyv.get(sender_psid).then(
+       keyv.get(sender_psid).then(
         result => {
-          console.log("my sender_psid = " + sender_psid);
-          console.log("my result = " + JSON.stringify(result));
+          console.log("72) my sender_psid = " + sender_psid);
+          console.log("73) my result = " + JSON.stringify(result));
           facebookUserState = result;
           console.log(facebookUserState.state);
           var currentState = stateList[facebookUserState.state];
@@ -125,16 +125,16 @@ function handleMessage(sender_psid, received_message) {
           );
 
           console.log(
-            "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+            "74) my currentStateResponse = " + JSON.stringify(currentStateResponse)
           );
           console.log(
-            "my currentStateResponse.response = " +
+            "75) my currentStateResponse.response = " +
               JSON.stringify(currentStateResponse.response)
           );
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
           response = currentStateResponse.response;
-          console.log("my response = " + JSON.stringify(response));
+          console.log("76) my response = " + JSON.stringify(response));
 
           keyv.set(sender_psid, currentStateResponse.state, 120000);
           sendTextMessages(sender_psid, response, 0);
@@ -151,24 +151,26 @@ function handleMessage(sender_psid, received_message) {
     }
 
     executeActionAgainstPayload().then(response => {
-      console.log("test", response);
+      console.log("77) test", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
   } else {
     // Handle user input
-    console.log("undefined input");
+    console.log("80) undefined input");
     if (
       received_message.text.indexOf("Cancel") > -1 // true
     ) {
-      (async () => {
-        await keyv.get(sender_psid).then(result => {
-          console.log("my sender_psid before = " + JSON.stringify(result));
-        });
-        await keyv.delete(sender_psid); // true
-        await keyv.get(sender_psid).then(result => {
-          console.log("my sender_psid after = " + JSON.stringify(result));
-        });
-      })();
+      // (async () => {
+      //   await keyv.get(sender_psid).then(result => {
+      //     console.log("my sender_psid before = " + JSON.stringify(result));
+      //   });
+      //   await keyv.delete(sender_psid); // true
+      //   await keyv.get(sender_psid).then(result => {
+      //     console.log("my sender_psid after = " + JSON.stringify(result));
+      //   });
+      // })();
+       keyv.delete(sender_psid); // true
+
       response = {
         text: `State has been cleared`
       };
@@ -231,13 +233,12 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
-  console.log("handlePostback");
+  console.log("101) handlePostback");
 
   let payload = received_postback.payload;
-
   let response;
-
   var facebookUserState = {};
+
   if (payload === GET_STARTED_POSTBACK) {
     facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
@@ -246,16 +247,17 @@ function handlePostback(sender_psid, received_postback) {
     payload = "DISPLAY_WELCOME_MESSAGE";
 
     executeActionAgainstPayload().then(response => {
-      console.log("test", response);
+      console.log("102) response", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
   } else {
-    console.log("undefined Postbacks");
+    console.log("110) undefined Postbacks");
     response = {
       text: `This command is undefined`
     };
     sendTextMessages(sender_psid, response);
   }
+
   async function executeActionAgainstPayload() {
     await keyv.get(sender_psid).then(
       result => {
