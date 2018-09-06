@@ -9,8 +9,8 @@
         var response=[];
 
         if(action==="YES_USE_MAIN_ACCOUNT"){
-            response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
-            response[1] = {
+            // response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
+            response[0] = {
             attachment: {
                 type: "template",
                 payload: {
@@ -20,7 +20,7 @@
                     {
                         type: "postback",
                         title: "Enter your pin",
-                        payload: "yes"
+                        payload: "FIRST_ATTEMPT"
                       },
                       {
                         type: "Call Support",
