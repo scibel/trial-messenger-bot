@@ -21,11 +21,6 @@
                         type: "postback",
                         title: "Enter your pin",
                         payload: "FIRST_ATTEMPT"
-                      },
-                      {
-                        type: "phone_number",
-                        title: "Call Support",
-                        payload: "PAYBILL_PAYLOAD"
                       }
                   ]
                 }
