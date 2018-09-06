@@ -285,6 +285,7 @@ function handlePostback(sender_psid, received_postback) {
 
     
     sendTextMessages(sender_psid, response,0);
+    callSendAPI(sender_psid, response)
   }
 
   async function executeActionAgainstPayload() {
