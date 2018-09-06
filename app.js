@@ -119,6 +119,9 @@ function handleMessage(sender_psid, received_message) {
           console.log(facebookUserState.state);
           var currentState = stateList[facebookUserState.state];
           console.log(currentState);
+
+          // current response returns 
+          //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
           let currentStateResponse = currentState.executeAction(
             payload,
             facebookUserState
@@ -134,15 +137,13 @@ function handleMessage(sender_psid, received_message) {
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
           response = currentStateResponse.response;
+         // in case YES_USE_MAIN_ACCOUNT my response should be to
+         // execute an action to move the user to the next state
           console.log("76) my response = " + JSON.stringify(response));
 
+          // changing the state of the user to the next state
           keyv.set(sender_psid, currentStateResponse.state, 120000);
           sendTextMessages(sender_psid, response, 0);
-
-          // for (const element of response) {
-          //   console.log(element);
-          //   sendTextMessages(sender_psid, element);
-          // }
 
           return response;
         }
@@ -156,19 +157,11 @@ function handleMessage(sender_psid, received_message) {
     });
   } else {
     // Handle user input
-    console.log("80) undefined input");
+    console.log("80) corner cases input");
     if (
       received_message.text.indexOf("Cancel") > -1 // true
     ) {
-      // (async () => {
-      //   await keyv.get(sender_psid).then(result => {
-      //     console.log("my sender_psid before = " + JSON.stringify(result));
-      //   });
-      //   await keyv.delete(sender_psid); // true
-      //   await keyv.get(sender_psid).then(result => {
-      //     console.log("my sender_psid after = " + JSON.stringify(result));
-      //   });
-      // })();
+      console.log("81) Cancel corner case input");
        keyv.delete(sender_psid); // true
 
       response = {
@@ -226,8 +219,8 @@ function handleMessage(sender_psid, received_message) {
         text: `This command is undefined`
       };
     }
-
-    sendTextMessages(sender_psid, response);
+    console.log("corner cases input->response that is going to be send to the user" + JSON.stringify(response));
+    sendTextMessages(sender_psid, response,0);
   }
 }
 
@@ -251,11 +244,43 @@ function handlePostback(sender_psid, received_postback) {
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
   } else {
-    console.log("110) undefined Postbacks");
-    response = {
-      text: `This command is undefined`
-    };
-    sendTextMessages(sender_psid, response);
+    if (
+      payload === "PAYBILL_PAYLOAD"
+    ) {
+      console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
+      response = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: "Call Support",
+            buttons: [
+              {
+                type: "web_url",
+                title: "Visit web",
+                url:
+                  "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
+                webview_height_ratio: "full"
+              },
+              {
+                type: "phone_number",
+                title: "Call bank support",
+                payload: "+201006747065"
+              }
+            ]
+          }
+        }
+      };
+    } 
+    else{
+      console.log("110) undefined command Postbacks");
+      response = {
+        text: `This command is undefined`
+      };
+    }
+
+    
+    sendTextMessages(sender_psid, response,0);
   }
 
   async function executeActionAgainstPayload() {
