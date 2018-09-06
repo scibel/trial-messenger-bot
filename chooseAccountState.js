@@ -9,8 +9,8 @@
         var response=[];
 
         if(action==="YES_USE_MAIN_ACCOUNT"){
-            // response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
-            response[0] = {
+            response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
+            response[1] = {
             attachment: {
                 type: "template",
                 payload: {
@@ -23,8 +23,8 @@
                         payload: "FIRST_ATTEMPT"
                       },
                       {
-                        type: "Call Support",
-                        title: "No!",
+                        type: "phone_number",
+                        title: "Call Support",
                         payload: "PAYBILL_PAYLOAD"
                       }
                   ]
