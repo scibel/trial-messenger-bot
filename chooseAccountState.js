@@ -11,31 +11,26 @@
         if(action==="YES_USE_MAIN_ACCOUNT"){
             response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
             response[1] = {
-                attachment: {
-                  type: "template",
-                  payload: {
-                    template_type: "generic",
-                    elements: [
-                      {
+            attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "What do you want to do next?",
+                  buttons: [
+                    {
+                        type: "postback",
                         title: "Enter your pin",
-                        subtitle: "Tap a button to answer.",
-                        buttons: [
-                          {
-                            type: "postback",
-                            title: "Enter your pin",
-                            payload: "yes"
-                          },
-                          {
-                            type: "Call Support",
-                            title: "No!",
-                            payload: "PAYBILL_PAYLOAD"
-                          }
-                        ]
+                        payload: "yes"
+                      },
+                      {
+                        type: "Call Support",
+                        title: "No!",
+                        payload: "PAYBILL_PAYLOAD"
                       }
-                    ]
-                  }
+                  ]
                 }
-              };
+              }
+            }
             //i should execute another action that move the user to entering first attampt state
             return {"state":{"state":"yumaFirstAttempt","senderPsid":state.senderPsid},"response":response};
         } else if(action==="NO_USE_ANOTHER_ACCOUNT"){
