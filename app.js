@@ -222,7 +222,7 @@ function handleMessage(sender_psid, received_message) {
      user_state = await keyv.get(sender_psid).then(
       result => {
         return result });
-        console.log("user_state",user_state);
+        console.log("user_state",user_state.state);
 }
 test();
       
