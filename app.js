@@ -226,9 +226,10 @@ function handleMessage(sender_psid, received_message) {
 }
 test();
       
+console.log("user_state",user_state);
 
       if(
-        user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
+        user_state.state == "yumaFirstAttempt" || user_state.state == "yumaSecondAttempt" || user_state.state == "yumaThirdAttempt" && received_message.text == "123456"
       ){
         console.log("password entered")
             console.log("72) my sender_psid = " + sender_psid);
