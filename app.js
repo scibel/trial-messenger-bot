@@ -209,18 +209,19 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-      test_state = keyv.get(sender_psid);
+     let test_state = keyv.get(sender_psid);
       console.log("test_state",test_state)
 // ------------------------------
       async function initPromise() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-        user_state = await keyv.get(sender_psid).then(result => {
+        user_states = await keyv.get(sender_psid).then(result => {
           return result;
         });
         // user_state = user_state.state;
         // console.log("user_state", user_state);
         // return user_state;
       }
+console.log("user_states",user_states)
       initPromise().then(function(result) {
         console.log("initPromise",result); // "initResolve"
         return "normalReturn";
