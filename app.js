@@ -226,7 +226,7 @@ function handleMessage(sender_psid, received_message) {
 }
 test();
       
-console.log("user_state.state",user_state.state);
+console.log("user_state.state",user_state);
 
       if(
         user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
