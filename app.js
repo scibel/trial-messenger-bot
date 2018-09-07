@@ -232,11 +232,18 @@ let user_state_1 = user_state.then(
   result => {
     console.log("result",result)
     return result })
+
     user_state.then(
       result => {
         console.log("result",result)
         user_state = result
-        return result })
+
+        if(
+          user_state === "yumaFirstAttempt" 
+        ){
+          console.log("yumaFirstAttempt: ",user_state);
+        }
+        return  })
     console.log("user_state.state.user_state",user_state);
   //   user_state_1  = user_state_1.then(
   //     result => {
@@ -245,11 +252,7 @@ let user_state_1 = user_state.then(
   //       return result })
 
   // console.log("user_state.state.user_state_1",user_state_1);
-  if(
-    user_state === "yumaFirstAttempt" 
-  ){
-    console.log("yumaFirstAttempt: ",user_state);
-  }
+ 
  
 
       if(
