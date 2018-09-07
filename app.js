@@ -235,12 +235,15 @@ let user_state_1 = user_state.then(
     user_state.then(
       result => {
         console.log("result",result)
+        user_state = result
         return result })
     console.log("user_state.state.user_state",user_state);
-    user_state_1.then(
+    user_state_1  = user_state_1.then(
       result => {
         console.log("result",result)
+        user_state_1 = result
         return result })
+
   console.log("user_state.state.user_state_1",user_state_1);
 
 
