@@ -230,11 +230,17 @@ function handleMessage(sender_psid, received_message) {
 console.log("user_state.state",user_state);
 let user_state_1 = user_state.then(
   result => {
-    console.log(result)
+    console.log("result",result)
     return result })
-
+    user_state.then(
+      result => {
+        console.log("result",result)
+        return result })
     console.log("user_state.state.user_state",user_state);
-
+    user_state_1.then(
+      result => {
+        console.log("result",result)
+        return result })
   console.log("user_state.state.user_state_1",user_state_1);
 
 
