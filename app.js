@@ -235,9 +235,9 @@ let user_state_1 = user_state.then(
 
     let userToken = user_state_1;
     console.log(userToken) // Promise { <pending> }
-    
+    let variable1
     userToken.then(function(result) {
-     let variable1 = result
+      variable1 = result
     })
 
     console.log("variable1",variable1);
