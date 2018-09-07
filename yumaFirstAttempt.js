@@ -5,7 +5,7 @@
 
  var yumaFirstAttempt =  {
     executeAction:function(state){
-        console.log("chooseAccountState function:"+action);
+        console.log("chooseAccountState function:");
         var response=[];
 // there is no actions in this state
         // if(action==="YES_USE_MAIN_ACCOUNT"){
