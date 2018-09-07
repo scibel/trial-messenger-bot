@@ -215,11 +215,11 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-
+      let user_state
         async function test()  {
    
     // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-    let user_state = await keyv.get(sender_psid).then(
+     user_state = await keyv.get(sender_psid).then(
       result => {
         return result });
         console.log("user_state",user_state);
