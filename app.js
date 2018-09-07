@@ -210,7 +210,13 @@ function handleMessage(sender_psid, received_message) {
     // handle user input
     else {
      let test_state = keyv.get(sender_psid);
+     let value = test_state.then(
+      result => {
+        return result;
+      }     )
       console.log("test_state",test_state)
+      console.log("test_state",value)
+
 // ------------------------------
 let user_states
       async function initPromise() {
