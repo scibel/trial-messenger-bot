@@ -228,6 +228,10 @@ function handleMessage(sender_psid, received_message) {
  user_state = test();
       
 console.log("user_state.state",user_state);
+user_state = user_state.then(
+  result => {return result })
+  console.log("user_state.state.last",user_state);
+
 
       if(
         user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
