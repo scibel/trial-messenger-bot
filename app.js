@@ -254,8 +254,8 @@ let user_state_1 = user_state.then(
               console.log("72) my sender_psid = " + sender_psid);
               console.log("73) my result = " + JSON.stringify(result));
               console.log("73) my state = " + JSON.stringify(state));
-
-              facebookUserState = result;
+              facebookUserState = { state: state , senderPsid: sender_psid };
+              // facebookUserState = result;
               // gives undefined
               console.log(facebookUserState.state);
               var currentState = stateList[facebookUserState.state];
