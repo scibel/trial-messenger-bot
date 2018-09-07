@@ -4,7 +4,7 @@
 // var exports = module.exports = {};
 
  var yumaFirstAttempt =  {
-    executeAction:function(action,state){
+    executeAction:function(state){
         console.log("chooseAccountState function:"+action);
         var response=[];
 // there is no actions in this state

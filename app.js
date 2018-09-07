@@ -264,7 +264,7 @@ let user_state_1 = user_state.then(
               // current response returns 
               //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
               let currentStateResponse = currentState.executeAction(
-                payload,
+                // payload,
                 facebookUserState
               );
     
