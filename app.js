@@ -244,7 +244,8 @@ let user_state_1 = user_state.then(
           console.log("password entered")
               console.log("72) my sender_psid = " + sender_psid);
               console.log("73) my result = " + JSON.stringify(result));
-              facebookUserState = user_state;
+              facebookUserState = result;
+              // gives undefined
               console.log(facebookUserState.state);
               var currentState = stateList[facebookUserState.state];
               console.log(currentState);
