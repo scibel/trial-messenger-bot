@@ -1,6 +1,7 @@
 "use strict";
 
 const GET_STARTED_POSTBACK = "<postback_payload>";
+const Thank_you = "Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555, say "Hi" to re-engage with the bot";
 //  "Welcome to our bank"
 
 // Imports dependencies and set up http server
@@ -165,7 +166,7 @@ function handleMessage(sender_psid, received_message) {
        keyv.delete(sender_psid); // true
 
       response = {
-        text: `State has been cleared`
+        text: Thank_you
       };
     } else if (received_message.text == "Reset") {
       response = {
@@ -214,6 +215,51 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
+      let user_state = keyv.get(sender_psid).then(
+        result => {
+          return result });
+          console.log("user_state",user_state);
+
+      if(
+        user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
+      ){
+        console.log("password entered")
+            console.log("72) my sender_psid = " + sender_psid);
+            console.log("73) my result = " + JSON.stringify(result));
+            facebookUserState = user_state;
+            console.log(facebookUserState.state);
+            var currentState = stateList[facebookUserState.state];
+            console.log(currentState);
+  
+            // current response returns 
+            //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+            let currentStateResponse = currentState.executeAction(
+              payload,
+              facebookUserState
+            );
+  
+            console.log(
+              "74) my currentStateResponse = " + JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+            );
+  
+            // response = {text:'Welcome Mr. Tarek to ABCBank'};
+            response = currentStateResponse.response;
+           // in case YES_USE_MAIN_ACCOUNT my response should be to
+           // execute an action to move the user to the next state
+            console.log("76) my response = " + JSON.stringify(response));
+  
+            // changing the state of the user to the next state
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            sendTextMessages(sender_psid, response, 0);
+  
+            return response;
+          // Send the message to acknowledge the postback
+
+      }
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
       response = {
@@ -247,7 +293,13 @@ function handlePostback(sender_psid, received_postback) {
       console.log("102) response", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-  } else {
+  }else if(payload = "FIRST_ATTEMPT"){
+
+    facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
+
+    keyv.set(sender_psid, facebookUserState, 120000);
+  }
+  else {
     if (
       payload === "PAYBILL_PAYLOAD"
     ) {

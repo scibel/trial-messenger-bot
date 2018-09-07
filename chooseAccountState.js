@@ -9,23 +9,23 @@
         var response=[];
 
         if(action==="YES_USE_MAIN_ACCOUNT"){
-            response[0] = {text:'YES_USE_MAIN_ACCOUNT'};
-            response[1] = {
-            attachment: {
-                type: "template",
-                payload: {
-                  template_type: "button",
-                  text: "What do you want to do next?",
-                  buttons: [
-                    {
-                        type: "postback",
-                        title: "Enter your pin",
-                        payload: "FIRST_ATTEMPT"
-                      }
-                  ]
-                }
-              }
-            }
+            response[0] = {text:'Enter your pin code'};
+            // response[1] = {
+            // attachment: {
+            //     type: "template",
+            //     payload: {
+            //       template_type: "button",
+            //       text: "What do you want to do next?",
+            //       buttons: [
+            //         {
+            //             type: "postback",
+            //             title: "Enter your pin",
+            //             payload: "FIRST_ATTEMPT"
+            //           }
+            //       ]
+            //     }
+            //   }
+            // }
             //i should execute another action that move the user to entering first attampt state
             return {"state":{"state":"yumaFirstAttempt","senderPsid":state.senderPsid},"response":response};
         } else if(action==="NO_USE_ANOTHER_ACCOUNT"){
