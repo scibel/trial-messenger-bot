@@ -220,12 +220,12 @@ function handleMessage(sender_psid, received_message) {
    
     // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
      user_state = await keyv.get(sender_psid).then(
-      result => {
-        return result });
+      result => {return result });
         user_state = user_state.state
         console.log("user_state",user_state);
+        return user_state;
 }
-test();
+ user_state = test();
       
 console.log("user_state.state",user_state);
 
