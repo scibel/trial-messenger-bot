@@ -233,17 +233,28 @@ let user_state_1 = user_state.then(
     console.log("result",result)
     return result })
 
+    let userToken = user_state_1;
+    console.log(userToken) // Promise { <pending> }
+    
+    userToken.then(function(result) {
+     let variable1 = result
+    })
+
+    console.log("variable1",variable1);
+
     user_state.then(
       result => {
         console.log("result",result)
-        user_state = result
+        let state = result
 
         if(
-          user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
+          state == "yumaFirstAttempt" || state == "yumaSecondAttempt" || state == "yumaThirdAttempt" && received_message.text == "123456"
         ){
           console.log("password entered")
               console.log("72) my sender_psid = " + sender_psid);
               console.log("73) my result = " + JSON.stringify(result));
+              console.log("73) my state = " + JSON.stringify(state));
+
               facebookUserState = result;
               // gives undefined
               console.log(facebookUserState.state);
