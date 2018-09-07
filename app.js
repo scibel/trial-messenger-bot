@@ -223,7 +223,7 @@ function handleMessage(sender_psid, received_message) {
       result => {
         return result });
         user_state = user_state.state
-        console.log("user_state",user_state.state);
+        console.log("user_state",user_state);
 }
 test();
       
