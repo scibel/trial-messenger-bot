@@ -1,7 +1,7 @@
 "use strict";
 
 const GET_STARTED_POSTBACK = "<postback_payload>";
-const Thank_you = "Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555, say "Hi" to re-engage with the bot";
+const Thank_you = "Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555, say 'Hi' to re-engage with the bot";
 //  "Welcome to our bank"
 
 // Imports dependencies and set up http server
