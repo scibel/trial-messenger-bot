@@ -209,44 +209,43 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-      // test_state = keyv.get(sender_psid);
-      // console.log("test_state",test_state)
-
-      // async function initPromise() {
-      //   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-      //   user_state = await keyv.get(sender_psid).then(result => {
-      //     return result;
-      //   });
-      //   // user_state = user_state.state;
-      //   // console.log("user_state", user_state);
-      //   // return user_state;
-      // }
-// ----------------------------
-    //   initPromise().then(function(result) {
-    //     console.log("initPromise",result); // "initResolve"
-    //     return "normalReturn";
-    // })
-    // .then(function(result) {
-    //     console.log("normalReturn", result); // "normalReturn"
-    // });
+      test_state = keyv.get(sender_psid);
+      console.log("test_state",test_state)
+// ------------------------------
+      async function initPromise() {
+        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+        user_state = await keyv.get(sender_psid).then(result => {
+          return result;
+        });
+        // user_state = user_state.state;
+        // console.log("user_state", user_state);
+        // return user_state;
+      }
+      initPromise().then(function(result) {
+        console.log("initPromise",result); // "initResolve"
+        return "normalReturn";
+    })
+    .then(function(result) {
+        console.log("normalReturn", result); // "normalReturn"
+    });
 // -------------------------------
 
-// let user_state_test;
-//  function test() {
-//   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-//   user_state_test =  keyv.get(sender_psid).then(result => {
-//     return result;
-//   });
-//   // user_state = user_state.state;
-//   console.log("user_state_test", user_state_test);
-//   return user_state_test;
-// }
-// user_state_test = test();
+let user_state_test;
+ function testing() {
+  // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+  user_state_test =  keyv.get(sender_psid).then(result => {
+    return result;
+  });
+  // user_state = user_state.state;
+  console.log("user_state_test", user_state_test);
+  return user_state_test;
+}
+user_state_test = testing();
 
-// user_state_test.then(result => {
-//   console.log("user_state_test", user_state_test); // "normalReturn"
+user_state_test.then(result => {
+  console.log("user_state_test", user_state_test); // "normalReturn"
 
-// })
+})
 
 // ----------------------------------------
 
