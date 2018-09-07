@@ -246,7 +246,7 @@ let user_state_1 = user_state.then(
 
   // console.log("user_state.state.user_state_1",user_state_1);
   if(
-    user_state == "yumaFirstAttempt" 
+    user_state === "yumaFirstAttempt" 
   ){
     console.log("yumaFirstAttempt: ",user_state);
   }
