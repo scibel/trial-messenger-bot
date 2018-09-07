@@ -238,14 +238,19 @@ let user_state_1 = user_state.then(
         user_state = result
         return result })
     console.log("user_state.state.user_state",user_state);
-    user_state_1  = user_state_1.then(
-      result => {
-        console.log("result",result)
-        user_state_1 = result
-        return result })
+  //   user_state_1  = user_state_1.then(
+  //     result => {
+  //       console.log("result",result)
+  //       user_state_1 = result
+  //       return result })
 
-  console.log("user_state.state.user_state_1",user_state_1);
-
+  // console.log("user_state.state.user_state_1",user_state_1);
+  if(
+    user_state == "yumaFirstAttempt" 
+  ){
+    console.log("yumaFirstAttempt: ",user_state);
+  }
+ 
 
       if(
         user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
