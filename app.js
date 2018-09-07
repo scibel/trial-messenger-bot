@@ -239,9 +239,44 @@ let user_state_1 = user_state.then(
         user_state = result
 
         if(
-          user_state === "yumaFirstAttempt" 
+          user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
         ){
-          console.log("yumaFirstAttempt: ",user_state);
+          console.log("password entered")
+              console.log("72) my sender_psid = " + sender_psid);
+              console.log("73) my result = " + JSON.stringify(result));
+              facebookUserState = user_state;
+              console.log(facebookUserState.state);
+              var currentState = stateList[facebookUserState.state];
+              console.log(currentState);
+    
+              // current response returns 
+              //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+              let currentStateResponse = currentState.executeAction(
+                payload,
+                facebookUserState
+              );
+    
+              console.log(
+                "74) my currentStateResponse = " + JSON.stringify(currentStateResponse)
+              );
+              console.log(
+                "75) my currentStateResponse.response = " +
+                  JSON.stringify(currentStateResponse.response)
+              );
+    
+              // response = {text:'Welcome Mr. Tarek to ABCBank'};
+              response = currentStateResponse.response;
+             // in case YES_USE_MAIN_ACCOUNT my response should be to
+             // execute an action to move the user to the next state
+              console.log("76) my response = " + JSON.stringify(response));
+    
+              // changing the state of the user to the next state
+              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              sendTextMessages(sender_psid, response, 0);
+    
+              return response;
+            // Send the message to acknowledge the postback
+  
         }
         return  })
     console.log("user_state.state.user_state",user_state);
@@ -255,46 +290,7 @@ let user_state_1 = user_state.then(
  
  
 
-      if(
-        user_state == "yumaFirstAttempt" || user_state == "yumaSecondAttempt" || user_state == "yumaThirdAttempt" && received_message.text == "123456"
-      ){
-        console.log("password entered")
-            console.log("72) my sender_psid = " + sender_psid);
-            console.log("73) my result = " + JSON.stringify(result));
-            facebookUserState = user_state;
-            console.log(facebookUserState.state);
-            var currentState = stateList[facebookUserState.state];
-            console.log(currentState);
-  
-            // current response returns 
-            //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
-            let currentStateResponse = currentState.executeAction(
-              payload,
-              facebookUserState
-            );
-  
-            console.log(
-              "74) my currentStateResponse = " + JSON.stringify(currentStateResponse)
-            );
-            console.log(
-              "75) my currentStateResponse.response = " +
-                JSON.stringify(currentStateResponse.response)
-            );
-  
-            // response = {text:'Welcome Mr. Tarek to ABCBank'};
-            response = currentStateResponse.response;
-           // in case YES_USE_MAIN_ACCOUNT my response should be to
-           // execute an action to move the user to the next state
-            console.log("76) my response = " + JSON.stringify(response));
-  
-            // changing the state of the user to the next state
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
-            sendTextMessages(sender_psid, response, 0);
-  
-            return response;
-          // Send the message to acknowledge the postback
-
-      }
+     
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
       response = {
