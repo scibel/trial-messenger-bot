@@ -296,13 +296,13 @@ userToken.then(function(result) {
       }
       user_state = test();
 /////////////////////////////////
-let testing_value = user_state.then(result => {
+ user_state.then(data => vm.feed = data);
+console.log("user_state___", user_state);
+console.log("vm.feed", vm.feed);
 
-  console.log("result", result);
-  // testing_value = result;
-  return result;
-});
 
+
+////////////////////////
 testing_value.then(result => {
 
   console.log("result", result);
@@ -310,6 +310,26 @@ testing_value.then(result => {
   return result;
 });
 console.log("testing_value",testing_value)
+/////////////////////////////////////
+// async function myFunction(){
+//   vm.feed = await getFeed();
+//   // do whatever you need with vm.feed below
+// }
+// myFunction().then(data => vm.feed = data);
+
+let _data;
+let _result;
+keyv.get(sender_psid).then(data => {
+  _data = data;
+  return 
+}).then(result => {
+  _result = result;
+  return ;
+});
+console.log("_data",_data)
+console.log("_result",_result)
+
+////////////////////
 
 var greetingPromise = keyv.get(sender_psid);
 var trest = greetingPromise.then(function (greeting) {
