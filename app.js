@@ -208,14 +208,38 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-       let test_state = keyv.get(sender_psid);
+      // -----------------------------
+       let test_state =  keyv.get(sender_psid);
        let value = test_state.then(
         result => {
           value = result
           return value;
         }     )
         console.log("test_state",test_state)
-        console.log("test_state",value)
+        console.log("value",value)
+// ------------------------
+// yet another test
+let test_state1 = await keyv.get(sender_psid);
+let value1 = test_state1.then(
+ result => {
+   value1 = result
+   return value1;
+ }     )
+ console.log("test_state1",test_state1)
+ console.log("value1",value1)
+
+// ------------------------
+
+ let AuthUser = function() {
+  return  keyv.get(sender_psid);
+}
+
+let userToken = AuthUser()
+console.log(userToken) // Promise { <pending> }
+
+userToken.then(function(result) {
+   console.log(result) //will log results.
+})
 
       // ------------------------------
       // let user_states
