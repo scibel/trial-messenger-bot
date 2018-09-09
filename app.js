@@ -208,79 +208,7 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-      // -----------------------------
-      let test_state = keyv.get(sender_psid);
-      let value = test_state.then(result => {
-        value = result;
-        return value;
-      });
-      console.log("test_state", test_state);
-      console.log("value", value);
-      // ------------------------
-      // yet another test
-
-      // let test_state1 = async function doAsync() {
-      //   return  await keyv.get(sender_psid)
-      // }
-      // let value1 = test_state1.then(
-      //  result => {
-      //    value1 = result
-      //    return value1;
-      //  }     )
-      //  console.log("test_state1",test_state1)
-      //  console.log("value1",value1)
-
-      // ------------------------
-      let AuthUser = function() {
-        return keyv.get(sender_psid);
-      };
-
-      let userToken = AuthUser();
-      console.log(userToken); // Promise { <pending> }
-
-      userToken.then(function(result) {
-        console.log(result); //will log results.
-      });
-
-      // ------------------------------
-      // let user_states
-      //       async function initPromise() {
-      //         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-      //         user_states = await keyv.get(sender_psid).then(result => {
-      //           return user_states;
-      //         });
-      //         // user_state = user_state.state;
-      //         // console.log("user_state", user_state);
-      //         // return user_state;
-      //       }
-      // console.log("user_states",user_states)
-      //       initPromise().then(function(result) {
-      //         console.log("initPromise",result); // "initResolve"
-      //         return "normalReturn";
-      //     })
-      //     .then(function(result) {
-      //         console.log("normalReturn", result); // "normalReturn"
-      //     });
-      // -------------------------------
-
-      // let user_state_test;
-      //  function testing() {
-      //   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-      //   user_state_test =  keyv.get(sender_psid).then(result => {
-      //     return result;
-      //   });
-      //   // user_state = user_state.state;
-      //   console.log("user_state_test", user_state_test);
-      //   return user_state_test;
-      // }
-      // user_state_test = testing();
-
-      // user_state_test.then(result => {
-      //   console.log("user_state_test", user_state_test); // "normalReturn"
-
-      // })
-
-      // ----------------------------------------
+     
       let user_state;
       async function test() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
@@ -297,113 +225,65 @@ function handleMessage(sender_psid, received_message) {
       user_state = test();
       console.log("testttsdfsd", user_state);
 
-      /////////////////////////////////
-      let vm;
-      function test1() {
-        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-        return keyv.get(sender_psid).then(result => {
-          console.log("trippin", result);
-          return result;
-        });
-
-        // // let testing_value= user_state;
-        // vm = vm.state;
-        // console.log("vm", vm);
-        // return vm;
-      }
-      console.log("vm1", vm);
-      vm = test1();
-      console.log("vm2", vm);
-
-      console.log(
-        "vm3",
-        vm.then(result => {
-          return result;
-        })
-      );
-      // map some URLs to json-promises
-      const values = async () => {
-        const response = await keyv.get(sender_psid);
-        return response;
-      };
-      console.log(
-        "values",
-        values().then(result => {
-          return result;
-        })
-      );
-
-
-    
-      async function waitForSomething() {
-        const somevalue = await  await keyv.get(sender_psid)
-        console.log("somevalue", somevalue)
-        return Promise.resolve("somevalue")
-    }
-   
-    console.log("tresting", trest);
 
       //////////////////////////////////
 
-      user_state.then(result => {
-        console.log("result", result);
-        let state = result;
+      user_state
+        .then(result => {
+          console.log("result", result);
+          let state = result;
 
-        if (
-          state == "yumaFirstAttempt" ||
-          state == "yumaSecondAttempt" ||
-          (state == "yumaThirdAttempt" && received_message.text == "123456")
-        ) {
-          console.log("password entered");
-          console.log("72) my sender_psid = " + sender_psid);
-          console.log("73) my result = " + JSON.stringify(result));
-          console.log("73) my state = " + JSON.stringify(state));
-          facebookUserState = { state: state, senderPsid: sender_psid };
-          // facebookUserState = result;
-          // gives undefined
-          console.log(facebookUserState.state);
-          var currentState = stateList[facebookUserState.state];
-          console.log(currentState);
+          if (
+            state == "yumaFirstAttempt" ||
+            state == "yumaSecondAttempt" ||
+            (state == "yumaThirdAttempt" && received_message.text == "123456")
+          ) {
+            console.log("password entered");
+            console.log("72) my sender_psid = " + sender_psid);
+            console.log("73) my result = " + JSON.stringify(result));
+            console.log("73) my state = " + JSON.stringify(state));
+            facebookUserState = { state: state, senderPsid: sender_psid };
+            // facebookUserState = result;
+            // gives undefined
+            console.log(facebookUserState.state);
+            var currentState = stateList[facebookUserState.state];
+            console.log(currentState);
 
-          // current response returns
-          //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
-          let currentStateResponse = currentState.executeAction(
-            // payload,
-            facebookUserState
-          );
+            // current response returns
+            //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+            let currentStateResponse = currentState.executeAction(
+              // payload,
+              facebookUserState
+            );
 
-          console.log(
-            "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
-          );
-          console.log(
-            "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
-          );
+            console.log(
+              "74) my currentStateResponse = " +
+                JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+            );
 
-          // response = {text:'Welcome Mr. Tarek to ABCBank'};
-          response = currentStateResponse.response;
-          // in case YES_USE_MAIN_ACCOUNT my response should be to
-          // execute an action to move the user to the next state
-          console.log("76) my response = " + JSON.stringify(response));
+            // response = {text:'Welcome Mr. Tarek to ABCBank'};
+            response = currentStateResponse.response;
+            // in case YES_USE_MAIN_ACCOUNT my response should be to
+            // execute an action to move the user to the next state
+            console.log("76) my response = " + JSON.stringify(response));
 
-          // changing the state of the user to the next state
-          keyv.set(sender_psid, currentStateResponse.state, 120000);
-          sendTextMessages(sender_psid, response, 0);
+            // changing the state of the user to the next state
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            sendTextMessages(sender_psid, response, 0);
 
-          return response;
-          // Send the message to acknowledge the postback
-        } else {
-          response = {
-            text: `This command is undefined`
-          };
-        }
-        return;
-      });
-      // console.log("user_state.state.user_state", user_state);
-
-      // Create the payload for a basic text message, which
-      // will be added to the body of our request to the Send API
+            return response;
+            // Send the message to acknowledge the postback
+          } else {
+            response = {
+              text: `This command is undefined`
+            };
+          }
+          return;
+        })
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
