@@ -220,16 +220,16 @@ function handleMessage(sender_psid, received_message) {
 // ------------------------
 // yet another test
 
-let test_state1 = async function doAsync() {
-  return  await keyv.get(sender_psid)
-}
-let value1 = test_state1.then(
- result => {
-   value1 = result
-   return value1;
- }     )
- console.log("test_state1",test_state1)
- console.log("value1",value1)
+// let test_state1 = async function doAsync() {
+//   return  await keyv.get(sender_psid)
+// }
+// let value1 = test_state1.then(
+//  result => {
+//    value1 = result
+//    return value1;
+//  }     )
+//  console.log("test_state1",test_state1)
+//  console.log("value1",value1)
 
 // ------------------------
 
