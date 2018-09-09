@@ -282,7 +282,6 @@ userToken.then(function(result) {
       // })
 
       // ----------------------------------------
-let testing_value;
       let user_state;
       async function test() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
@@ -290,18 +289,19 @@ let testing_value;
           return result;
         });
 
-        testing_value = user_state;
+        // let testing_value= user_state;
         user_state = user_state.state;
         console.log("user_state", user_state);
         return user_state;
       }
       user_state = test();
 /////////////////////////////////
-// user_state.then(result => {
+testing_value = user_state.then(result => {
 
-//   console.log("result", result);
-//   testing_value = result;
-// });
+  console.log("result", result);
+  testing_value = result;
+  return testing_value;
+});
 console.log("testing_value",testing_value)
 
       //////////////////////////////////
