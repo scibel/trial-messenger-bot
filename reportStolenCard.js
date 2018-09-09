@@ -7,18 +7,14 @@
     executeAction:function(action,state){
 
       console.log("action" , action);
-      
+      var response=[]; 
+
 
         if(action==="YES_REPORT_STOLEN_CARD"){
-          var response=[];
-
-
-      response[0] = {text:'choice'};      // response[0] = {text:'choice'};
- 
             // 
             console.log("YES_REPORT_STOLEN_CARD");
 
-                    response = {
+                    response[0] = {
                       attachment: {
                         type: "template",
                         payload: {
@@ -45,15 +41,13 @@
                     };
                     
 
-                    return {"state":{"state":"chooseAccountState","senderPsid":state.senderPsid},"response":response};
+                    return {"state":{"state":"NotYetSupported","senderPsid":state.senderPsid},"response":response};
             // } 
             
         }else if(action === "NO_I_DO_NOT_REPORT_STOLEN_CARD"){
           console.log("NO_I_DO_NOT_REPORT_STOLEN_CARD");
-          var response=[];
 
-          response[0] = {text:'options'};
-          response[1] = {
+          response[0] = {
             attachment: {
               type: "template",
               payload: {
@@ -90,7 +84,7 @@
             }
           };
 
-            return {"state":{"state":"doYouHaveAnAccountState","senderPsid":state.senderPsid},"response":response};
+            return {"state":{"state":"NotYetSupported","senderPsid":state.senderPsid},"response":response};
         }
     }
     

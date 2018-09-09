@@ -162,7 +162,7 @@ function handleMessage(sender_psid, received_message) {
     // Handle user input
     console.log("80) corner cases input");
     if (
-      received_message.text.indexOf("Cancel") > -1 // true
+      received_message.text.indexOf("Exit") > -1 // true
     ) {
       console.log("81) Cancel corner case input");
       keyv.delete(sender_psid); // true
@@ -208,80 +208,7 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-      // -----------------------------
-       let test_state =  keyv.get(sender_psid);
-       let value = test_state.then(
-        result => {
-          value = result
-          return value;
-        }     )
-        console.log("test_state",test_state)
-        console.log("value",value)
-// ------------------------
-// yet another test
-
-// let test_state1 = async function doAsync() {
-//   return  await keyv.get(sender_psid)
-// }
-// let value1 = test_state1.then(
-//  result => {
-//    value1 = result
-//    return value1;
-//  }     )
-//  console.log("test_state1",test_state1)
-//  console.log("value1",value1)
-
-// ------------------------
- let AuthUser = function() {
-  return  keyv.get(sender_psid);
-}
-
-let userToken = AuthUser()
-console.log(userToken) // Promise { <pending> }
-
-userToken.then(function(result) {
-   console.log(result) //will log results.
-})
-
-      // ------------------------------
-      // let user_states
-      //       async function initPromise() {
-      //         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-      //         user_states = await keyv.get(sender_psid).then(result => {
-      //           return user_states;
-      //         });
-      //         // user_state = user_state.state;
-      //         // console.log("user_state", user_state);
-      //         // return user_state;
-      //       }
-      // console.log("user_states",user_states)
-      //       initPromise().then(function(result) {
-      //         console.log("initPromise",result); // "initResolve"
-      //         return "normalReturn";
-      //     })
-      //     .then(function(result) {
-      //         console.log("normalReturn", result); // "normalReturn"
-      //     });
-      // -------------------------------
-
-      // let user_state_test;
-      //  function testing() {
-      //   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-      //   user_state_test =  keyv.get(sender_psid).then(result => {
-      //     return result;
-      //   });
-      //   // user_state = user_state.state;
-      //   console.log("user_state_test", user_state_test);
-      //   return user_state_test;
-      // }
-      // user_state_test = testing();
-
-      // user_state_test.then(result => {
-      //   console.log("user_state_test", user_state_test); // "normalReturn"
-
-      // })
-
-      // ----------------------------------------
+   
       let user_state;
       async function test() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
@@ -361,15 +288,18 @@ console.log("trest",trest);    // 'hello world!!!!’
           return response;
           // Send the message to acknowledge the postback
         }
+        else{
+          // console.log("user_state.state.user_state", user_state);
+
+          // Create the payload for a basic text message, which
+          // will be added to the body of our request to the Send API
+          response = {
+            text: `This command is undefined`
+          };
+        }
         return;
       });
-      console.log("user_state.state.user_state", user_state);
-
-      // Create the payload for a basic text message, which
-      // will be added to the body of our request to the Send API
-      response = {
-        text: `This command is undefined`
-      };
+     
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
