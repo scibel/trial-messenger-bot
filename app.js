@@ -162,7 +162,7 @@ function handleMessage(sender_psid, received_message) {
     // Handle user input
     console.log("80) corner cases input");
     if (
-      received_message.text.indexOf("Exit") > -1 // true
+      received_message.text.indexOf("Logout") > -1 // true
     ) {
       console.log("81) Cancel corner case input");
       keyv.delete(sender_psid); // true
@@ -296,8 +296,11 @@ console.log("trest",trest);    // 'hello world!!!!’
           response = {
             text: `This command is undefined`
           };
+
+          callSendAPI(sender_psid, response);
+
+          return
         }
-        return;
       });
      
     }
@@ -306,8 +309,8 @@ console.log("trest",trest);    // 'hello world!!!!’
         JSON.stringify(response)
     );
     // bug the message get sent twice.
-    sendTextMessages(sender_psid, response, 0);
-    callSendAPI(sender_psid, response);
+    // sendTextMessages(sender_psid, response, 0);
+    // callSendAPI(sender_psid, response);
   }
 }
 
