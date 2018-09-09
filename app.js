@@ -290,19 +290,19 @@ let testing_value;
           return result;
         });
 
-
+        testing_value = user_state;
         user_state = user_state.state;
         console.log("user_state", user_state);
         return user_state;
       }
       user_state = test();
 /////////////////////////////////
-user_state.then(result => {
+// user_state.then(result => {
 
-  console.log("result", result);
-  testing_value = result;
-});
-console.log("statetstetaet",testing_value)
+//   console.log("result", result);
+//   testing_value = result;
+// });
+console.log("testing_value",testing_value)
 
       //////////////////////////////////
 
