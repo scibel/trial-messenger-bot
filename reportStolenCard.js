@@ -5,10 +5,11 @@
 
  var reportStolenCard =  {
     executeAction:function(action,state){
+      var response=[];
+      response[0] = {text:'choice'};
         if(action==="YES_REPORT_STOLEN_CARD"){
-            var response=[];
  
-            // response[0] = {text:'Welcome to OLE Bank'};
+            // 
             // console.log(state.senderPsid);
             // // we need to change this 
             // if(state.senderPsid === '902533626537343'){

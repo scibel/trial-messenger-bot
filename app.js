@@ -300,9 +300,9 @@ userToken.then(function(result) {
 
 /////////////////////////////////
 let vm;
-async function test1() {
+ function test1() {
   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-  return await keyv.get(sender_psid).then(result => {
+  return  keyv.get(sender_psid).then(result => {
     console.log("trippin",result)
     return  result  });
 
@@ -316,7 +316,12 @@ vm = test1();
 console.log("vm2", vm);
 
 console.log("vm3", vm.then(result => {return result}));
-
+// map some URLs to json-promises
+const values =async () => {
+  const response = await keyv.get(sender_psid);
+  return response;
+};
+console.log("values", values);
 
 ////////////////////////
 // testing_value.then(result => {
