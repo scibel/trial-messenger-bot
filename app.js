@@ -304,13 +304,13 @@ console.log("vm.feed", vm);
 
 
 ////////////////////////
-testing_value.then(result => {
+// testing_value.then(result => {
 
-  console.log("result", result);
-  // testing_value = result;
-  return result;
-});
-console.log("testing_value",testing_value)
+//   console.log("result", result);
+//   // testing_value = result;
+//   return result;
+// });
+// console.log("testing_value",testing_value)
 /////////////////////////////////////
 // async function myFunction(){
 //   vm.feed = await getFeed();
