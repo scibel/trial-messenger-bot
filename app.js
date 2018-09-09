@@ -312,12 +312,14 @@ testing_value.then(result => {
 console.log("testing_value",testing_value)
 
 var greetingPromise = keyv.get(sender_psid);
-greetingPromise.then(function (greeting) {
+var trest = greetingPromise.then(function (greeting) {
   console.log("greeting",greeting)
 
     return greeting; // addExclamation returns a promise
-})
-console.log("greetingPromise",greetingPromise)
+}).then(function (greeting) {
+    console.log("greetings",greeting);    // 'hello world!!!!’
+});
+console.log("trest",trest);    // 'hello world!!!!’
 
       //////////////////////////////////
 
