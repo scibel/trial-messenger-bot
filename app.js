@@ -345,8 +345,18 @@ console.log("vm.feed", vm);
 // We start an 'async' function to use the 'await' keyword
 async function myFunction(){
   var result = await keyv.get(sender_psid)
+  result.then(
+    result => {
+          
+        return result;
+      },
+      console.log("pending",result)
+  )
+  console.log("pending1",result)
+
   return result;
 }
+console.log("pending2",result)
 
 var _data = myFunction();
 console.log("_data",_data)
