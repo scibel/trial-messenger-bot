@@ -332,15 +332,15 @@ console.log("vm.feed", vm);
 
 ////////////////////
 
-var greetingPromise = keyv.get(sender_psid);
- greetingPromise.then(function (greeting) {
-  console.log("greeting",greeting)
+// var greetingPromise = keyv.get(sender_psid);
+//  greetingPromise.then(function (greeting) {
+//   console.log("greeting",greeting)
 
-    return greeting; // addExclamation returns a promise
-}).then(function (greeting) {
-    console.log("greetings",greeting);    // 'hello world!!!!’
-});
-console.log("trest",trest);    // 'hello world!!!!’
+//     return greeting; // addExclamation returns a promise
+// }).then(function (greeting) {
+//     console.log("greetings",greeting);    // 'hello world!!!!’
+// });
+// console.log("trest",trest);    // 'hello world!!!!’
 
 // We start an 'async' function to use the 'await' keyword
 async function myFunction(){
