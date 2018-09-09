@@ -317,11 +317,11 @@ console.log("vm2", vm);
 
 console.log("vm3", vm.then(result => {return result}));
 // map some URLs to json-promises
-const values =async () => {
+const values = async () => {
   const response = await keyv.get(sender_psid);
   return response;
 };
-console.log("values", values);
+console.log("values", values());
 
 ////////////////////////
 // testing_value.then(result => {
