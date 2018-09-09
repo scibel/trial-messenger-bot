@@ -302,6 +302,13 @@ let testing_value = user_state.then(result => {
   // testing_value = result;
   return result;
 });
+
+testing_value.then(result => {
+
+  console.log("result", result);
+  // testing_value = result;
+  return result;
+});
 console.log("testing_value",testing_value)
 
       //////////////////////////////////
