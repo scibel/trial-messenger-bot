@@ -321,7 +321,7 @@ const values = async () => {
   const response = await keyv.get(sender_psid);
   return response;
 };
-console.log("values", values());
+console.log("values", values().then((result) => {return result}));
 
 ////////////////////////
 // testing_value.then(result => {

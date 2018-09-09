@@ -7,15 +7,15 @@
     executeAction:function(action,state){
       console.log("action" , action);
 
-      var response=[];
-      response[0] = {text:'choice'};
+      // var response=[];
+      // response[0] = {text:'choice'};
 
         if(action==="YES_REPORT_STOLEN_CARD"){
  
             // 
             console.log("YES_REPORT_STOLEN_CARD");
 
-                    response[1] = {
+                    response = {
                       attachment: {
                         type: "template",
                         payload: {
@@ -48,7 +48,7 @@
         }else if(action === "NO_I_DO_NOT_REPORT_STOLEN_CARD"){
           console.log("NO_I_DO_NOT_REPORT_STOLEN_CARD");
 
-          response[1] = {
+          response = {
             attachment: {
               type: "template",
               payload: {
