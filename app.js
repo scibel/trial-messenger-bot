@@ -209,38 +209,39 @@ function handleMessage(sender_psid, received_message) {
     // handle user input
     else {
       // -----------------------------
-      let test_state = keyv.get(sender_psid);
-      let value = test_state.then(result => {
-        value = result;
-        return value;
-      });
-      console.log("test_state", test_state);
-      console.log("value", value);
-      // ------------------------
-      // yet another test
+       let test_state =  keyv.get(sender_psid);
+       let value = test_state.then(
+        result => {
+          value = result
+          return value;
+        }     )
+        console.log("test_state",test_state)
+        console.log("value",value)
+// ------------------------
+// yet another test
 
-      // let test_state1 = async function doAsync() {
-      //   return  await keyv.get(sender_psid)
-      // }
-      // let value1 = test_state1.then(
-      //  result => {
-      //    value1 = result
-      //    return value1;
-      //  }     )
-      //  console.log("test_state1",test_state1)
-      //  console.log("value1",value1)
+// let test_state1 = async function doAsync() {
+//   return  await keyv.get(sender_psid)
+// }
+// let value1 = test_state1.then(
+//  result => {
+//    value1 = result
+//    return value1;
+//  }     )
+//  console.log("test_state1",test_state1)
+//  console.log("value1",value1)
 
-      // ------------------------
-      let AuthUser = function() {
-        return keyv.get(sender_psid);
-      };
+// ------------------------
+ let AuthUser = function() {
+  return  keyv.get(sender_psid);
+}
 
-      let userToken = AuthUser();
-      console.log(userToken); // Promise { <pending> }
+let userToken = AuthUser()
+console.log(userToken) // Promise { <pending> }
 
-      userToken.then(function(result) {
-        console.log(result); //will log results.
-      });
+userToken.then(function(result) {
+   console.log(result) //will log results.
+})
 
       // ------------------------------
       // let user_states
@@ -293,60 +294,56 @@ function handleMessage(sender_psid, received_message) {
         console.log("user_state", user_state);
         return user_state;
       }
-      console.log("testttttttt", user_state);
       user_state = test();
-      console.log("testttsdfsd", user_state);
-
-      /////////////////////////////////
-      let vm;
-      function test1() {
-        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-        return keyv.get(sender_psid).then(result => {
-          console.log("trippin", result);
-          return result;
-        });
-
-        // // let testing_value= user_state;
-        // vm = vm.state;
-        // console.log("vm", vm);
-        // return vm;
-      }
-      console.log("vm1", vm);
-      vm = test1();
-      console.log("vm2", vm);
-
-      console.log(
-        "vm3",
-        vm.then(result => {
-          return result;
-        })
-      );
-      // map some URLs to json-promises
-      const values = async () => {
-        const response = await keyv.get(sender_psid);
-        return response;
-      };
-      console.log(
-        "values",
-        values().then(result => {
-          return result;
-        })
-      );
+/////////////////////////////////
+ user_state.then(data => vm.feed = data);
+console.log("user_state___", user_state);
+console.log("vm.feed", vm.feed);
 
 
-    
-      async function waitForSomething() {
-        const somevalue = await  await keyv.get(sender_psid)
-        console.log("somevalue",somevalue)
-    
-        return Promise.resolve(somevalue)
-    }
-   
-    console.log("tresting", trest);
+
+////////////////////////
+testing_value.then(result => {
+
+  console.log("result", result);
+  // testing_value = result;
+  return result;
+});
+console.log("testing_value",testing_value)
+/////////////////////////////////////
+// async function myFunction(){
+//   vm.feed = await getFeed();
+//   // do whatever you need with vm.feed below
+// }
+// myFunction().then(data => vm.feed = data);
+
+let _data;
+let _result;
+keyv.get(sender_psid).then(data => {
+  _data = data;
+  return doStuff(data);
+}).then(result => {
+  _result = result;
+  return doOtherStuff(_data, result);
+}).then(outcome => {
+  showOutcome(outcome, _result, _data);
+});
+////////////////////
+
+var greetingPromise = keyv.get(sender_psid);
+var trest = greetingPromise.then(function (greeting) {
+  console.log("greeting",greeting)
+
+    return greeting; // addExclamation returns a promise
+}).then(function (greeting) {
+    console.log("greetings",greeting);    // 'hello world!!!!’
+});
+console.log("trest",trest);    // 'hello world!!!!’
 
       //////////////////////////////////
 
       user_state.then(result => {
+
         console.log("result", result);
         let state = result;
 
@@ -394,17 +391,16 @@ function handleMessage(sender_psid, received_message) {
 
           return response;
           // Send the message to acknowledge the postback
-        } else {
-          response = {
-            text: `This command is undefined`
-          };
         }
         return;
       });
-      // console.log("user_state.state.user_state", user_state);
+      console.log("user_state.state.user_state", user_state);
 
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
+      response = {
+        text: `This command is undefined`
+      };
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
