@@ -318,22 +318,22 @@ console.log("vm.feed", vm);
 // }
 // myFunction().then(data => vm.feed = data);
 
-let _data;
-let _result;
-keyv.get(sender_psid).then(data => {
-  _data = data;
-  return 
-}).then(result => {
-  _result = result;
-  return ;
-});
-console.log("_data",_data)
-console.log("_result",_result)
+// let _data;
+// let _result;
+// keyv.get(sender_psid).then(data => {
+//   _data = data;
+//   return 
+// }).then(result => {
+//   _result = result;
+//   return ;
+// });
+// console.log("_data",_data)
+// console.log("_result",_result)
 
 ////////////////////
 
 var greetingPromise = keyv.get(sender_psid);
-var trest = greetingPromise.then(function (greeting) {
+ greetingPromise.then(function (greeting) {
   console.log("greeting",greeting)
 
     return greeting; // addExclamation returns a promise
@@ -341,6 +341,15 @@ var trest = greetingPromise.then(function (greeting) {
     console.log("greetings",greeting);    // 'hello world!!!!’
 });
 console.log("trest",trest);    // 'hello world!!!!’
+
+// We start an 'async' function to use the 'await' keyword
+async function myFunction(){
+  var result = await keyv.get(sender_psid)
+  return result;
+}
+
+var _data = myFunction();
+console.log("_data",_data)
 
       //////////////////////////////////
 
