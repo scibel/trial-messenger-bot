@@ -333,79 +333,14 @@ function handleMessage(sender_psid, received_message) {
         })
       );
 
-      ////////////////////////
-      // testing_value.then(result => {
 
-      //   console.log("result", result);
-      //   // testing_value = result;
-      //   return result;
-      // });
-      // console.log("testing_value",testing_value)
-      /////////////////////////////////////
-      // async function myFunction(){
-      //   vm.feed = await getFeed();
-      //   // do whatever you need with vm.feed below
-      // }
-      // myFunction().then(data => vm.feed = data);
-
-      // let _data;
-      // let _result;
-      // keyv.get(sender_psid).then(data => {
-      //   _data = data;
-      //   return
-      // }).then(result => {
-      //   _result = result;
-      //   return ;
-      // });
-      // console.log("_data",_data)
-      // console.log("_result",_result)
-
-      ////////////////////
-
-      // var greetingPromise = keyv.get(sender_psid);
-      //  greetingPromise.then(function (greeting) {
-      //   console.log("greeting",greeting)
-
-      //     return greeting; // addExclamation returns a promise
-      // }).then(function (greeting) {
-      //     console.log("greetings",greeting);    // 'hello world!!!!’
-      // });
-      // console.log("trest",trest);    // 'hello world!!!!’
-
-      // We start an 'async' function to use the 'await' keyword
-      async function myFunction() {
-        result = await keyv.get(sender_psid);
-        result.then(result => {
-          return result;
-        }, console.log("pending", result));
-        console.log("pending1", result);
-
-        return result;
-      }
-      // console.log("pending2",myFunction())
-
-      var _data = myFunction();
-      console.log("_data", _data);
-      ////////////////////////////
-      // var trest;
-      // async function run() {
-      //   var fromAsyncFunctions = await keyv.get(sender_psid);
-      //   return fromAsyncFunctions;
-      // }
-      // run()
-      //   .then(success => {
-      //     console.log(success);
-      //     trest = success;
-      //   })
-      //   .catch(err => console.log(err.message, err.stack));
-
+    
       async function waitForSomething() {
         const somevalue = await  await keyv.get(sender_psid)
-        // console.log(somevalue)
-    
-        return Promise.resolve(somevalue)
+        console.log("somevalue", somevalue)
+        return Promise.resolve("somevalue")
     }
-    const trest = waitForSomething()
+   
     console.log("tresting", trest);
 
       //////////////////////////////////

@@ -7,8 +7,9 @@
     executeAction:function(action,state){
       console.log("action" , action);
 
-      var response;
-      // response[0] = {text:'choice'};
+      var response=[];
+
+      response[0] = {text:'choice'};      // response[0] = {text:'choice'};
 
         if(action==="YES_REPORT_STOLEN_CARD"){
  
@@ -47,9 +48,10 @@
             
         }else if(action === "NO_I_DO_NOT_REPORT_STOLEN_CARD"){
           console.log("NO_I_DO_NOT_REPORT_STOLEN_CARD");
-          var response;
+          var response=[];
 
-          response = {
+          response[0] = {text:'options'};
+          response[1] = {
             attachment: {
               type: "template",
               payload: {
