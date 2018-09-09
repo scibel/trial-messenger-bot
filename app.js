@@ -300,11 +300,22 @@ userToken.then(function(result) {
 
 /////////////////////////////////
 let vm;
- user_state.then(data => vm = data);
-console.log("user_state___", user_state);
-console.log("vm.feed", vm);
+async function test1() {
+  // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+  vm = await keyv.get(sender_psid).then(result => {
+    return  result.then(function(result) {
+      returnresult;    
+  });;
+  });
 
-
+  // // let testing_value= user_state;
+  // vm = vm.state;
+  // console.log("vm", vm);
+  // return vm;
+}
+console.log("vm1", vm);
+user_state = test1();
+console.log("vm2", vm);
 
 ////////////////////////
 // testing_value.then(result => {
