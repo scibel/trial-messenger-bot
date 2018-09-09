@@ -232,7 +232,6 @@ function handleMessage(sender_psid, received_message) {
 //  console.log("value1",value1)
 
 // ------------------------
-
  let AuthUser = function() {
   return  keyv.get(sender_psid);
 }
@@ -283,7 +282,7 @@ userToken.then(function(result) {
       // })
 
       // ----------------------------------------
-
+let testing_value;
       let user_state;
       async function test() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
@@ -297,8 +296,18 @@ userToken.then(function(result) {
         return user_state;
       }
       user_state = test();
+/////////////////////////////////
+user_state.then(result => {
+
+  console.log("result", result);
+  testing_value = result;
+});
+console.log("statetstetaet",testing_value)
+
+      //////////////////////////////////
 
       user_state.then(result => {
+
         console.log("result", result);
         let state = result;
 
