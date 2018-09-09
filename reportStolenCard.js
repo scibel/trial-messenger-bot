@@ -69,11 +69,6 @@
                       },
                       {
                         type: "postback",
-                        title: "E-Payment",
-                        payload: "E-Payment"
-                      },
-                      {
-                        type: "postback",
                         title: "Cancel",
                         payload: "Cancel"
                       }
