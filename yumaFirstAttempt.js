@@ -16,18 +16,18 @@
                   {
                     content_type:"text",
                     title:"Yes",
-                    payload:"YES_I_HAVE_AN_ACCOUNT"
+                    payload:"YES_REPORT_STOLEN_CARD"
                   },
                   {
                     content_type:"text",
                     title:"No",
-                    payload:"NO_I_DO_NOT_HAVE_AN_ACCOUNT"                         
+                    payload:"NO_I_DO_NOT_REPORT_STOLEN_CARD"                         
                   }
                 ]
             }
             //i should execute another action that move the user to entering first attampt state
             // next state Submit ticket with issue will contain buttons that has the credit numbers of the user and a postback called STOLEN_CREDIT_CARD_TO_BE_REPORTED
-            return {"state":{"state":"Submit_ticket_with_issue","senderPsid":state.senderPsid},"response":response};
+            return {"state":{"state":"reportStolenCard","senderPsid":state.senderPsid},"response":response};
          
     }
 };

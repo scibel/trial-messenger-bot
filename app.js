@@ -203,59 +203,59 @@ function handleMessage(sender_psid, received_message) {
       keyv.set(sender_psid, currentStateResponse.state, 120000);
       sendTextMessages(sender_psid, response, 0);
       return;
-
     } else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
     }
     // handle user input
     else {
-     let test_state = keyv.get(sender_psid);
-     let value = test_state.then(
-      result => {
-        return result;
-      }     )
-      console.log("test_state",test_state)
-      console.log("test_state",value)
+       let test_state = keyv.get(sender_psid);
+       let value = test_state.then(
+        result => {
+          value = result
+          return value;
+        }     )
+        console.log("test_state",test_state)
+        console.log("test_state",value)
 
-// ------------------------------
-let user_states
-      async function initPromise() {
-        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-        user_states = await keyv.get(sender_psid).then(result => {
-          return user_states;
-        });
-        // user_state = user_state.state;
-        // console.log("user_state", user_state);
-        // return user_state;
-      }
-console.log("user_states",user_states)
-      initPromise().then(function(result) {
-        console.log("initPromise",result); // "initResolve"
-        return "normalReturn";
-    })
-    .then(function(result) {
-        console.log("normalReturn", result); // "normalReturn"
-    });
-// -------------------------------
+      // ------------------------------
+      // let user_states
+      //       async function initPromise() {
+      //         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+      //         user_states = await keyv.get(sender_psid).then(result => {
+      //           return user_states;
+      //         });
+      //         // user_state = user_state.state;
+      //         // console.log("user_state", user_state);
+      //         // return user_state;
+      //       }
+      // console.log("user_states",user_states)
+      //       initPromise().then(function(result) {
+      //         console.log("initPromise",result); // "initResolve"
+      //         return "normalReturn";
+      //     })
+      //     .then(function(result) {
+      //         console.log("normalReturn", result); // "normalReturn"
+      //     });
+      // -------------------------------
 
-let user_state_test;
- function testing() {
-  // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-  user_state_test =  keyv.get(sender_psid).then(result => {
-    return result;
-  });
-  // user_state = user_state.state;
-  console.log("user_state_test", user_state_test);
-  return user_state_test;
-}
-user_state_test = testing();
+      // let user_state_test;
+      //  function testing() {
+      //   // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+      //   user_state_test =  keyv.get(sender_psid).then(result => {
+      //     return result;
+      //   });
+      //   // user_state = user_state.state;
+      //   console.log("user_state_test", user_state_test);
+      //   return user_state_test;
+      // }
+      // user_state_test = testing();
 
-user_state_test.then(result => {
-  console.log("user_state_test", user_state_test); // "normalReturn"
+      // user_state_test.then(result => {
+      //   console.log("user_state_test", user_state_test); // "normalReturn"
 
-})
+      // })
 
-// ----------------------------------------
+      // ----------------------------------------
 
       let user_state;
       async function test() {
@@ -263,6 +263,8 @@ user_state_test.then(result => {
         user_state = await keyv.get(sender_psid).then(result => {
           return result;
         });
+
+
         user_state = user_state.state;
         console.log("user_state", user_state);
         return user_state;
@@ -321,13 +323,6 @@ user_state_test.then(result => {
         return;
       });
       console.log("user_state.state.user_state", user_state);
-      //   user_state_1  = user_state_1.then(
-      //     result => {
-      //       console.log("result",result)
-      //       user_state_1 = result
-      //       return result })
-
-      // console.log("user_state.state.user_state_1",user_state_1);
 
       // Create the payload for a basic text message, which
       // will be added to the body of our request to the Send API
