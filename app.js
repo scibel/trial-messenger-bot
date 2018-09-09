@@ -295,39 +295,8 @@ userToken.then(function(result) {
         return user_state;
       }
       user_state = test();
-/////////////////////////////////
- user_state.then(data => vm.feed = data);
-console.log("user_state___", user_state);
-console.log("vm.feed", vm.feed);
 
 
-
-////////////////////////
-testing_value.then(result => {
-
-  console.log("result", result);
-  // testing_value = result;
-  return result;
-});
-console.log("testing_value",testing_value)
-/////////////////////////////////////
-// async function myFunction(){
-//   vm.feed = await getFeed();
-//   // do whatever you need with vm.feed below
-// }
-// myFunction().then(data => vm.feed = data);
-
-let _data;
-let _result;
-keyv.get(sender_psid).then(data => {
-  _data = data;
-  return doStuff(data);
-}).then(result => {
-  _result = result;
-  return doOtherStuff(_data, result);
-}).then(outcome => {
-  showOutcome(outcome, _result, _data);
-});
 ////////////////////
 
 var greetingPromise = keyv.get(sender_psid);
