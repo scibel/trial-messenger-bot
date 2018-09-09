@@ -296,11 +296,11 @@ userToken.then(function(result) {
       }
       user_state = test();
 /////////////////////////////////
-testing_value = user_state.then(result => {
+let testing_value = user_state.then(result => {
 
   console.log("result", result);
-  testing_value = result;
-  return testing_value;
+  // testing_value = result;
+  return result;
 });
 console.log("testing_value",testing_value)
 
