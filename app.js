@@ -294,7 +294,10 @@ userToken.then(function(result) {
         console.log("user_state", user_state);
         return user_state;
       }
+      console.log("testttttttt", user_state);
       user_state = test();
+      console.log("testttsdfsd", user_state);
+
 /////////////////////////////////
 let vm;
  user_state.then(data => vm = data);
