@@ -311,6 +311,15 @@ testing_value.then(result => {
 });
 console.log("testing_value",testing_value)
 
+var greetingPromise = keyv.get(sender_psid);
+greetingPromise.then(function (greeting) {
+  console.log("greeting",greeting)
+
+    return greeting; // addExclamation returns a promise
+}).then(function (greeting) {
+    console.log("greetings",greeting);    // 'hello world!!!!’
+});
+
       //////////////////////////////////
 
       user_state.then(result => {
