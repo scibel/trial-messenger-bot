@@ -219,7 +219,10 @@ function handleMessage(sender_psid, received_message) {
         console.log("value",value)
 // ------------------------
 // yet another test
-let test_state1 = await keyv.get(sender_psid);
+
+let test_state1 = async function doAsync() {
+  return  await keyv.get(sender_psid)
+}
 let value1 = test_state1.then(
  result => {
    value1 = result
