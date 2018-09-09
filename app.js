@@ -360,7 +360,19 @@ async function myFunction(){
 
 var _data = myFunction();
 console.log("_data",_data)
-
+////////////////////////////
+var trest;
+async function run() {
+  var fromAsyncFunctions = await keyv.get(sender_psid)
+  return fromAsyncFunctions;
+}
+run()
+  .then(success => {
+    console.log(success)
+    trest = success;
+  })
+  .catch(err => console.log(err.message, err.stack));
+// wi
       //////////////////////////////////
 
       user_state.then(result => {
