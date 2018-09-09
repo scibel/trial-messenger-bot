@@ -372,6 +372,7 @@ run()
     trest = success;
   })
   .catch(err => console.log(err.message, err.stack));
+  console.log("trest",trest); 
 // wi
       //////////////////////////////////
 
