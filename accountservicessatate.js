@@ -27,13 +27,13 @@ var accountServicesState = {
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_TRANSACTIONS") {
-            // application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            // 
             response[0] = {
                 attachment: {
                     type: "file",
-                    payload: { is_reusable: false }
+                    payload: {}
                 },
-                filedata: "./attachments/Bank-statement.docx"
+                filedata: "@./attachments/statement.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             };
             response[1] = {
                 text: 'Would you like another service?',
