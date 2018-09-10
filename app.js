@@ -344,8 +344,11 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
   let response;
   var facebookUserState = {};
+  console.log("102) handlePostback");
 
   if (payload === GET_STARTED_POSTBACK) {
+    console.log("handleGET_STARTED_POSTBACK");
+
     facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
     keyv.set(sender_psid, facebookUserState, 120000);
@@ -357,11 +360,15 @@ function handlePostback(sender_psid, received_postback) {
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
   } else if ((payload = "FIRST_ATTEMPT")) {
+    console.log("handleFIRST_ATTEMPT");
+
     facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
 
     keyv.set(sender_psid, facebookUserState, 120000);
   } 
   else if (payload === "PAYBILL_PAYLOAD") {
+    console.log("PAYBILL_PAYLOAD");
+
     console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
     response = {
       attachment: {
