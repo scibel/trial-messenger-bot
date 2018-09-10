@@ -365,6 +365,8 @@ function handlePostback(sender_psid, received_postback) {
       console.log("102) response", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
+    sendTextMessages(sender_psid, response, 0);
+
   } 
   // else if ((payload = "FIRST_ATTEMPT")) {
   //   console.log("handleFIRST_ATTEMPT");
@@ -400,6 +402,8 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     };
+    callSendAPI(sender_psid, response);
+
   }
   else {
     console.log("else");
@@ -429,15 +433,17 @@ function handlePostback(sender_psid, received_postback) {
           }
         }
       };
+      callSendAPI(sender_psid, response);
+
     } else {
       console.log("110) undefined command Postbacks");
       response = {
         text: `This command is undefined`
       };
+      callSendAPI(sender_psid, response);
+
     }
 
-    sendTextMessages(sender_psid, response, 0);
-    callSendAPI(sender_psid, response);
   }
 
   async function executeActionAgainstPayload() {
