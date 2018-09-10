@@ -506,52 +506,28 @@ function callSendAPI(sender_psid, response) {
     }
   );
 }
-
-// var a = ["1", "2", "3"] //my result is a array
-function sendTextMessages(sender, text, i) {
-  var requestObject = {
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-    method: "POST"
+function callSendAPI(sender_psid, response) {
+  // Construct the message body
+  let request_body = {
+    recipient: {
+      id: sender_psid
+    },
+    message: response
   };
-
-  if (i < text.length) {
-    if (text[i].filedata) {
-      requestObject.formData = {};
-      requestObject.formData.recipient = {
-        id: sender
-      };
-      requestObject.formData.message = text[i].attachment;
-      requestObject.formData.filedata = text[i].filedata;
-      delete text[i].filedata;
-
-      console.log(">>>>>>> SENT FILE >>>>>>", requestObject);
-
-    } else {
-      let request_body = {
-        recipient: {
-          id: sender
-        },
-        message: text[i]
-      };
-      requestObject.json = request_body;
-    }
-
-
-    request(requestObject,
-      (error, response, body) => {
-        if (error) {
-          console.log("Error sending messages: ", error);
-        } else if (response.body.error) {
-          console.log("Error: ", response.body.error);
-        }
-        console.log(">>>>>>RESPONSE >>>>>>>>: ", response.body.error);
-        sendTextMessages(sender, text, i + 1);
+  // Send the HTTP request to the Messenger Platform
+  request(
+    {
+      uri: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
       }
-    );
-  } else return;
-}
-
-function uploadAttachment() {
-
+    }
+  );
 }
