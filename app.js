@@ -1,85 +1,56 @@
-/*
- * Starter Project for Messenger Platform Quick Start Tutorial
- *
- * Remix this as the starting point for following the Messenger Platform
- * quick start tutorial.
- *
- * https://developers.facebook.com/docs/messenger-platform/getting-started/quick-start/
- *
- */
-
 "use strict";
+
+const GET_STARTED_POSTBACK = "<postback_payload>";
+const Thank_you =
+  "Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555, say 'Hi' to re-engage with the bot";
+//  "Welcome to our bank"
 
 // Imports dependencies and set up http server
 const request = require("request"),
   express = require("express"),
   body_parser = require("body-parser"),
   app = express().use(body_parser.json()); // creates express http server
-
+const stateList = require("./stateMachineInitializer");
 const Keyv = require("keyv");
 
-// One of the following
 const keyv = new Keyv();
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log("webhook is listening", port);
+});
 
-// Handle DB connection errors
-
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => {
-  console.log("webhook is listening");
+// route to check from a website whether the application is deployed
+app.get("/", (req, res) => {
+  res.status(200).send("Deployed");
 });
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
- 
+  console.log(
+    "1) started receiveing a message grom facebook page it will be either user input or a postback if it is a user input or a quick reply it will be sent to handle_message function if it is a postback it will be sent to handle_postback function"
+  );
+
   let body = req.body;
-  // keyv.on("error", err => console.log("Connection Error", err));
-
-//   (async () => {
-//     await keyv.set('foo', 'expires in 1 second', 1000); // true
-//     await keyv.set('foo', 'never expires'); // true
-//     await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-//     await keyv.delete('foo'); // true
-//     await keyv.clear(); // undefined})();
-// })()
-
 
   // Check the webhook event is from a Page subscription
   if (body.object === "page") {
-    console.log("body", JSON.stringify(body));
-    //     if(!body.entry.messaging){
-    //         console.log('persistent menu');
+    console.log("2) body received /n \n", JSON.stringify(body));
 
-    // return
-    //     }
-
-    //   else{
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
-      // Get the webhook event. entry.messaging is an array, but
-      // will only ever contain one event, so we get index 0
-
-      console.log("here");
+      // console.log("here");
       let webhook_event = entry.messaging[0];
-
-      // console.log(webhook_event);
-      // console.log('webhook_event' + webhook_event);
-
-      // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
-      console.log("Sender PSID: " + sender_psid);
+      console.log("3) Sender PSID: " + sender_psid);
 
-      // Check if the event is a message or postback and
-      // pass the event to the appropriate handler function
       if (webhook_event.message) {
-        console.log("calling handleMessage");
-
+        console.log("50) calling handleMessage");
         handleMessage(sender_psid, webhook_event.message);
       } else if (webhook_event.postback) {
-        console.log("calling handlePostback");
+        console.log("`100) calling handlePostback");
         handlePostback(sender_psid, webhook_event.postback);
       }
     });
-    // }
     // Return a '200 OK' response to all events
     res.status(200).send("EVENT_RECEIVED");
   } else {
@@ -112,68 +83,72 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-// Handles messages events
+// Handles user input and quick replies messages events
 function handleMessage(sender_psid, received_message) {
-  console.log("handleMessage");
-
-  //  let response;
-
-  //   // Check if the message contains text
-  //   if (received_message.text) {
-
-  //     // Create the payload for a basic text message
-  //     response = {
-  //       "text": `You sent the message: "${received_message.text}". Now send me an image!`
-  //     }
-  //   }
-
-  //   // Sends the response message
-  //   callSendAPI(sender_psid, response);
+  console.log("51) handleMessage");
 
   let response;
-  console.log("received_message" + JSON.stringify(received_message) + "\n");
+  console.log(
+    "52) will be handling the following Message \n" +
+      JSON.stringify(received_message) +
+      "\n"
+  );
 
-  // Checks if the message contains text
-  if (received_message.text == "Hello") {
-    // Create the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response = {
-      text: `You sent the message: "${
-        received_message.text
-      }". Now send me an attachment!`
-    };
-  } else if (received_message.attachments) {
+  // Handle quick_replies postbacks Yes or No
+
+  if (
+    received_message.quick_reply !== "undefined" &&
+    received_message.quick_reply
+  ) {
     console.log(
-      "attachments" + JSON.stringify(received_message.attachments) + "\n"
+      "70) received_message.quick_reply.payload",
+      received_message.quick_reply.payload
     );
 
-    // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    console.log("attachment_url" + attachment_url);
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Is this the right picture?",
-              subtitle: "Tap a button to answer.",
-              image_url: attachment_url,
-              buttons: [
-                {
-                  type: "postback",
-                  title: "Yes!",
-                  payload: "yes"
-                },
-                {
-                  type: "postback",
-                  title: "No!",
-                  payload: "no"
-                }
-              ]
-            }
-          ]
+    // payload will contain state of the sent quickreply which is coming from a previous state
+    let payload = received_message.quick_reply.payload;
+
+    console.log("71) received_message.quick_reply.payload", payload);
+
+    var facebookUserState = {};
+
+    async function executeActionAgainstPayload() {
+      keyv.get(sender_psid).then(
+        result => {
+          console.log("72) my sender_psid = " + sender_psid);
+          console.log("73) my result = " + JSON.stringify(result));
+          facebookUserState = result;
+          console.log(facebookUserState.state);
+          var currentState = stateList[facebookUserState.state];
+          console.log(currentState);
+
+          // current response returns
+          //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+          let currentStateResponse = currentState.executeAction(
+            payload,
+            facebookUserState
+          );
+
+          console.log(
+            "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+          );
+          console.log(
+            "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+          );
+
+          // response = {text:'Welcome Mr. Tarek to ABCBank'};
+          response = currentStateResponse.response;
+          // in case YES_USE_MAIN_ACCOUNT my response should be to
+          // execute an action to move the user to the next state
+          console.log("76) my response = " + JSON.stringify(response));
+
+          // changing the state of the user to the next state
+          keyv.set(sender_psid, currentStateResponse.state, 120000);
+          sendTextMessages(sender_psid, response, 0);
+
+          return response;
         }
         // Send the message to acknowledge the postback
       );
@@ -366,15 +341,13 @@ function handleMessage(sender_psid, received_message) {
     // sendTextMessages(sender_psid, response, 0);
     // callSendAPI(sender_psid, response);
   }
-
-  // Send the response message
-  callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
-  console.log("handlePostback");
+  console.log("101) handlePostback");
 
+  let payload = received_postback.payload;
   let response;
   var facebookUserState = {};
   console.log("102) handlePostback");
@@ -473,10 +446,43 @@ function handlePostback(sender_psid, received_postback) {
 
   }
 
-  // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  async function executeActionAgainstPayload() {
+    await keyv.get(sender_psid).then(
+      result => {
+        console.log("my sender_psid = " + sender_psid);
+        console.log("my result = " + JSON.stringify(result));
+        facebookUserState = result;
+        console.log(facebookUserState.state);
+        var currentState = stateList[facebookUserState.state];
+        console.log(currentState);
+        let currentStateResponse = currentState.executeAction(
+          payload,
+          facebookUserState
+        );
+
+        console.log(
+          "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+        );
+        console.log(
+          "my currentStateResponse.response = " +
+            JSON.stringify(currentStateResponse.response)
+        );
+
+        // response = {text:'Welcome Mr. Tarek to ABCBank'};
+        response = currentStateResponse.response;
+        console.log("my response = " + JSON.stringify(response));
+
+        keyv.set(sender_psid, currentStateResponse.state, 120000);
+        sendTextMessages(sender_psid, response, 0);
+
+        return response;
+      }
+      // Send the message to acknowledge the postback
+    );
+  }
 }
 
+// Not used now
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
@@ -502,4 +508,32 @@ function callSendAPI(sender_psid, response) {
       }
     }
   );
+}
+
+// var a = ["1", "2", "3"] //my result is a array
+function sendTextMessages(sender, text, i) {
+  if (i < text.length) {
+    let request_body = {
+      recipient: {
+        id: sender
+      },
+      message: text[i]
+    };
+    request(
+      {
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body
+      },
+      function(error, response, body) {
+        if (error) {
+          console.log("Error sending messages: ", error);
+        } else if (response.body.error) {
+          console.log("Error: ", response.body.error);
+        }
+        sendTextMessages(sender, text, i + 1);
+      }
+    );
+  } else return;
 }
