@@ -1,5 +1,5 @@
 "use strict";
-var TicketWithIssue = {
+var ticketSubmissionState = {
     executeAction: function (action, state) {
         var response = [];
         if (action === "NO_DO_NOT_SUBMIT_STOLEN_CARD") {
@@ -32,9 +32,9 @@ var TicketWithIssue = {
                     }
                 ]
             }
-            return { "state": { "state": "USER_INPUT_CORRECT_STATE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "ACCOUNT_SERVICE_STATE", "senderPsid": state.senderPsid }, "response": response };
         }
     }
 };
 
-module.exports = TicketWithIssue;
+module.exports = ticketSubmissionState;

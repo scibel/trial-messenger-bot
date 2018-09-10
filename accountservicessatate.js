@@ -1,5 +1,5 @@
 "use strict";
-var UserInputCorrectState = {
+var accountServicesState = {
     executeAction: function (action, state) {
         var response = [];
         if (action === "CANCEL") {
@@ -8,7 +8,7 @@ var UserInputCorrectState = {
             return { "state": { "state": "thankYouState", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_BALANCE") {
-            response[0] = { text: 'Main account balance is XXXLE' };
+            response[0] = { text: 'Main account balance is 15000 LE' };
             response[1] = {
                 text: 'Would you like another service?',
                 quick_replies: [
@@ -27,9 +27,16 @@ var UserInputCorrectState = {
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_TRANSACTIONS") {
-            response[0] = { text: 'Retrieve last 10 transactions from DB' };
-            response[1] = { text: 'Export transactions into PDF Format' };
-            response[2] = {
+            response[0] = {
+                attachment: {
+                    type: "file",
+                    payload: {
+                        url: "./attachment/Bank-statement.docx",
+                        is_reusable: false
+                    }
+                }
+            };
+            response[1] = {
                 text: 'Would you like another service?',
                 quick_replies: [
                     {
@@ -99,4 +106,4 @@ var UserInputCorrectState = {
     }
 };
 
-module.exports = UserInputCorrectState;
+module.exports = accountServicesState;
