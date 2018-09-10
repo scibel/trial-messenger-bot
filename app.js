@@ -170,10 +170,14 @@ function handleMessage(sender_psid, received_message) {
       response = {
         text: Thank_you
       };
+      callSendAPI(sender_psid, response);
+
     } else if (received_message.text == "Reset") {
       response = {
         text: `Reset Logic`
       };
+      callSendAPI(sender_psid, response);
+
     } else if (received_message.text == "Hi") {
       facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
@@ -205,10 +209,11 @@ function handleMessage(sender_psid, received_message) {
       return;
     } else if (received_message.text == "Test") {
       response = { text: "integration succedded" };
+      callSendAPI(sender_psid, response);
+
     }
     // handle user input
     else {
-   
       let user_state;
       async function test() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
@@ -223,20 +228,21 @@ function handleMessage(sender_psid, received_message) {
       }
       user_state = test();
 
-var greetingPromise = keyv.get(sender_psid);
-var trest = greetingPromise.then(function (greeting) {
-  console.log("greeting",greeting)
+      var greetingPromise = keyv.get(sender_psid);
+      var trest = greetingPromise
+        .then(function(greeting) {
+          console.log("greeting", greeting);
 
-    return greeting; // addExclamation returns a promise
-}).then(function (greeting) {
-    console.log("greetings",greeting);    // 'hello world!!!!’
-});
-console.log("trest",trest);    // 'hello world!!!!’
+          return greeting; // addExclamation returns a promise
+        })
+        .then(function(greeting) {
+          console.log("greetings", greeting); // 'hello world!!!!’
+        });
+      console.log("trest", trest); // 'hello world!!!!’
 
       //////////////////////////////////
 
       user_state.then(result => {
-
         console.log("result", result);
         let state = result;
 
@@ -284,8 +290,7 @@ console.log("trest",trest);    // 'hello world!!!!’
 
           return response;
           // Send the message to acknowledge the postback
-        }
-        else{
+        } else {
           // console.log("user_state.state.user_state", user_state);
 
           // Create the payload for a basic text message, which
@@ -296,10 +301,9 @@ console.log("trest",trest);    // 'hello world!!!!’
 
           callSendAPI(sender_psid, response);
 
-          return
+          return;
         }
       });
-     
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
