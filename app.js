@@ -290,7 +290,29 @@ function handleMessage(sender_psid, received_message) {
 
           return response;
           // Send the message to acknowledge the postback
-        } else {
+        } 
+        else if( state == "yumaFirstAttempt") 
+       {
+        facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
+
+        keyv.set(sender_psid, facebookUserState, 120000);
+
+        }
+
+        else if( state == "yumaSecondAttempt") 
+        {
+          facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
+
+          keyv.set(sender_psid, facebookUserState, 120000);
+        }
+     
+        else if( state == "yumaThirdAttempt") 
+        {
+          facebookUserState = { state: "Blocked", senderPsid: sender_psid };
+
+          keyv.set(sender_psid, facebookUserState, 120000);
+        }
+        else {
           // console.log("user_state.state.user_state", user_state);
 
           // Create the payload for a basic text message, which
@@ -339,6 +361,8 @@ function handlePostback(sender_psid, received_postback) {
 
     keyv.set(sender_psid, facebookUserState, 120000);
   } else {
+    console.log("else");
+
     if (payload === "PAYBILL_PAYLOAD") {
       console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
       response = {
