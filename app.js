@@ -509,6 +509,7 @@ function sendTextMessages(sender, text, i) {
         } else if (response.body.error) {
           console.log("Error: ", response.body.error);
         }
+        console.log(">>>>>>RESPONSE >>>>>>>>: ", response.body.error);
         sendTextMessages(sender, text, i + 1);
       }
     );
