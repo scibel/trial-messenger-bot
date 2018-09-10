@@ -259,36 +259,10 @@ function handleMessage(sender_psid, received_message) {
   
             return response;
           
-          }
-          else if (state === "yumaFirstAttempt") {
-            console.log("changing state to yumaSecondAttempt");
-  
-            facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
-  
-            let currentStateResponse = currentState.executeAction(facebookUserState);
-  
-            console.log(
-              "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
-            );
-            console.log(
-              "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
-            );
-  
-            response = currentStateResponse.response;
-
-            console.log("76) my response = " + JSON.stringify(response));
-  
-            // changing the state of the user to the next state
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
-            
-            sendTextMessages(sender_psid, response, 0);
-  
-          }
-  
-          else if (state === "yumaSecondAttempt") {
+          } else if (state === "yumaSecondAttempt") {
             console.log("changing state to yumaThirdAttempt");
+
+            var currentState = stateList[state];
     
             let currentStateResponse = currentState.executeAction(state);
   
@@ -314,7 +288,7 @@ function handleMessage(sender_psid, received_message) {
           else if (state == "yumaThirdAttempt") {
             console.log("changing state to Blocked");
   
-            facebookUserState = { state: "blockedState", senderPsid: sender_psid };
+            var currentState = stateList[state];
   
             let currentStateResponse = currentState.executeAction(facebookUserState);
   
