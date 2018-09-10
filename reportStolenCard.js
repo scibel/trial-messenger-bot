@@ -23,12 +23,12 @@ var reportStolenCard = {
                   {
                     type: "postback",
                     title: "234234234234234232",
-                    payload: "CREDIT_CARD_234234234234234232"
+                    payload: "CREDIT_CARD_1"
                   },
                   {
                     type: "postback",
                     title: "4534534534534534",
-                    payload: "CREDIT_CARD_4534534534534534"
+                    payload: "CREDIT_CARD_2"
                   }
                 ]
               }
@@ -38,7 +38,7 @@ var reportStolenCard = {
       };
 
       return {
-        state: { state: "NotYetSupported", senderPsid: state.senderPsid },
+        state: { state: "stolenCardTicket", senderPsid: state.senderPsid },
         response: response
       };
       // }

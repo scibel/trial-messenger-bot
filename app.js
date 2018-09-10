@@ -293,6 +293,8 @@ function handleMessage(sender_psid, received_message) {
         } 
         else if( state == "yumaFirstAttempt") 
        {
+        console.log("changing state to yumaSecondAttempt");
+
         facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
 
         keyv.set(sender_psid, facebookUserState, 120000);
@@ -301,6 +303,8 @@ function handleMessage(sender_psid, received_message) {
 
         else if( state == "yumaSecondAttempt") 
         {
+          console.log("changing state to yumaThirdAttempt");
+
           facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
 
           keyv.set(sender_psid, facebookUserState, 120000);
@@ -308,6 +312,8 @@ function handleMessage(sender_psid, received_message) {
      
         else if( state == "yumaThirdAttempt") 
         {
+          console.log("changing state to Blocked");
+
           facebookUserState = { state: "Blocked", senderPsid: sender_psid };
 
           keyv.set(sender_psid, facebookUserState, 120000);

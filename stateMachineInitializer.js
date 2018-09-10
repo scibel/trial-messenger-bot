@@ -4,8 +4,11 @@ const helloState = require("./helloState");
 const doYouHaveAnAccountState = require("./doYouHaveAnAccountState");
 const chooseAccountState = require("./chooseAccountState");
 const yumaFirstAttempt = require("./yumaFirstAttempt");
-const reportStolenCard = require("./reportStolenCard");
+const yumaSecondAttempt = require("./yumaSecondAttempt");
+const yumaThirdAttempt = require("./yumaThirdAttempt");
 
+const reportStolenCard = require("./reportStolenCard");
+const stolenCardTicket = require("./stolenCardTicket");
 
 
 
@@ -15,7 +18,11 @@ stateList["helloState"] = helloState;
 stateList["doYouHaveAnAccountState"] = doYouHaveAnAccountState;
 stateList["chooseAccountState"] = chooseAccountState;
 stateList["yumaFirstAttempt"] = yumaFirstAttempt;
+stateList["yumaSecondAttempt"] = yumaSecondAttempt;
+stateList["yumaThirdAttempt"] = yumaThirdAttempt;
+
 stateList["reportStolenCard"] = reportStolenCard;
+stateList["stolenCardTicket"] = stolenCardTicket;
 
 
 
