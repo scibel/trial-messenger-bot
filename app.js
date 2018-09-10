@@ -482,11 +482,13 @@ function sendTextMessages(sender, text, i) {
       // requestObject.headers = {
       //   'Content-Type': "application/x-www-form-urlencoded"
       // };
-      requestObject.recipient = {
+
+      requestObject.formData = {};
+      requestObject.formData.recipient = {
         id: sender
       };
-      requestObject.message = text[i].attachment;
-      requestObject.filedata = text[i].filedata;
+      requestObject.formData.message = text[i].attachment;
+      requestObject.formData.filedata = text[i].filedata;
       delete text[i].filedata;
 
       console.log(">>>>>>> SENT FILE >>>>>>", requestObject);
