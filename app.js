@@ -167,16 +167,10 @@ function handleMessage(sender_psid, received_message) {
       console.log("81) Cancel corner case input");
       keyv.delete(sender_psid); // true
 
-      response = {
+      response = [{
         text: Thank_you
-      };
-      callSendAPI(sender_psid, response);
-
-    } else if (received_message.text == "Reset") {
-      response = {
-        text: `Reset Logic`
-      };
-      callSendAPI(sender_psid, response);
+      }];
+      sendTextMessages(sender_psid, response, 0);
 
     } else if (received_message.text == "Hi") {
       facebookUserState = { state: "helloState", senderPsid: sender_psid };
@@ -207,15 +201,9 @@ function handleMessage(sender_psid, received_message) {
       keyv.set(sender_psid, currentStateResponse.state, 120000);
       sendTextMessages(sender_psid, response, 0);
       return;
-    } else if (received_message.text == "Test") {
-      response = { text: "integration succedded" };
-      callSendAPI(sender_psid, response);
-
-    }
-    // handle user input
-    else {
+    } else {
       let user_state;
-      async function test() {
+      async function getUserState() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
         user_state = await keyv.get(sender_psid).then(result => {
           return result;
@@ -226,30 +214,16 @@ function handleMessage(sender_psid, received_message) {
         console.log("user_state", user_state);
         return user_state;
       }
-      user_state = test();
-
-      var greetingPromise = keyv.get(sender_psid);
-      var trest = greetingPromise
-        .then(function (greeting) {
-          console.log("greeting", greeting);
-
-          return greeting; // addExclamation returns a promise
-        })
-        .then(function (greeting) {
-          console.log("greetings", greeting); // 'hello world!!!!’
-        });
-      console.log("trest", trest); // 'hello world!!!!’
-
-      //////////////////////////////////
+      user_state = getUserState();
 
       user_state.then(result => {
         console.log("result", result);
         let state = result;
 
         if (
-          state == "yumaFirstAttempt" ||
+          (state == "yumaFirstAttempt" ||
           state == "yumaSecondAttempt" ||
-          (state == "yumaThirdAttempt" && received_message.text == "123456")
+          state == "yumaThirdAttempt") && received_message.text == "123456"
         ) {
           console.log("password entered");
           console.log("72) my sender_psid = " + sender_psid);
@@ -316,15 +290,11 @@ function handleMessage(sender_psid, received_message) {
           keyv.set(sender_psid, facebookUserState, 120000);
         }
         else {
-          // console.log("user_state.state.user_state", user_state);
-
-          // Create the payload for a basic text message, which
-          // will be added to the body of our request to the Send API
-          response = {
+          response = [{
             text: `This command is undefined`
-          };
+          }];
 
-          callSendAPI(sender_psid, response);
+          sendTextMessages(sender_psid, response, 0);
 
           return;
         }
@@ -334,9 +304,6 @@ function handleMessage(sender_psid, received_message) {
       "corner cases input->response that is going to be send to the user" +
       JSON.stringify(response)
     );
-    // bug the message get sent twice.
-    // sendTextMessages(sender_psid, response, 0);
-    // callSendAPI(sender_psid, response);
   }
 }
 
@@ -364,19 +331,11 @@ function handlePostback(sender_psid, received_postback) {
     });
     sendTextMessages(sender_psid, response, 0);
 
-  }
-  // else if ((payload = "FIRST_ATTEMPT")) {
-  //   console.log("handleFIRST_ATTEMPT");
-
-  //   facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
-
-  //   keyv.set(sender_psid, facebookUserState, 120000);
-  // } 
-  else if (payload === "PAYBILL_PAYLOAD") {
+  } else if (payload === "PAYBILL_PAYLOAD") {
     console.log("PAYBILL_PAYLOAD");
 
     console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
-    response = {
+    response = [{
       attachment: {
         type: "template",
         payload: {
@@ -398,16 +357,15 @@ function handlePostback(sender_psid, received_postback) {
           ]
         }
       }
-    };
-    callSendAPI(sender_psid, response);
-
+    }];
+    sendTextMessages(sender_psid, response, 0);
   }
   else {
     console.log("else");
 
     if (payload === "PAYBILL_PAYLOAD") {
       console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
-      response = {
+      response = [{
         attachment: {
           type: "template",
           payload: {
@@ -429,15 +387,15 @@ function handlePostback(sender_psid, received_postback) {
             ]
           }
         }
-      };
-      callSendAPI(sender_psid, response);
+      }];
+      sendTextMessages(sender_psid, response, 0);
 
     } else {
       console.log("110) undefined command Postbacks");
-      response = {
+      response = [{
         text: `This command is undefined`
-      };
-      callSendAPI(sender_psid, response);
+      }];
+      sendTextMessages(sender_psid, response, 0);
 
     }
 
@@ -507,7 +465,6 @@ function callSendAPI(sender_psid, response) {
   );
 }
 
-// var a = ["1", "2", "3"] //my result is a array
 function sendTextMessages(sender, text, i) {
   var requestObject = {
     url: "https://graph.facebook.com/v2.6/me/messages",
@@ -550,8 +507,4 @@ function sendTextMessages(sender, text, i) {
       }
     );
   } else return;
-}
-
-function uploadAttachment() {
-
 }
