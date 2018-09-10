@@ -37,7 +37,7 @@ app.post("/webhook", (req, res) => {
     console.log("2) body received /n \n", JSON.stringify(body));
 
     // Iterate over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(function (entry) {
       // console.log("here");
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
@@ -90,8 +90,8 @@ function handleMessage(sender_psid, received_message) {
   let response;
   console.log(
     "52) will be handling the following Message \n" +
-      JSON.stringify(received_message) +
-      "\n"
+    JSON.stringify(received_message) +
+    "\n"
   );
 
   // Handle quick_replies postbacks Yes or No
@@ -131,11 +131,11 @@ function handleMessage(sender_psid, received_message) {
 
           console.log(
             "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
+            JSON.stringify(currentStateResponse)
           );
           console.log(
             "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
+            JSON.stringify(currentStateResponse.response)
           );
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -193,7 +193,7 @@ function handleMessage(sender_psid, received_message) {
       );
       console.log(
         "my currentStateResponse.response = " +
-          JSON.stringify(currentStateResponse.response)
+        JSON.stringify(currentStateResponse.response)
       );
 
       // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -209,16 +209,16 @@ function handleMessage(sender_psid, received_message) {
     }
     // handle user input
     else {
-     let test_state = keyv.get(sender_psid);
-     let value = test_state.then(
-      result => {
-        return result;
-      }     )
-      console.log("test_state",test_state)
-      console.log("test_state",value)
+      let test_state = keyv.get(sender_psid);
+      let value = test_state.then(
+        result => {
+          return result;
+        })
+      console.log("test_state", test_state)
+      console.log("test_state", value)
 
-// ------------------------------
-let user_states
+      // ------------------------------
+      let user_states
       async function initPromise() {
         // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
         user_states = await keyv.get(sender_psid).then(result => {
@@ -228,34 +228,34 @@ let user_states
         // console.log("user_state", user_state);
         // return user_state;
       }
-console.log("user_states",user_states)
-      initPromise().then(function(result) {
-        console.log("initPromise",result); // "initResolve"
+      console.log("user_states", user_states)
+      initPromise().then(function (result) {
+        console.log("initPromise", result); // "initResolve"
         return "normalReturn";
-    })
-    .then(function(result) {
-        console.log("normalReturn", result); // "normalReturn"
-    });
-// -------------------------------
+      })
+        .then(function (result) {
+          console.log("normalReturn", result); // "normalReturn"
+        });
+      // -------------------------------
 
-let user_state_test;
- function testing() {
-  // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-  user_state_test =  keyv.get(sender_psid).then(result => {
-    return result;
-  });
-  // user_state = user_state.state;
-  console.log("user_state_test", user_state_test);
-  return user_state_test;
-}
-user_state_test = testing();
+      let user_state_test;
+      function testing() {
+        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+        user_state_test = keyv.get(sender_psid).then(result => {
+          return result;
+        });
+        // user_state = user_state.state;
+        console.log("user_state_test", user_state_test);
+        return user_state_test;
+      }
+      user_state_test = testing();
 
-user_state_test.then(result => {
-  console.log("user_state_test", user_state_test); // "normalReturn"
+      user_state_test.then(result => {
+        console.log("user_state_test", user_state_test); // "normalReturn"
 
-})
+      })
 
-// ----------------------------------------
+      // ----------------------------------------
 
       let user_state;
       async function test() {
@@ -298,11 +298,11 @@ user_state_test.then(result => {
 
           console.log(
             "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
+            JSON.stringify(currentStateResponse)
           );
           console.log(
             "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
+            JSON.stringify(currentStateResponse.response)
           );
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -337,7 +337,7 @@ user_state_test.then(result => {
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
-        JSON.stringify(response)
+      JSON.stringify(response)
     );
     // bug the message get sent twice.
     sendTextMessages(sender_psid, response, 0);
@@ -424,7 +424,7 @@ function handlePostback(sender_psid, received_postback) {
         );
         console.log(
           "my currentStateResponse.response = " +
-            JSON.stringify(currentStateResponse.response)
+          JSON.stringify(currentStateResponse.response)
         );
 
         // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -471,21 +471,34 @@ function callSendAPI(sender_psid, response) {
 
 // var a = ["1", "2", "3"] //my result is a array
 function sendTextMessages(sender, text, i) {
+  var requestObject = {
+    url: "https://graph.facebook.com/v2.6/me/messages",
+    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    method: "POST",
+    // json: request_body
+  };
+
+
+
   if (i < text.length) {
-    let request_body = {
-      recipient: {
-        id: sender
-      },
-      message: text[i]
-    };
-    request(
-      {
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body
-      },
-      function(error, response, body) {
+    if (text[i].filedata) {
+      requestObject.recipient.id = sender;
+      requestObject.message = text[i].attachment;
+      requestObject.filedata = text[i].filedata;
+      delete text[i].filedata;
+    } else {
+      var request_body = {
+        recipient: {
+          id: sender
+        },
+        message: text[i]
+      };
+      requestObject.json = request_body;
+    }
+
+
+    request(requestObject,
+      function (error, response, body) {
         if (error) {
           console.log("Error sending messages: ", error);
         } else if (response.body.error) {
