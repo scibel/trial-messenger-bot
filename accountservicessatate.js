@@ -31,7 +31,7 @@ var accountServicesState = {
                 attachment: {
                     type: "file",
                     payload: {
-                        url: "./attachment/Bank-statement.docx",
+                        url: "./attachments/Bank-statement.docx",
                         is_reusable: false
                     }
                 }
