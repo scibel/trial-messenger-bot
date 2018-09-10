@@ -214,6 +214,7 @@ function handleMessage(sender_psid, received_message) {
           console.log("user_state", user_state);
           return user_state;
         }
+
         user_state = getUserState();
   
         user_state.then(result => {
@@ -221,27 +222,24 @@ function handleMessage(sender_psid, received_message) {
           let state = result;
   
           if (
-            (state == "yumaFirstAttempt" ||
-            state == "yumaSecondAttempt" ||
-            state == "yumaThirdAttempt") && received_message.text == "123456"
+            (state === "yumaFirstAttempt" ||
+            state === "yumaSecondAttempt" ||
+            state === "yumaThirdAttempt") && received_message.text === "123456"
           ) {
             console.log("password entered");
             console.log("72) my sender_psid = " + sender_psid);
             console.log("73) my result = " + JSON.stringify(result));
             console.log("73) my state = " + JSON.stringify(state));
+            
             facebookUserState = { state: state, senderPsid: sender_psid };
-            // facebookUserState = result;
-            // gives undefined
+
             console.log(facebookUserState.state);
+            
             var currentState = stateList[facebookUserState.state];
+            
             console.log(currentState);
   
-            // current response returns
-            //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
-            let currentStateResponse = currentState.executeAction(
-              // payload,
-              facebookUserState
-            );
+          let currentStateResponse = currentState.executeAction(facebookUserState);
   
             console.log(
               "74) my currentStateResponse = " +
@@ -252,10 +250,8 @@ function handleMessage(sender_psid, received_message) {
               JSON.stringify(currentStateResponse.response)
             );
   
-            // response = {text:'Welcome Mr. Tarek to ABCBank'};
             response = currentStateResponse.response;
-            // in case YES_USE_MAIN_ACCOUNT my response should be to
-            // execute an action to move the user to the next state
+
             console.log("76) my response = " + JSON.stringify(response));
   
             // changing the state of the user to the next state
@@ -263,14 +259,32 @@ function handleMessage(sender_psid, received_message) {
             sendTextMessages(sender_psid, response, 0);
   
             return response;
-            // Send the message to acknowledge the postback
+          
           }
-          else if (state == "yumaFirstAttempt") {
+          else if (state === "yumaFirstAttempt") {
             console.log("changing state to yumaSecondAttempt");
   
             facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
   
-            keyv.set(sender_psid, facebookUserState, 120000);
+            let currentStateResponse = currentState.executeAction(facebookUserState);
+  
+            console.log(
+              "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+            );
+  
+            response = currentStateResponse.response;
+
+            console.log("76) my response = " + JSON.stringify(response));
+  
+            // changing the state of the user to the next state
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            
+            sendTextMessages(sender_psid, response, 0);
   
           }
   
@@ -279,19 +293,52 @@ function handleMessage(sender_psid, received_message) {
   
             facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
   
-            keyv.set(sender_psid, facebookUserState, 120000);
+            let currentStateResponse = currentState.executeAction(facebookUserState);
+  
+            console.log(
+              "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+            );
+  
+            response = currentStateResponse.response;
+
+            console.log("76) my response = " + JSON.stringify(response));
+  
+            // changing the state of the user to the next state
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            
+            sendTextMessages(sender_psid, response, 0);
           }
   
           else if (state == "yumaThirdAttempt") {
             console.log("changing state to Blocked");
   
-            facebookUserState = { state: "Blocked", senderPsid: sender_psid };
+            facebookUserState = { state: "blockedState", senderPsid: sender_psid };
   
-            keyv.set(sender_psid, facebookUserState, 120000);
+            let currentStateResponse = currentState.executeAction(facebookUserState);
+  
+            console.log(
+              "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+            );
+  
+            response = currentStateResponse.response;
+
+            console.log("76) my response = " + JSON.stringify(response));
+            
+            sendTextMessages(sender_psid, response, 0);
           }
           else {
             response = [{
-              text: `This command is undefined`
+              text: `The message you have entered is not identified. Please type Logout if you want to end chat session or Hi if you want to restart it`
             }];
   
             sendTextMessages(sender_psid, response, 0);

@@ -6,6 +6,7 @@ const chooseAccountState = require("./chooseAccountState");
 const yumaFirstAttempt = require("./yumaFirstAttempt");
 const yumaSecondAttempt = require("./yumaSecondAttempt");
 const yumaThirdAttempt = require("./yumaThirdAttempt");
+const blockedState = require("./blockedState");
 
 const reportStolenCard = require("./reportStolenCard");
 const stolenCardTicket = require("./stolenCardTicket");
