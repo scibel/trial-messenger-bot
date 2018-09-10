@@ -9,11 +9,12 @@
             var response=[];
 
             response[0] = {text:'Welcome to OLE Bank'};
+            response[1] = {text:'Type Logout if you want to end chat session or Hi if you want to restart it'};
             console.log(state.senderPsid);
             // we need to change this 
             if(state.senderPsid === '902533626537343' || state.senderPsid ==='1847510265339367' || state.senderPsid === '2152628194771300'){
                 console.log("We have identified that your Facebook account is associated a main account number ending with 5555")
-                response[1] = {
+                response[2] = {
                         text: "We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?",
                         quick_replies:[
                             {
@@ -31,7 +32,7 @@
                     return {"state":{"state":"chooseAccountState","senderPsid":state.senderPsid},"response":response};
             } else{
 
-                response[1] = {
+                response[2] = {
                     text: "Do you have a bank account number at OLE Bank?",
                     quick_replies:[
                       {
