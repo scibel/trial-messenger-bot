@@ -12,22 +12,22 @@ var TicketWithIssue = {
                 quick_replies: [
                     {
                         content_type: "text",
-                        title: "( 1 )",
+                        title: "Balance",
                         payload: "ACCOUNT_BALANCE"
                     },
                     {
                         content_type: "text",
-                        title: "( 2 )",
+                        title: "Transactions",
                         payload: "ACCOUNT_TRANSACTIONS"
                     },
                     {
                         content_type: "text",
-                        title: "( 3 )",
+                        title: "Payment",
                         payload: "PAYMENT"
                     },
                     {
                         content_type: "text",
-                        title: "( 4 )",
+                        title: "Cancel",
                         payload: "CANCEL"
                     }
                 ]
