@@ -99,7 +99,7 @@ var accountServicesState = {
                     }
                 ]
             }
-            return { "state": { "state": "USER_INPUT_CORRECT_STATE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "ACCOUNT_SERVICE_STATE", "senderPsid": state.senderPsid }, "response": response };
         }
     }
 };
