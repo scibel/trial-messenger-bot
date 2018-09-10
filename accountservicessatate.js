@@ -33,7 +33,7 @@ var accountServicesState = {
                     type: "file",
                     payload: { is_reusable: true }
                 },
-                filedata: "@./attachments/statement.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                filedata: "./attachments/statement.docx"
             };
             response[1] = {
                 text: 'Would you like another service?',
