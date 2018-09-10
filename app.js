@@ -222,9 +222,8 @@ function handleMessage(sender_psid, received_message) {
           let state = result;
   
           if (
-            (state === "yumaFirstAttempt" ||
-            state === "yumaSecondAttempt" ||
-            state === "yumaThirdAttempt") && received_message.text === "123456"
+            (state === "yumaSecondAttempt" ||
+             state === "yumaThirdAttempt") && received_message.text === "123456"
           ) {
             console.log("password entered");
             console.log("72) my sender_psid = " + sender_psid);
@@ -288,12 +287,10 @@ function handleMessage(sender_psid, received_message) {
   
           }
   
-          else if (state == "yumaSecondAttempt") {
+          else if (state === "yumaSecondAttempt") {
             console.log("changing state to yumaThirdAttempt");
-  
-            facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
-  
-            let currentStateResponse = currentState.executeAction(facebookUserState);
+    
+            let currentStateResponse = currentState.executeAction(state);
   
             console.log(
               "74) my currentStateResponse = " +
