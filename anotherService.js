@@ -10,33 +10,41 @@ var anotherService = {
         }
         else if (action === "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES") {
             response[0] = {
-                text: "Please, choose one of the services below: \n"
-                    + "(1) Main Account Balance \n"
-                    + "(2) Main Account Transactions \n"
-                    + "(3) E-Payment \n"
-                    + "(4) Cancel \n",
-                quick_replies: [
-                    {
-                        content_type: "text",
-                        title: "Balance",
-                        payload: "ACCOUNT_BALANCE"
-                    },
-                    {
-                        content_type: "text",
-                        title: "Transactions",
-                        payload: "ACCOUNT_TRANSACTIONS"
-                    },
-                    {
-                        content_type: "text",
-                        title: "Payment",
-                        payload: "PAYMENT"
-                    },
-                    {
-                        content_type: "text",
-                        title: "Cancel",
-                        payload: "CANCEL"
+                text: "Please, choose one of the services below:",
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Please choose card/key that has been lost/stolen: ",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "Balance",
+                                        payload: "ACCOUNT_BALANCE"
+                                    },
+                                    {
+                                        type: "postback",
+                                        title: "Transactions",
+                                        payload: "ACCOUNT_TRANSACTIONS"
+                                    },
+                                    {
+                                        type: "postback",
+                                        title: "E-Payment",
+                                        payload: "PAYMENT"
+                                    },
+                                    {
+                                        type: "postback",
+                                        title: "Cancel and Logout",
+                                        payload: "CANCEL"
+                                    }
+                                ]
+                            }
+                        ]
                     }
-                ]
+                }
+
             }
             return { "state": { "state": "USER_INPUT_CORRECT_STATE", "senderPsid": state.senderPsid }, "response": response };
         }
