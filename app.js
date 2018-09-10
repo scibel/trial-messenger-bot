@@ -360,7 +360,34 @@ function handlePostback(sender_psid, received_postback) {
     facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
 
     keyv.set(sender_psid, facebookUserState, 120000);
-  } else {
+  } 
+  else if (payload === "PAYBILL_PAYLOAD") {
+    console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
+    response = {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Call Support",
+          buttons: [
+            {
+              type: "web_url",
+              title: "Visit web",
+              url:
+                "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
+              webview_height_ratio: "full"
+            },
+            {
+              type: "phone_number",
+              title: "Call bank support",
+              payload: "+201006747065"
+            }
+          ]
+        }
+      }
+    };
+  }
+  else {
     console.log("else");
 
     if (payload === "PAYBILL_PAYLOAD") {
