@@ -29,7 +29,7 @@
             //i should execute another action that move the user to entering first attampt state
             return {"state":{"state":"yumaFirstAttempt","senderPsid":state.senderPsid},"response":response};
         } else if(action==="NO_USE_ANOTHER_ACCOUNT"){
-            response[0] = {text:'NO_USE_ANOTHER_ACCOUNT'};
+            response[0] = {text:'This feature is not yet supported. Please type Logout if you want to end chat session or Hi if you want to restart it'};
             return {"state":{"state":"nuaaFirstAttempt","senderPsid":state.senderPsid},"response":response};
         }
     }

@@ -9,7 +9,7 @@
             var response=[];
 
             response[0] = {text:'Welcome to OLE Bank'};
-            response[1] = {text:'Type Logout if you want to end chat session or Hi if you want to restart it'};
+            response[1] = {text:'Please type Logout if you want to end chat session or Hi if you want to restart it'};
             console.log(state.senderPsid);
             // we need to change this 
             if(state.senderPsid === '902533626537343' || state.senderPsid ==='1847510265339367' || state.senderPsid === '2152628194771300'){
