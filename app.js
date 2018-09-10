@@ -175,104 +175,243 @@ function handleMessage(sender_psid, received_message) {
             }
           ]
         }
+        // Send the message to acknowledge the postback
+      );
+    }
+
+    executeActionAgainstPayload().then(response => {
+      console.log("77) test", response);
+      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    });
+  } else {
+    // Handle user input
+    console.log("80) corner cases input");
+    if (
+      received_message.text.indexOf("Logout") > -1 // true
+    ) {
+      console.log("81) Cancel corner case input");
+      keyv.delete(sender_psid); // true
+
+      response = {
+        text: Thank_you
+      };
+      callSendAPI(sender_psid, response);
+
+    } else if (received_message.text == "Reset") {
+      response = {
+        text: `Reset Logic`
+      };
+      callSendAPI(sender_psid, response);
+
+    } else if (received_message.text == "Hi") {
+      facebookUserState = { state: "helloState", senderPsid: sender_psid };
+
+      keyv.set(sender_psid, facebookUserState, 120000);
+
+      let payload = "DISPLAY_WELCOME_MESSAGE";
+
+      var currentState = stateList[facebookUserState.state];
+      console.log(currentState);
+      let currentStateResponse = currentState.executeAction(
+        payload,
+        facebookUserState
+      );
+
+      console.log(
+        "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+      );
+      console.log(
+        "my currentStateResponse.response = " +
+          JSON.stringify(currentStateResponse.response)
+      );
+
+      // response = {text:'Welcome Mr. Tarek to ABCBank'};
+      response = currentStateResponse.response;
+      console.log("my response = " + JSON.stringify(response));
+
+      keyv.set(sender_psid, currentStateResponse.state, 120000);
+      sendTextMessages(sender_psid, response, 0);
+      return;
+    } else if (received_message.text == "Test") {
+      response = { text: "integration succedded" };
+      callSendAPI(sender_psid, response);
+
+    }
+    // handle user input
+    else {
+      let user_state;
+      async function test() {
+        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+        user_state = await keyv.get(sender_psid).then(result => {
+          return result;
+        });
+
+        // let testing_value= user_state;
+        user_state = user_state.state;
+        console.log("user_state", user_state);
+        return user_state;
       }
-    };
-  } else if (received_message.text == "Button_format") {
+      user_state = test();
+
+      var greetingPromise = keyv.get(sender_psid);
+      var trest = greetingPromise
+        .then(function(greeting) {
+          console.log("greeting", greeting);
+
+          return greeting; // addExclamation returns a promise
+        })
+        .then(function(greeting) {
+          console.log("greetings", greeting); // 'hello world!!!!’
+        });
+      console.log("trest", trest); // 'hello world!!!!’
+
+      //////////////////////////////////
+
+      user_state.then(result => {
+        console.log("result", result);
+        let state = result;
+
+        if (
+          state == "yumaFirstAttempt" ||
+          state == "yumaSecondAttempt" ||
+          (state == "yumaThirdAttempt" && received_message.text == "123456")
+        ) {
+          console.log("password entered");
+          console.log("72) my sender_psid = " + sender_psid);
+          console.log("73) my result = " + JSON.stringify(result));
+          console.log("73) my state = " + JSON.stringify(state));
+          facebookUserState = { state: state, senderPsid: sender_psid };
+          // facebookUserState = result;
+          // gives undefined
+          console.log(facebookUserState.state);
+          var currentState = stateList[facebookUserState.state];
+          console.log(currentState);
+
+          // current response returns
+          //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+          let currentStateResponse = currentState.executeAction(
+            // payload,
+            facebookUserState
+          );
+
+          console.log(
+            "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+          );
+          console.log(
+            "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+          );
+
+          // response = {text:'Welcome Mr. Tarek to ABCBank'};
+          response = currentStateResponse.response;
+          // in case YES_USE_MAIN_ACCOUNT my response should be to
+          // execute an action to move the user to the next state
+          console.log("76) my response = " + JSON.stringify(response));
+
+          // changing the state of the user to the next state
+          keyv.set(sender_psid, currentStateResponse.state, 120000);
+          sendTextMessages(sender_psid, response, 0);
+
+          return response;
+          // Send the message to acknowledge the postback
+        } 
+        else if( state == "yumaFirstAttempt") 
+       {
+        console.log("changing state to yumaSecondAttempt");
+
+        facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
+
+        keyv.set(sender_psid, facebookUserState, 120000);
+
+        }
+
+        else if( state == "yumaSecondAttempt") 
+        {
+          console.log("changing state to yumaThirdAttempt");
+
+          facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
+
+          keyv.set(sender_psid, facebookUserState, 120000);
+        }
+     
+        else if( state == "yumaThirdAttempt") 
+        {
+          console.log("changing state to Blocked");
+
+          facebookUserState = { state: "Blocked", senderPsid: sender_psid };
+
+          keyv.set(sender_psid, facebookUserState, 120000);
+        }
+        else {
+          // console.log("user_state.state.user_state", user_state);
+
+          // Create the payload for a basic text message, which
+          // will be added to the body of our request to the Send API
+          response = {
+            text: `This command is undefined`
+          };
+
+          callSendAPI(sender_psid, response);
+
+          return;
+        }
+      });
+    }
+    console.log(
+      "corner cases input->response that is going to be send to the user" +
+        JSON.stringify(response)
+    );
+    // bug the message get sent twice.
+    // sendTextMessages(sender_psid, response, 0);
+    // callSendAPI(sender_psid, response);
+  }
+
+  // Send the response message
+  callSendAPI(sender_psid, response);
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+  console.log("handlePostback");
+
+  let response;
+  var facebookUserState = {};
+  console.log("102) handlePostback");
+
+  if (payload === GET_STARTED_POSTBACK) {
+    console.log("handleGET_STARTED_POSTBACK");
+
+    facebookUserState = { state: "helloState", senderPsid: sender_psid };
+
+    keyv.set(sender_psid, facebookUserState, 120000);
+
+    payload = "DISPLAY_WELCOME_MESSAGE";
+
+    executeActionAgainstPayload().then(response => {
+      console.log("102) response", response);
+      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+    });
+    sendTextMessages(sender_psid, response, 0);
+
+  } 
+  // else if ((payload = "FIRST_ATTEMPT")) {
+  //   console.log("handleFIRST_ATTEMPT");
+
+  //   facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
+
+  //   keyv.set(sender_psid, facebookUserState, 120000);
+  // } 
+  else if (payload === "PAYBILL_PAYLOAD") {
+    console.log("PAYBILL_PAYLOAD");
+
+    console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
     response = {
       attachment: {
         type: "template",
         payload: {
           template_type: "button",
-          text: "What do you want to do next?",
-          buttons: [
-            {
-              type: "web_url",
-              url: "https://www.messenger.com",
-              title: "Visit Messenger"
-            },
-            {
-              type: "postback",
-              title: "<BUTTON_TEXT>",
-              payload: "<STRING_SENT_TO_WEBHOOK>"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Element_share") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [
-            {
-              title: "Breaking News: Record Thunderstorms",
-              subtitle:
-                "The local area is due for record thunderstorms over the weekend.",
-              image_url: "https://thechangreport.com/img/lightning.png",
-              buttons: [
-                {
-                  type: "element_share",
-                  share_contents: {
-                    attachment: {
-                      type: "template",
-                      payload: {
-                        template_type: "generic",
-                        elements: [
-                          {
-                            title: "I took the hat quiz",
-                            subtitle: "My result: Fez",
-                            image_url:
-                              "https://bot.peters-hats.com/img/hats/fez.jpg",
-                            default_action: {
-                              type: "web_url",
-                              url: "http://m.me/petershats?ref=invited_by_24601"
-                            },
-                            buttons: [
-                              {
-                                type: "web_url",
-                                url:
-                                  "http://m.me/petershats?ref=invited_by_24601",
-                                title: "Take Quiz"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Test") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "What do you want to do next?",
-          buttons: [
-            {
-              type: "phone_number",
-              title: "<BUTTON_TEXT>",
-              payload: "<PHONE_NUMBER>"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Call_support") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Call for Help",
+          text: "Call Support",
           buttons: [
             {
               type: "web_url",
@@ -290,57 +429,48 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     };
-  } else if (received_message.text == "Démarrer") {
-    response = {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Call for Help",
-          buttons: [
-            {
-              type: "web_url",
-              title: "Visit web",
-              url:
-                "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-              webview_height_ratio: "full"
-            }
-          ]
-        }
-      }
-    };
-  } else if (received_message.text == "Test1") {
-    response = { text: "integration succedded" };
-  } else {
-    response = {
-      text: `This is not a recognized command`
-    };
+    callSendAPI(sender_psid, response);
+
   }
+  else {
+    console.log("else");
 
-  // Send the response message
-  callSendAPI(sender_psid, response);
-}
+    if (payload === "PAYBILL_PAYLOAD") {
+      console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
+      response = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: "Call Support",
+            buttons: [
+              {
+                type: "web_url",
+                title: "Visit web",
+                url:
+                  "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
+                webview_height_ratio: "full"
+              },
+              {
+                type: "phone_number",
+                title: "Call bank support",
+                payload: "+201006747065"
+              }
+            ]
+          }
+        }
+      };
+      callSendAPI(sender_psid, response);
 
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-  console.log("handlePostback");
+    } else {
+      console.log("110) undefined command Postbacks");
+      response = {
+        text: `This command is undefined`
+      };
+      callSendAPI(sender_psid, response);
 
-  let response;
+    }
 
-  // Get the payload for the postback
-  let payload = received_postback.payload;
-  console.log(payload);
-  // Set the response based on the postback payload
-  if (payload === "yes") {
-    response = { text: "Thanks!" };
-  } else if (payload === "no") {
-    response = { text: "Oops, try sending another image." };
-  } else if (payload === "PAYBILL_PAYLOAD") {
-    response = { text: "you are not signed in you need to sign in" };
-  } else if (payload == "BOOTBOT_GET_STARTED") {
-    response = {
-      text: "Welcome sir we are checking if you have an account with us"
-    };
   }
 
   // Send the message to acknowledge the postback

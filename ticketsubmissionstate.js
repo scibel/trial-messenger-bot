@@ -2,7 +2,7 @@
 var ticketSubmissionState = {
     executeAction: function (action, state) {
         var response = [];
-        if (action === "NO_DO_NOT_SUBMIT_STOLEN_CARD") {
+        if (action === "NO_I_DO_NOT_REPORT_STOLEN_CARD") {
             response[0] = {
                 text: "Please, choose one of the services below: \n"
                     + "(1) Main Account Balance \n"
@@ -33,6 +33,9 @@ var ticketSubmissionState = {
                 ]
             }
             return { "state": { "state": "ACCOUNT_SERVICE_STATE", "senderPsid": state.senderPsid }, "response": response };
+        }
+        else if (action === 'YES_REPORT_STOLEN_CARD') {
+
         }
     }
 };

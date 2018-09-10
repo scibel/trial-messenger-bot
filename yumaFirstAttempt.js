@@ -16,20 +16,24 @@ var yumaFirstAttempt = {
         {
           content_type: "text",
           title: "Yes",
-          payload: "YES_SUBMIT_STOLEN_CARD"
+          payload: "YES_REPORT_STOLEN_CARD"
         },
         {
           content_type: "text",
           title: "No",
-          payload: "NO_DO_NOT_SUBMIT_STOLEN_CARD"
+          payload: "NO_I_DO_NOT_REPORT_STOLEN_CARD"
         }
       ]
     }
     //i should execute another action that move the user to entering first attampt state
     // next state Submit ticket with issue will contain buttons that has the credit numbers of the user and a postback called STOLEN_CREDIT_CARD_TO_BE_REPORTED
-    return { "state": { "state": "TICKET_SUBMISSION_STATE", "senderPsid": state.senderPsid }, "response": response };
+    return { "state": { "state": "reportStolenCard", "senderPsid": state.senderPsid }, "response": response };
 
   }
+  //i should execute another action that move the user to entering first attampt state
+  // next state Submit ticket with issue will contain buttons that has the credit numbers of the user and a postback called STOLEN_CREDIT_CARD_TO_BE_REPORTED
+  // return { "state": { "state": "TICKET_SUBMISSION_STATE", "senderPsid": state.senderPsid }, "response": response };
+
 };
 
 module.exports = yumaFirstAttempt;
