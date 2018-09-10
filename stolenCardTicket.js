@@ -14,7 +14,7 @@
             response[0] = {text:'Your report has been submitted. You will be contact shortly by a customer service representative. Would you like another service?'};
         }
 
-        return {"state":{"state":"yumaFirstAttempt","senderPsid":state.senderPsid},"response":response};
+        return {"state":{"state":"anotherService","senderPsid":state.senderPsid},"response":response};
     }
 };
 
