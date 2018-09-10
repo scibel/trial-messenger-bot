@@ -11,47 +11,30 @@ var reportStolenCard = {
       //
       console.log("YES_REPORT_STOLEN_CARD");
 
-      // response[0] = {
-      //   attachment: {
-      //     type: "template",
-      //     payload: {
-      //       template_type: "generic",
-      //       elements: [
-      //         {
-      //           title: "Which credit card would you like to stop",
-      //           buttons: [
-      //             {
-      //               type: "postback",
-      //               title: "234234234234234232",
-      //               payload: "CREDIT_CARD_1"
-      //             },
-      //             {
-      //               type: "postback",
-      //               title: "4534534534534534",
-      //               payload: "CREDIT_CARD_2"
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   }
-      // };
-
       response[0] = {
-        text:
-          "Which credit card would you like to report",
-        quick_replies: [
-          {
-            content_type: "text",
-            title: "234234234234234232",
-            payload: "CREDIT_CARD_1"
-          },
-          {
-            content_type: "text",
-            title: "4534534534534534",
-            payload: "CREDIT_CARD_2"
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: [
+              {
+                title: "Which credit card would you like to stop",
+                buttons: [
+                  {
+                    type: "postback",
+                    title: "234234234234234232",
+                    payload: "CREDIT_CARD_1"
+                  },
+                  {
+                    type: "postback",
+                    title: "4534534534534534",
+                    payload: "CREDIT_CARD_2"
+                  }
+                ]
+              }
+            ]
           }
-        ]
+        }
       };
 
       return {

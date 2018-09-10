@@ -370,82 +370,14 @@ function handlePostback(sender_psid, received_postback) {
 
     payload = "DISPLAY_WELCOME_MESSAGE";
 
-    executeActionAgainstPayload().then(response => {
-      console.log("102) response", response);
-      // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
-    });
+  } 
 
-  } else if (payload === "PAYBILL_PAYLOAD") {
-    console.log("PAYBILL_PAYLOAD");
+  executeActionAgainstPayload(payload).then(response => {
+    console.log("102) response", response);
+    // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
+  });
 
-    console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
-    response = [{
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Call Support",
-          buttons: [
-            {
-              type: "web_url",
-              title: "Visit web",
-              url:
-                "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-              webview_height_ratio: "full"
-            },
-            {
-              type: "phone_number",
-              title: "Call bank support",
-              payload: "+201006747065"
-            }
-          ]
-        }
-      }
-    }];
-    sendTextMessages(sender_psid, response, 0);
-  }
-  else {
-    console.log("else");
-
-    if (payload === "PAYBILL_PAYLOAD") {
-      console.log("103) Cancel corner case input, PAYBILL_PAYLOAD response");
-      response = [{
-        attachment: {
-          type: "template",
-          payload: {
-            template_type: "button",
-            text: "Call Support",
-            buttons: [
-              {
-                type: "web_url",
-                title: "Visit web",
-                url:
-                  "https://www.hsbc.com.eg/1/2/eg/personal/useful-link/contact-us",
-                webview_height_ratio: "full"
-              },
-              {
-                type: "phone_number",
-                title: "Call bank support",
-                payload: "+201006747065"
-              }
-            ]
-          }
-        }
-      }];
-      sendTextMessages(sender_psid, response, 0);
-
-    } else {
-      console.log("110) undefined command Postbacks");
-      response = [{
-        text: `This command is undefined`
-      }];
-      sendTextMessages(sender_psid, response, 0);
-
-    }
-
-  }
-
-  async function executeActionAgainstPayload() {
+  async function executeActionAgainstPayload(payload) {
     await keyv.get(sender_psid).then(
       result => {
         console.log("my sender_psid = " + sender_psid);
@@ -481,33 +413,6 @@ function handlePostback(sender_psid, received_postback) {
   }
 }
 
-// Not used now
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-  // Construct the message body
-  let request_body = {
-    recipient: {
-      id: sender_psid
-    },
-    message: response
-  };
-  // Send the HTTP request to the Messenger Platform
-  request(
-    {
-      uri: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-      method: "POST",
-      json: request_body
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
-      }
-    }
-  );
-}
 
 function sendTextMessages(sender, text, i) {
   var requestObject = {
