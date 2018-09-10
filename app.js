@@ -290,7 +290,7 @@ function handleMessage(sender_psid, received_message) {
   
             var currentState = stateList[state];
   
-            let currentStateResponse = currentState.executeAction(facebookUserState);
+            let currentStateResponse = currentState.executeAction(state);
   
             console.log(
               "74) my currentStateResponse = " +
