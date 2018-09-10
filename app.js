@@ -332,7 +332,6 @@ function handlePostback(sender_psid, received_postback) {
       console.log("102) response", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-    sendTextMessages(sender_psid, response, 0);
 
   } else if (payload === "PAYBILL_PAYLOAD") {
     console.log("PAYBILL_PAYLOAD");
