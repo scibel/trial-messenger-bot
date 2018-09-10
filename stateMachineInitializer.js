@@ -24,6 +24,8 @@ stateList["chooseAccountState"] = chooseAccountState;
 stateList["yumaFirstAttempt"] = yumaFirstAttempt;
 stateList["yumaSecondAttempt"] = yumaSecondAttempt;
 stateList["yumaThirdAttempt"] = yumaThirdAttempt;
+stateList["blockedState"] = blockedState;
+
 
 stateList["reportStolenCard"] = reportStolenCard;
 stateList["stolenCardTicket"] = stolenCardTicket;
