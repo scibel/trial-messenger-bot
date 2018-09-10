@@ -10,14 +10,13 @@ var anotherService = {
         }
         else if (action === "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES") {
             response[0] = {
-                text: "Please, choose one of the services below:",
                 attachment: {
                     type: "template",
                     payload: {
                         template_type: "generic",
                         elements: [
                             {
-                                title: "Please choose card/key that has been lost/stolen: ",
+                                title: "Please, choose one of the services below:",
                                 buttons: [
                                     {
                                         type: "postback",

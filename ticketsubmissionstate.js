@@ -4,14 +4,13 @@ var ticketSubmissionState = {
         var response = [];
         if (action === "NO_I_DO_NOT_REPORT_STOLEN_CARD") {
             response[0] = {
-                text: "Please, choose one of the services below:",
                 attachment: {
                     type: "template",
                     payload: {
                         template_type: "generic",
                         elements: [
                             {
-                                title: "Please choose card/key that has been lost/stolen: ",
+                                title: "Please, choose one of the services below:",
                                 buttons: [
                                     {
                                         type: "postback",

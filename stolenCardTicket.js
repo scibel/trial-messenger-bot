@@ -9,9 +9,9 @@
         var response=[];
 
         if(action==="CREDIT_CARD_1"){
-            response[0] = {text:'Your report has been submitted. You will be contact shortly by a customer service representative. Would you like another service?'};
+            response[0] = {text:'Your report has been submitted. You will be contact shortly by a customer service representative.'};
         } else if(action==="CREDIT_CARD_2"){
-            response[0] = {text:'Your report has been submitted. You will be contact shortly by a customer service representative. Would you like another service?'};
+            response[0] = {text:'Your report has been submitted. You will be contact shortly by a customer service representative.'};
         }
 
         response[1] = {
