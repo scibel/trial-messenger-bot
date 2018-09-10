@@ -3,7 +3,7 @@ var TicketWithIssue = {
     executeAction: function (action, state) {
         var response = [];
         if (action === "NO_DO_NOT_SUBMIT_STOLEN_CARD") {
-            response[1] = {
+            response[0] = {
                 text: "Please, choose one of the services below: \n"
                     + "(1) Main Account Balance \n"
                     + "(2) Main Account Transactions \n"
@@ -33,7 +33,6 @@ var TicketWithIssue = {
                 ]
             }
             return { "state": { "state": "USER_INPUT_CORRECT_STATE", "senderPsid": state.senderPsid }, "response": response };
-
         }
     }
 };
