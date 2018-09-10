@@ -20,12 +20,12 @@ var anotherService = {
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "Balance",
+                                        title: "Account Balance",
                                         payload: "ACCOUNT_BALANCE"
                                     },
                                     {
                                         type: "postback",
-                                        title: "Transactions",
+                                        title: "Account Transactions",
                                         payload: "ACCOUNT_TRANSACTIONS"
                                     },
                                     {
