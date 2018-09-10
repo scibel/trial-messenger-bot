@@ -365,13 +365,14 @@ function handlePostback(sender_psid, received_postback) {
       console.log("102) response", response);
       // await keyv.get(sender_psid).then(result =>  console.log(JSON.stringify(result)))
     });
-  } else if ((payload = "FIRST_ATTEMPT")) {
-    console.log("handleFIRST_ATTEMPT");
-
-    facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
-
-    keyv.set(sender_psid, facebookUserState, 120000);
   } 
+  // else if ((payload = "FIRST_ATTEMPT")) {
+  //   console.log("handleFIRST_ATTEMPT");
+
+  //   facebookUserState = { state: "FirstAttempt", senderPsid: sender_psid };
+
+  //   keyv.set(sender_psid, facebookUserState, 120000);
+  // } 
   else if (payload === "PAYBILL_PAYLOAD") {
     console.log("PAYBILL_PAYLOAD");
 
