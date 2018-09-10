@@ -37,7 +37,7 @@ app.post("/webhook", (req, res) => {
     console.log("2) body received /n \n", JSON.stringify(body));
 
     // Iterate over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(function (entry) {
       // console.log("here");
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
@@ -90,8 +90,8 @@ function handleMessage(sender_psid, received_message) {
   let response;
   console.log(
     "52) will be handling the following Message \n" +
-      JSON.stringify(received_message) +
-      "\n"
+    JSON.stringify(received_message) +
+    "\n"
   );
 
   // Handle quick_replies postbacks Yes or No
@@ -131,11 +131,11 @@ function handleMessage(sender_psid, received_message) {
 
           console.log(
             "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
+            JSON.stringify(currentStateResponse)
           );
           console.log(
             "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
+            JSON.stringify(currentStateResponse.response)
           );
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -197,7 +197,7 @@ function handleMessage(sender_psid, received_message) {
       );
       console.log(
         "my currentStateResponse.response = " +
-          JSON.stringify(currentStateResponse.response)
+        JSON.stringify(currentStateResponse.response)
       );
 
       // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -230,12 +230,12 @@ function handleMessage(sender_psid, received_message) {
 
       var greetingPromise = keyv.get(sender_psid);
       var trest = greetingPromise
-        .then(function(greeting) {
+        .then(function (greeting) {
           console.log("greeting", greeting);
 
           return greeting; // addExclamation returns a promise
         })
-        .then(function(greeting) {
+        .then(function (greeting) {
           console.log("greetings", greeting); // 'hello world!!!!’
         });
       console.log("trest", trest); // 'hello world!!!!’
@@ -271,11 +271,11 @@ function handleMessage(sender_psid, received_message) {
 
           console.log(
             "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
+            JSON.stringify(currentStateResponse)
           );
           console.log(
             "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
+            JSON.stringify(currentStateResponse.response)
           );
 
           // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -290,28 +290,25 @@ function handleMessage(sender_psid, received_message) {
 
           return response;
           // Send the message to acknowledge the postback
-        } 
-        else if( state == "yumaFirstAttempt") 
-       {
-        console.log("changing state to yumaSecondAttempt");
+        }
+        else if (state == "yumaFirstAttempt") {
+          console.log("changing state to yumaSecondAttempt");
 
-        facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
+          facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
 
-        keyv.set(sender_psid, facebookUserState, 120000);
+          keyv.set(sender_psid, facebookUserState, 120000);
 
         }
 
-        else if( state == "yumaSecondAttempt") 
-        {
+        else if (state == "yumaSecondAttempt") {
           console.log("changing state to yumaThirdAttempt");
 
           facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
 
           keyv.set(sender_psid, facebookUserState, 120000);
         }
-     
-        else if( state == "yumaThirdAttempt") 
-        {
+
+        else if (state == "yumaThirdAttempt") {
           console.log("changing state to Blocked");
 
           facebookUserState = { state: "Blocked", senderPsid: sender_psid };
@@ -335,7 +332,7 @@ function handleMessage(sender_psid, received_message) {
     }
     console.log(
       "corner cases input->response that is going to be send to the user" +
-        JSON.stringify(response)
+      JSON.stringify(response)
     );
     // bug the message get sent twice.
     // sendTextMessages(sender_psid, response, 0);
@@ -367,7 +364,7 @@ function handlePostback(sender_psid, received_postback) {
     });
     sendTextMessages(sender_psid, response, 0);
 
-  } 
+  }
   // else if ((payload = "FIRST_ATTEMPT")) {
   //   console.log("handleFIRST_ATTEMPT");
 
@@ -465,7 +462,7 @@ function handlePostback(sender_psid, received_postback) {
         );
         console.log(
           "my currentStateResponse.response = " +
-            JSON.stringify(currentStateResponse.response)
+          JSON.stringify(currentStateResponse.response)
         );
 
         // response = {text:'Welcome Mr. Tarek to ABCBank'};
@@ -512,28 +509,49 @@ function callSendAPI(sender_psid, response) {
 
 // var a = ["1", "2", "3"] //my result is a array
 function sendTextMessages(sender, text, i) {
+  var requestObject = {
+    url: "https://graph.facebook.com/v2.6/me/messages",
+    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    method: "POST"
+  };
+
   if (i < text.length) {
-    let request_body = {
-      recipient: {
+    if (text[i].filedata) {
+      requestObject.formData = {};
+      requestObject.formData.recipient = {
         id: sender
-      },
-      message: text[i]
-    };
-    request(
-      {
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body
-      },
-      function(error, response, body) {
+      };
+      requestObject.formData.message = text[i].attachment;
+      requestObject.formData.filedata = text[i].filedata;
+      delete text[i].filedata;
+
+      console.log(">>>>>>> SENT FILE >>>>>>", requestObject);
+
+    } else {
+      let request_body = {
+        recipient: {
+          id: sender
+        },
+        message: text[i]
+      };
+      requestObject.json = request_body;
+    }
+
+
+    request(requestObject,
+      (error, response, body) => {
         if (error) {
           console.log("Error sending messages: ", error);
         } else if (response.body.error) {
           console.log("Error: ", response.body.error);
         }
+        console.log(">>>>>>RESPONSE >>>>>>>>: ", response.body.error);
         sendTextMessages(sender, text, i + 1);
       }
     );
   } else return;
+}
+
+function uploadAttachment() {
+
 }
