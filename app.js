@@ -223,9 +223,6 @@ function handleMessage(sender_psid, received_message) {
       }
       user_state = test();
 
-
-////////////////////
-
 var greetingPromise = keyv.get(sender_psid);
 var trest = greetingPromise.then(function (greeting) {
   console.log("greeting",greeting)
