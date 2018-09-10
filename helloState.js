@@ -11,7 +11,7 @@
             response[0] = {text:'Welcome to OLE Bank'};
             console.log(state.senderPsid);
             // we need to change this 
-            if(state.senderPsid === '902533626537343'){
+            if(state.senderPsid === '2152628194771300'){
                 console.log("We have identified that your Facebook account is associated a main account number ending with 5555")
                 response[1] = {
                         text: "We have identified that your Facebook account is associated a main account number ending with 5555. Would you like to continue with this account number?",
