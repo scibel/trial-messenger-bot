@@ -4,11 +4,11 @@ var TicketWithIssue = {
         var response = [];
         if (action === "NO_DO_NOT_SUBMIT_STOLEN_CARD") {
             response[0] = {
-                text: "Please, choose one of the services below:" +
-                    + "(1) Main Account Balance"
-                    + "(2) Main Account Transactions"
-                    + "(3) E-Payment"
-                    + "(4) Cancel"
+                text: "Please, choose one of the services below: \n"
+                    + "(1) Main Account Balance \n"
+                    + "(2) Main Account Transactions \n"
+                    + "(3) E-Payment \n"
+                    + "(4) Cancel \n"
             };
             response[1] = {
                 quick_replies: [
