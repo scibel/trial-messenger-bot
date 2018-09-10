@@ -33,7 +33,7 @@ var accountServicesState = {
                     type: "file",
                     payload: { is_reusable: false }
                 },
-                filedata: "@./attachments/Bank-statement.docx"
+                filedata: "./attachments/Bank-statement.docx"
             };
             response[1] = {
                 text: 'Would you like another service?',
