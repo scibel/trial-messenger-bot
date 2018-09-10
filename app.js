@@ -474,20 +474,19 @@ function sendTextMessages(sender, text, i) {
   var requestObject = {
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-    method: "POST",
-    // json: request_body
+    method: "POST"
   };
-
-
 
   if (i < text.length) {
     if (text[i].filedata) {
-      requestObject.recipient.id = sender;
+      requestObject.recipient = {
+        id: sender
+      };
       requestObject.message = text[i].attachment;
       requestObject.filedata = text[i].filedata;
       delete text[i].filedata;
     } else {
-      var request_body = {
+      let request_body = {
         recipient: {
           id: sender
         },
@@ -498,7 +497,7 @@ function sendTextMessages(sender, text, i) {
 
 
     request(requestObject,
-      function (error, response, body) {
+      (error, response, body) => {
         if (error) {
           console.log("Error sending messages: ", error);
         } else if (response.body.error) {
