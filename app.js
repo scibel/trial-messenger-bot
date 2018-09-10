@@ -485,6 +485,9 @@ function sendTextMessages(sender, text, i) {
       requestObject.message = text[i].attachment;
       requestObject.filedata = text[i].filedata;
       delete text[i].filedata;
+
+      console.log(">>>>>>> SENT FILE >>>>>>", requestObject);
+
     } else {
       let request_body = {
         recipient: {
