@@ -161,149 +161,152 @@ function handleMessage(sender_psid, received_message) {
   } else {
     // Handle user input
     console.log("80) corner cases input");
-    if (
-      received_message.text.indexOf("Logout") > -1 // true
-    ) {
-      console.log("81) Cancel corner case input");
-      keyv.delete(sender_psid); // true
+    if(received_message.text!==undefined){
+      if (received_message.text.indexOf("Logout") > -1) {
 
-      response = [{
-        text: Thank_you
-      }];
-      sendTextMessages(sender_psid, response, 0);
-
-    } else if (received_message.text == "Hi") {
-      facebookUserState = { state: "helloState", senderPsid: sender_psid };
-
-      keyv.set(sender_psid, facebookUserState, 120000);
-
-      let payload = "DISPLAY_WELCOME_MESSAGE";
-
-      var currentState = stateList[facebookUserState.state];
-      console.log(currentState);
-      let currentStateResponse = currentState.executeAction(
-        payload,
-        facebookUserState
-      );
-
-      console.log(
-        "my currentStateResponse = " + JSON.stringify(currentStateResponse)
-      );
-      console.log(
-        "my currentStateResponse.response = " +
-        JSON.stringify(currentStateResponse.response)
-      );
-
-      // response = {text:'Welcome Mr. Tarek to ABCBank'};
-      response = currentStateResponse.response;
-      console.log("my response = " + JSON.stringify(response));
-
-      keyv.set(sender_psid, currentStateResponse.state, 120000);
-      sendTextMessages(sender_psid, response, 0);
-      return;
-    } else {
-      let user_state;
-      async function getUserState() {
-        // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
-        user_state = await keyv.get(sender_psid).then(result => {
-          return result;
+        console.log("81) Cancel corner case input");
+        keyv.delete(sender_psid); // true
+  
+        response = [{
+          text: Thank_you
+        }];
+        sendTextMessages(sender_psid, response, 0);
+  
+      } else if (received_message.text == "Hi") {
+        facebookUserState = { state: "helloState", senderPsid: sender_psid };
+  
+        keyv.set(sender_psid, facebookUserState, 120000);
+  
+        let payload = "DISPLAY_WELCOME_MESSAGE";
+  
+        var currentState = stateList[facebookUserState.state];
+        console.log(currentState);
+        let currentStateResponse = currentState.executeAction(
+          payload,
+          facebookUserState
+        );
+  
+        console.log(
+          "my currentStateResponse = " + JSON.stringify(currentStateResponse)
+        );
+        console.log(
+          "my currentStateResponse.response = " +
+          JSON.stringify(currentStateResponse.response)
+        );
+  
+        // response = {text:'Welcome Mr. Tarek to ABCBank'};
+        response = currentStateResponse.response;
+        console.log("my response = " + JSON.stringify(response));
+  
+        keyv.set(sender_psid, currentStateResponse.state, 120000);
+        sendTextMessages(sender_psid, response, 0);
+        return;
+      } else {
+        let user_state;
+        async function getUserState() {
+          // await keyv.get('foo').then((test) => console.log(test));// 'never expires'
+          user_state = await keyv.get(sender_psid).then(result => {
+            return result;
+          });
+  
+          // let testing_value= user_state;
+          user_state = user_state.state;
+          console.log("user_state", user_state);
+          return user_state;
+        }
+        user_state = getUserState();
+  
+        user_state.then(result => {
+          console.log("result", result);
+          let state = result;
+  
+          if (
+            (state == "yumaFirstAttempt" ||
+            state == "yumaSecondAttempt" ||
+            state == "yumaThirdAttempt") && received_message.text == "123456"
+          ) {
+            console.log("password entered");
+            console.log("72) my sender_psid = " + sender_psid);
+            console.log("73) my result = " + JSON.stringify(result));
+            console.log("73) my state = " + JSON.stringify(state));
+            facebookUserState = { state: state, senderPsid: sender_psid };
+            // facebookUserState = result;
+            // gives undefined
+            console.log(facebookUserState.state);
+            var currentState = stateList[facebookUserState.state];
+            console.log(currentState);
+  
+            // current response returns
+            //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
+            let currentStateResponse = currentState.executeAction(
+              // payload,
+              facebookUserState
+            );
+  
+            console.log(
+              "74) my currentStateResponse = " +
+              JSON.stringify(currentStateResponse)
+            );
+            console.log(
+              "75) my currentStateResponse.response = " +
+              JSON.stringify(currentStateResponse.response)
+            );
+  
+            // response = {text:'Welcome Mr. Tarek to ABCBank'};
+            response = currentStateResponse.response;
+            // in case YES_USE_MAIN_ACCOUNT my response should be to
+            // execute an action to move the user to the next state
+            console.log("76) my response = " + JSON.stringify(response));
+  
+            // changing the state of the user to the next state
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            sendTextMessages(sender_psid, response, 0);
+  
+            return response;
+            // Send the message to acknowledge the postback
+          }
+          else if (state == "yumaFirstAttempt") {
+            console.log("changing state to yumaSecondAttempt");
+  
+            facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
+  
+            keyv.set(sender_psid, facebookUserState, 120000);
+  
+          }
+  
+          else if (state == "yumaSecondAttempt") {
+            console.log("changing state to yumaThirdAttempt");
+  
+            facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
+  
+            keyv.set(sender_psid, facebookUserState, 120000);
+          }
+  
+          else if (state == "yumaThirdAttempt") {
+            console.log("changing state to Blocked");
+  
+            facebookUserState = { state: "Blocked", senderPsid: sender_psid };
+  
+            keyv.set(sender_psid, facebookUserState, 120000);
+          }
+          else {
+            response = [{
+              text: `This command is undefined`
+            }];
+  
+            sendTextMessages(sender_psid, response, 0);
+  
+            return;
+          }
         });
-
-        // let testing_value= user_state;
-        user_state = user_state.state;
-        console.log("user_state", user_state);
-        return user_state;
       }
-      user_state = getUserState();
-
-      user_state.then(result => {
-        console.log("result", result);
-        let state = result;
-
-        if (
-          (state == "yumaFirstAttempt" ||
-          state == "yumaSecondAttempt" ||
-          state == "yumaThirdAttempt") && received_message.text == "123456"
-        ) {
-          console.log("password entered");
-          console.log("72) my sender_psid = " + sender_psid);
-          console.log("73) my result = " + JSON.stringify(result));
-          console.log("73) my state = " + JSON.stringify(state));
-          facebookUserState = { state: state, senderPsid: sender_psid };
-          // facebookUserState = result;
-          // gives undefined
-          console.log(facebookUserState.state);
-          var currentState = stateList[facebookUserState.state];
-          console.log(currentState);
-
-          // current response returns
-          //74)in case olebank1 my currentStateResponse = {"state":{"state":"yumaFirstAttempt","senderPsid":"902533626537343"},"response":[{"text":"YES_USE_MAIN_ACCOUNT"}]}
-          let currentStateResponse = currentState.executeAction(
-            // payload,
-            facebookUserState
-          );
-
-          console.log(
-            "74) my currentStateResponse = " +
-            JSON.stringify(currentStateResponse)
-          );
-          console.log(
-            "75) my currentStateResponse.response = " +
-            JSON.stringify(currentStateResponse.response)
-          );
-
-          // response = {text:'Welcome Mr. Tarek to ABCBank'};
-          response = currentStateResponse.response;
-          // in case YES_USE_MAIN_ACCOUNT my response should be to
-          // execute an action to move the user to the next state
-          console.log("76) my response = " + JSON.stringify(response));
-
-          // changing the state of the user to the next state
-          keyv.set(sender_psid, currentStateResponse.state, 120000);
-          sendTextMessages(sender_psid, response, 0);
-
-          return response;
-          // Send the message to acknowledge the postback
-        }
-        else if (state == "yumaFirstAttempt") {
-          console.log("changing state to yumaSecondAttempt");
-
-          facebookUserState = { state: "yumaSecondAttempt", senderPsid: sender_psid };
-
-          keyv.set(sender_psid, facebookUserState, 120000);
-
-        }
-
-        else if (state == "yumaSecondAttempt") {
-          console.log("changing state to yumaThirdAttempt");
-
-          facebookUserState = { state: "yumaThirdAttempt", senderPsid: sender_psid };
-
-          keyv.set(sender_psid, facebookUserState, 120000);
-        }
-
-        else if (state == "yumaThirdAttempt") {
-          console.log("changing state to Blocked");
-
-          facebookUserState = { state: "Blocked", senderPsid: sender_psid };
-
-          keyv.set(sender_psid, facebookUserState, 120000);
-        }
-        else {
-          response = [{
-            text: `This command is undefined`
-          }];
-
-          sendTextMessages(sender_psid, response, 0);
-
-          return;
-        }
-      });
+      console.log(
+        "corner cases input->response that is going to be send to the user" +
+        JSON.stringify(response)
+      );
+    } else{
+      console.log("Error: Text Message was empty")
     }
-    console.log(
-      "corner cases input->response that is going to be send to the user" +
-      JSON.stringify(response)
-    );
   }
 }
 
