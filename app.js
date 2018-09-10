@@ -230,7 +230,7 @@ function handleMessage(sender_psid, received_message) {
             console.log("73) my result = " + JSON.stringify(result));
             console.log("73) my state = " + JSON.stringify(state));
             
-            facebookUserState = { state: state, senderPsid: sender_psid };
+            facebookUserState = { state: "passwordEnteredSuccessfullyState", senderPsid: sender_psid };
 
             console.log(facebookUserState.state);
             
@@ -255,6 +255,7 @@ function handleMessage(sender_psid, received_message) {
   
             // changing the state of the user to the next state
             keyv.set(sender_psid, currentStateResponse.state, 120000);
+            
             sendTextMessages(sender_psid, response, 0);
   
             return response;
