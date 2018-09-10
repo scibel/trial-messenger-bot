@@ -9,18 +9,60 @@ var UserInputCorrectState = {
         }
         else if (action === "ACCOUNT_BALANCE") {
             response[0] = { text: 'Main account balance is XXXLE' };
-            response[1] = { text: 'Would you like another service?' };
+            response[1] = {
+                text: 'Would you like another service?',
+                quick_replies: [
+                    {
+                        content_type: "text",
+                        title: "Balance",
+                        payload: "YES"
+                    },
+                    {
+                        content_type: "text",
+                        title: "Transactions",
+                        payload: "NO"
+                    }
+                ]
+            };
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_TRANSACTIONS") {
             response[0] = { text: 'Retrieve last 10 transactions from DB' };
             response[1] = { text: 'Export transactions into PDF Format' };
-            response[2] = { text: 'Would you like another service?' };
+            response[2] = {
+                text: 'Would you like another service?',
+                quick_replies: [
+                    {
+                        content_type: "text",
+                        title: "Balance",
+                        payload: "YES"
+                    },
+                    {
+                        content_type: "text",
+                        title: "Transactions",
+                        payload: "NO"
+                    }
+                ]
+            };
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "PAYMENT") {
             response[0] = { text: 'PAYMENT OPTION ' };
-            response[1] = { text: 'Would you like another service?' };
+            response[1] = {
+                text: 'Would you like another service?',
+                quick_replies: [
+                    {
+                        content_type: "text",
+                        title: "Balance",
+                        payload: "YES"
+                    },
+                    {
+                        content_type: "text",
+                        title: "Transactions",
+                        payload: "NO"
+                    }
+                ]
+            };
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         } else {
             response[0] = {
