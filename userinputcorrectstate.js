@@ -14,12 +14,12 @@ var UserInputCorrectState = {
                 quick_replies: [
                     {
                         content_type: "text",
-                        title: "Balance",
+                        title: "Yes",
                         payload: "YES"
                     },
                     {
                         content_type: "text",
-                        title: "Transactions",
+                        title: "No",
                         payload: "NO"
                     }
                 ]
@@ -34,12 +34,12 @@ var UserInputCorrectState = {
                 quick_replies: [
                     {
                         content_type: "text",
-                        title: "Balance",
+                        title: "Yes",
                         payload: "YES"
                     },
                     {
                         content_type: "text",
-                        title: "Transactions",
+                        title: "No",
                         payload: "NO"
                     }
                 ]
@@ -53,12 +53,12 @@ var UserInputCorrectState = {
                 quick_replies: [
                     {
                         content_type: "text",
-                        title: "Balance",
+                        title: "Yes",
                         payload: "YES"
                     },
                     {
                         content_type: "text",
-                        title: "Transactions",
+                        title: "No",
                         payload: "NO"
                     }
                 ]
