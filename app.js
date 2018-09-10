@@ -479,10 +479,6 @@ function sendTextMessages(sender, text, i) {
 
   if (i < text.length) {
     if (text[i].filedata) {
-      // requestObject.headers = {
-      //   'Content-Type': "application/x-www-form-urlencoded"
-      // };
-
       requestObject.formData = {};
       requestObject.formData.recipient = {
         id: sender
@@ -516,4 +512,8 @@ function sendTextMessages(sender, text, i) {
       }
     );
   } else return;
+}
+
+function uploadAttachment(){
+  
 }

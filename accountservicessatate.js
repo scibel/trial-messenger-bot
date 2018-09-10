@@ -27,7 +27,6 @@ var accountServicesState = {
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_TRANSACTIONS") {
-            // 
             response[0] = {
                 attachment: {
                     type: "file",
