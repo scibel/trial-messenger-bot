@@ -304,6 +304,8 @@ function handleMessage(sender_psid, received_message) {
             response = currentStateResponse.response;
 
             console.log("76) my response = " + JSON.stringify(response));
+
+            keyv.set(sender_psid, currentStateResponse.state, 120000);
             
             sendTextMessages(sender_psid, response, 0);
           }
