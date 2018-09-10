@@ -18,7 +18,7 @@ var reportStolenCard = {
             template_type: "generic",
             elements: [
               {
-                title: "Which credit card would you like to stop",
+                title: "Please choose card/key that has been lost/stolen: ",
                 buttons: [
                   {
                     type: "postback",

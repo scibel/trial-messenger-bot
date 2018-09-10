@@ -13,7 +13,7 @@ const reportStolenCard = require("./reportStolenCard");
 const stolenCardTicket = require("./stolenCardTicket");
 
 const ACCOUNT_SERVICE_STATE = require("./accountservicessatate")
-const ANOTHER_SERVICE = require("./anotherservice")
+const anotherservice = require("./anotherservice")
 
 
 
@@ -33,6 +33,6 @@ stateList["reportStolenCard"] = reportStolenCard;
 stateList["stolenCardTicket"] = stolenCardTicket;
 
 stateList["ACCOUNT_SERVICE_STATE"] = ACCOUNT_SERVICE_STATE;
-stateList["ANOTHER_SERVICE"] = ANOTHER_SERVICE;
+stateList["anotherservice"] = anotherservice;
 
 module.exports = stateList;
