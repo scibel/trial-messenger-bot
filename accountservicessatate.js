@@ -31,7 +31,7 @@ var accountServicesState = {
             response[0] = {
                 attachment: {
                     type: "file",
-                    payload: {}
+                    payload: { is_reusable: true }
                 },
                 filedata: "@./attachments/statement.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             };

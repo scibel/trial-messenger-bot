@@ -479,9 +479,9 @@ function sendTextMessages(sender, text, i) {
 
   if (i < text.length) {
     if (text[i].filedata) {
-      requestObject.headers = {
-        'Content-Type': "application/x-www-form-urlencoded"
-      };
+      // requestObject.headers = {
+      //   'Content-Type': "application/x-www-form-urlencoded"
+      // };
       requestObject.recipient = {
         id: sender
       };
