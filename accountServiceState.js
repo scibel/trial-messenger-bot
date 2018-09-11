@@ -15,16 +15,16 @@ var accountServicesState = {
                     {
                         content_type: "text",
                         title: "Yes",
-                        payload: "YES"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES"
                     },
                     {
                         content_type: "text",
                         title: "No",
-                        payload: "NO"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_NO"
                     }
                 ]
             };
-            return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "anotherService", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_TRANSACTIONS") {
             response[0] = {
@@ -40,16 +40,16 @@ var accountServicesState = {
                     {
                         content_type: "text",
                         title: "Yes",
-                        payload: "YES"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES"
                     },
                     {
                         content_type: "text",
                         title: "No",
-                        payload: "NO"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_NO"
                     }
                 ]
             };
-            return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "anotherService", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "PAYMENT") {
             response[0] = { text: 'PAYMENT OPTION ' };
@@ -59,16 +59,16 @@ var accountServicesState = {
                     {
                         content_type: "text",
                         title: "Yes",
-                        payload: "YES"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES"
                     },
                     {
                         content_type: "text",
                         title: "No",
-                        payload: "NO"
+                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_NO"
                     }
                 ]
             };
-            return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "anotherService", "senderPsid": state.senderPsid }, "response": response };
         } else {
             response[0] = {
                 attachment: {
