@@ -56,6 +56,8 @@ var onlineStoresState = {
         var websiteName = action.toLowerCase();
         var foundWebsite = false;
 
+        var BreakException = {};
+
         try{
             websiteList.forEach(onlineStoreName => {
                 if(websiteName===onlineStoreName.toLowerCase()){
