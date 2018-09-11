@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get("/contactus", (req, res) => {
-  res.sendFile('contactus.html');
+  res.sendFile('./contactus.html');
 });
 
 // Accepts POST requests at /webhook endpoint
