@@ -18,6 +18,8 @@ const onlineStoresState = require("./onlineStoresState");
 const enterTransactionNumberState = require("./enterTransactionNumberState");
 const issuePaymentState = require("./issuePaymentState");
 const enterPinCodeState = require("./enterPinCodeState");
+const enterBankAccountNumberState = require("./enterBankAccountNumberState");
+
 
 
 
@@ -42,6 +44,7 @@ stateList["onlineStoresState"] = onlineStoresState;
 stateList["enterTransactionNumberState"] = enterTransactionNumberState;
 stateList["issuePaymentState"] = issuePaymentState;
 stateList["enterPinCodeState"] = enterPinCodeState;
+stateList["enterBankAccountNumberState"] = enterBankAccountNumberState;
 
 
 module.exports = stateList;
