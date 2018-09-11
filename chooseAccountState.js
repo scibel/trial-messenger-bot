@@ -39,7 +39,7 @@
 
             }
 
-            return {"state":{"state":"yumaSecondAttempt","senderPsid":state.senderPsid},"response":response};
+            return {"state":{"state":"enterPinCodeState","senderPsid":state.senderPsid},"response":response};
         }
     }
 };

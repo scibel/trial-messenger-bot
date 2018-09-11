@@ -17,6 +17,7 @@ const anotherService = require("./anotherService");
 const onlineStoresState = require("./onlineStoresState");
 const enterTransactionNumberState = require("./enterTransactionNumberState");
 const issuePaymentState = require("./issuePaymentState");
+const chooseAccountState = require("./chooseAccountState");
 
 
 
@@ -40,5 +41,7 @@ stateList["anotherService"] = anotherService;
 stateList["onlineStoresState"] = onlineStoresState;
 stateList["enterTransactionNumberState"] = enterTransactionNumberState;
 stateList["issuePaymentState"] = issuePaymentState;
+stateList["chooseAccountState"] = chooseAccountState;
+
 
 module.exports = stateList;
