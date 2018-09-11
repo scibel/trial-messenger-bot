@@ -167,7 +167,7 @@ function handleMessage(sender_psid, received_message) {
     // Handle user input
     console.log("80) corner cases input");
     if(received_message.text!==undefined){
-      if (received_message.text.indexOf("Logout") > -1) {
+      if (received_message.text.toLowerCase() === "logout") {
 
         console.log("81) Cancel corner case input");
         keyv.delete(sender_psid); // true
@@ -177,7 +177,7 @@ function handleMessage(sender_psid, received_message) {
         }];
         sendTextMessages(sender_psid, response, 0);
   
-      } else if (received_message.text == "Hi") {
+      } else if (received_message.text.toLowerCase() === "hi") {
         facebookUserState = { state: "helloState", senderPsid: sender_psid };
   
         keyv.set(sender_psid, facebookUserState, 120000);
@@ -226,7 +226,7 @@ function handleMessage(sender_psid, received_message) {
           console.log("result", result);
           let state = result;
   
-          if ((state === "yumaSecondAttempt" ||state === "yumaThirdAttempt") && received_message.text === "123456") {
+          if ((state === "yumaSecondAttempt" ||state === "yumaThirdAttempt"||state === "blockedState") && received_message.text === "123456") {
             console.log("password entered");
             console.log("72) my sender_psid = " + sender_psid);
             console.log("73) my result = " + JSON.stringify(result));
