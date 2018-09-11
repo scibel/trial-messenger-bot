@@ -68,7 +68,7 @@ var onlineStoresState = {
             return { "state": { "state": "enterTransactionNumberState", "senderPsid": state.senderPsid }, "response": response };
         } else{
 
-            var websiteNameFirstCharacter = str.charAt(0);
+            var websiteNameFirstCharacter = websiteName.charAt(0);
 
             switch(websiteNameFirstCharacter){
                 case 'a':
