@@ -12,6 +12,7 @@ const request = require("request"),
   app = express().use(body_parser.json()); // creates express http server
 const stateList = require("./stateMachineInitializer");
 const Keyv = require("keyv");
+const path    = require("path");
 
 const keyv = new Keyv();
 const port = process.env.PORT || 3000;
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get("/contactus", (req, res) => {
-  res.sendFile('./contactus.html');
+  res.sendFile(path.join(__dirname+'contactus.html'));
 });
 
 // Accepts POST requests at /webhook endpoint
