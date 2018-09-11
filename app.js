@@ -98,10 +98,7 @@ function handleMessage(sender_psid, received_message) {
 
   // Handle quick_replies postbacks Yes or No
 
-  if (
-    received_message.quick_reply !== "undefined" &&
-    received_message.quick_reply
-  ) {
+  if (received_message.quick_reply !== "undefined" && received_message.quick_reply) {
     console.log(
       "70) received_message.quick_reply.payload",
       received_message.quick_reply.payload
@@ -330,36 +327,39 @@ function handleMessage(sender_psid, received_message) {
             console.log("76) my response = " + JSON.stringify(response));
             
             sendTextMessages(sender_psid, response, 0);
-          } else if (state === "onlineStoresState"){
-            var currentState = stateList[state];
+          } else {
+
+            if (state === "onlineStoresState"){
+              var currentState = stateList[state];
+      
+              let currentStateResponse = currentState.executeAction(received_message.text,currentState);
     
-            let currentStateResponse = currentState.executeAction(payload,currentState);
+              console.log(
+                "74) my currentStateResponse = " +
+                JSON.stringify(currentStateResponse)
+              );
+              console.log(
+                "75) my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+              );
+    
+              response = currentStateResponse.response;
   
-            console.log(
-              "74) my currentStateResponse = " +
-              JSON.stringify(currentStateResponse)
-            );
-            console.log(
-              "75) my currentStateResponse.response = " +
-              JSON.stringify(currentStateResponse.response)
-            );
+              console.log("76) my response = " + JSON.stringify(response));
+    
+              // changing the state of the user to the next state
+              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              
+              sendTextMessages(sender_psid, response, 0);
   
-            response = currentStateResponse.response;
+            } else{
+              response = [{
+                text: `The message you have entered is not identified. Please type Logout if you want to end chat session or Hi if you want to restart it`
+              }];
+    
+              sendTextMessages(sender_psid, response, 0);
+            }
 
-            console.log("76) my response = " + JSON.stringify(response));
-  
-            // changing the state of the user to the next state
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
-            
-            sendTextMessages(sender_psid, response, 0);
-
-          }else {
-            response = [{
-              text: `The message you have entered is not identified. Please type Logout if you want to end chat session or Hi if you want to restart it`
-            }];
-  
-            sendTextMessages(sender_psid, response, 0);
-  
             return;
           }
         });
