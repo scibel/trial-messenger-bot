@@ -68,7 +68,6 @@ var onlineStoresState = {
                 console.log("Found something");
             }
         }
-       
 
         if(foundWebsite){
             response[0] = {text: 'Please enter transaction #'};

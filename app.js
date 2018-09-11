@@ -333,7 +333,7 @@ function handleMessage(sender_psid, received_message) {
           } else if (state === "onlineStoresState"){
             var currentState = stateList[state];
     
-            let currentStateResponse = currentState.executeAction(state);
+            let currentStateResponse = currentState.executeAction(payload,currentState);
   
             console.log(
               "74) my currentStateResponse = " +
