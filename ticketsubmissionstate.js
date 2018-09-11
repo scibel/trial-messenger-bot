@@ -24,8 +24,8 @@ var ticketSubmissionState = {
                                     },
                                     {
                                         type: "postback",
-                                        title: "Cancel and Logout",
-                                        payload: "LOGOUT"
+                                        title: "E-Payment",
+                                        payload: "EPAYMENT"
                                     }
                                 ]
                             }
