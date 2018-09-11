@@ -10,7 +10,7 @@ var ticketSubmissionState = {
                         template_type: "generic",
                         elements: [
                             {
-                                title: "Please, choose one of the services below:",
+                                title: "Please choose one of the services below:",
                                 buttons: [
                                     {
                                         type: "postback",
