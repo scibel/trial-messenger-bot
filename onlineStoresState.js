@@ -59,7 +59,7 @@ var onlineStoresState = {
         websiteList.forEach(onlineStoreName => {
             if(websiteName===onlineStoreName.toLowerCase()){
                 foundWebsite = true;
-                break;
+                return;
             }
         });
 
