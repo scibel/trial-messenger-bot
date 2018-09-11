@@ -50,24 +50,10 @@ var accountServicesState = {
             };
             return { "state": { "state": "anotherService", "senderPsid": state.senderPsid }, "response": response };
         }
-        else if (action === "PAYMENT") {
-            response[0] = { text: 'PAYMENT OPTION ' };
-            response[1] = {
-                text: 'Would you like another service?',
-                quick_replies: [
-                    {
-                        content_type: "text",
-                        title: "Yes",
-                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_YES"
-                    },
-                    {
-                        content_type: "text",
-                        title: "No",
-                        payload: "WOULD_YOU_LIKE_ANOTHER_SERVICE_NO"
-                    }
-                ]
-            };
-            return { "state": { "state": "anotherService", "senderPsid": state.senderPsid }, "response": response };
+        else if (action === "EPAYMENT") {
+            response[0] = { text: 'Please enter name of online store' };
+
+            return { "state": { "state": "onlineStoresState", "senderPsid": state.senderPsid }, "response": response };
         } else {
             response[0] = {
                 attachment: {
