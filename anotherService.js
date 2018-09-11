@@ -40,7 +40,7 @@ var anotherService = {
                 }
 
             }
-            return { "state": { "state": "USER_INPUT_CORRECT_STATE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "accountServiceState", "senderPsid": state.senderPsid }, "response": response };
         }
     }
 };

@@ -2,9 +2,9 @@
 var accountServicesState = {
     executeAction: function (action, state) {
         var response = [];
-        if (action === "CANCEL") {
+        if (action === "LOGOUT") {
             response[0] = { text: 'Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555' };
-            response[1] = { text: 'IF you would like to re-engage with the bot please say Hi' }
+            response[1] = { text: 'If you would like to re-engage with the bot please say Hi' }
             return { "state": { "state": "thankYouState", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_BALANCE") {
@@ -71,34 +71,28 @@ var accountServicesState = {
             return { "state": { "state": "ANOTHER_SERVICE", "senderPsid": state.senderPsid }, "response": response };
         } else {
             response[0] = {
-                text: "Please, choose one of the services below:",
                 attachment: {
                     type: "template",
                     payload: {
                         template_type: "generic",
                         elements: [
                             {
-                                title: "Please choose card/key that has been lost/stolen: ",
+                                title: "Please, choose one of the services below:",
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "Balance",
+                                        title: "Account Balance",
                                         payload: "ACCOUNT_BALANCE"
                                     },
                                     {
                                         type: "postback",
-                                        title: "Transactions",
+                                        title: "Account Transactions",
                                         payload: "ACCOUNT_TRANSACTIONS"
                                     },
                                     {
                                         type: "postback",
-                                        title: "E-Payment",
-                                        payload: "PAYMENT"
-                                    },
-                                    {
-                                        type: "postback",
                                         title: "Cancel and Logout",
-                                        payload: "CANCEL"
+                                        payload: "LOGOUT"
                                     }
                                 ]
                             }
@@ -107,7 +101,7 @@ var accountServicesState = {
                 }
 
             }
-            return { "state": { "state": "ACCOUNT_SERVICE_STATE", "senderPsid": state.senderPsid }, "response": response };
+            return { "state": { "state": "accountServiceState", "senderPsid": state.senderPsid }, "response": response };
         }
     }
 };
