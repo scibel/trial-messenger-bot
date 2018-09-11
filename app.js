@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 
 // Accepts GET requests at the /webhook endpoint
 app.get("/contactus", (req, res) => {
-  res.sendFile(path.join(__dirname+'contactus.html'));
+  res.sendFile(path.join(__dirname+'/contactus.html'));
 });
 
 // Accepts POST requests at /webhook endpoint
