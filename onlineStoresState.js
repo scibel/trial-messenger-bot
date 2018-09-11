@@ -56,12 +56,19 @@ var onlineStoresState = {
         var websiteName = action.toLowerCase();
         var foundWebsite = false;
 
-        websiteList.forEach(onlineStoreName => {
-            if(websiteName===onlineStoreName.toLowerCase()){
-                foundWebsite = true;
-                return;
+        try{
+            websiteList.forEach(onlineStoreName => {
+                if(websiteName===onlineStoreName.toLowerCase()){
+                    foundWebsite = true;
+                    throw BreakException;
+                }
+            });
+        }catch (e) {
+            if (e !== BreakException) {
+                console.log("Found something");
             }
-        });
+        }
+       
 
         if(foundWebsite){
             response[0] = {text: 'Please enter transaction #'};
