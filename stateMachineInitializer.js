@@ -14,8 +14,9 @@ const stolenCardTicket = require("./stolenCardTicket");
 
 const accountServiceState = require("./accountServiceState");
 const anotherService = require("./anotherService");
-const onlineStoresState = require("./onlineStoresState")
-
+const onlineStoresState = require("./onlineStoresState");
+const enterTransactionNumberState = require("./enterTransactionNumberState");
+const issuePaymentState = require("./issuePaymentState");
 
 
 
@@ -37,5 +38,7 @@ stateList["stolenCardTicket"] = stolenCardTicket;
 stateList["accountServiceState"] = accountServiceState;
 stateList["anotherService"] = anotherService;
 stateList["onlineStoresState"] = onlineStoresState;
+stateList["enterTransactionNumberState"] = enterTransactionNumberState;
+stateList["issuePaymentState"] = issuePaymentState;
 
 module.exports = stateList;

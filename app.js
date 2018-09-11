@@ -352,6 +352,52 @@ function handleMessage(sender_psid, received_message) {
               
               sendTextMessages(sender_psid, response, 0);
   
+            } else if (state === "enterTransactionNumberState"){
+              var currentState = stateList[state];
+      
+              let currentStateResponse = currentState.executeAction(received_message.text,currentState);
+    
+              console.log(
+                "74) my currentStateResponse = " +
+                JSON.stringify(currentStateResponse)
+              );
+              console.log(
+                "75) my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+              );
+    
+              response = currentStateResponse.response;
+  
+              console.log("76) my response = " + JSON.stringify(response));
+    
+              // changing the state of the user to the next state
+              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              
+              sendTextMessages(sender_psid, response, 0);
+
+            }else if (state === "issuePaymentState"){
+              var currentState = stateList[state];
+      
+              let currentStateResponse = currentState.executeAction(received_message.text,currentState);
+    
+              console.log(
+                "74) my currentStateResponse = " +
+                JSON.stringify(currentStateResponse)
+              );
+              console.log(
+                "75) my currentStateResponse.response = " +
+                JSON.stringify(currentStateResponse.response)
+              );
+    
+              response = currentStateResponse.response;
+  
+              console.log("76) my response = " + JSON.stringify(response));
+    
+              // changing the state of the user to the next state
+              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              
+              sendTextMessages(sender_psid, response, 0);
+
             } else{
               response = [{
                 text: `The message you have entered is not identified. Please type Logout if you want to end chat session or Hi if you want to restart it`
