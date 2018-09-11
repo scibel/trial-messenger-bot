@@ -30,9 +30,8 @@ var accountServicesState = {
             response[0] = {
                 attachment: {
                     type: "file",
-                    payload: { is_reusable: true }
+                    payload: { is_reusable: true,url:"https://olebanking.herokuapp.com/files/statement.pdf" }
                 },
-                filedata: "./attachments/statement.docx"
             };
             response[1] = {
                 text: 'Would you like another service?',

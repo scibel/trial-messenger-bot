@@ -19,6 +19,8 @@ app.listen(port, () => {
   console.log("webhook is listening", port);
 });
 
+app.use('/files', express.static('attachments'));
+
 // route to check from a website whether the application is deployed
 app.get("/", (req, res) => {
   res.status(200).send("Deployed");
