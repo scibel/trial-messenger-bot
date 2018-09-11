@@ -63,9 +63,9 @@ var reportStolenCard = {
                                 payload: "ACCOUNT_TRANSACTIONS"
                             },
                             {
-                                type: "postback",
-                                title: "Cancel and Logout",
-                                payload: "LOGOUT"
+                              type: "postback",
+                              title: "E-Payment",
+                              payload: "EPAYMENT"
                             }
                         ]
                     }
