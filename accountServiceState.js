@@ -8,7 +8,7 @@ var accountServicesState = {
             return { "state": { "state": "thankYouState", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === "ACCOUNT_BALANCE") {
-            response[0] = { text: 'Main account balance is 15000 LE' };
+            response[0] = { text: 'Account balance is 15000 LE' };
             response[1] = {
                 text: 'Would you like another service?',
                 quick_replies: [
