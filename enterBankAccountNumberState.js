@@ -6,7 +6,9 @@
 
         response[0] = {text: "You have entered a correct account number"};
 
-        return {"state":{"state":"enterPinCodeState","senderPsid":state.senderPsid},"response":response};
+        response[1] = {text:'Enter your pin code'};
+        
+        return {"state":{"state":"yumaSecondAttempt","senderPsid":state.senderPsid},"response":response};
         
     }
 };
