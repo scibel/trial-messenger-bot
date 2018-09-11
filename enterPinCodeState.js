@@ -1,9 +1,7 @@
 "use strict";
 
 
-// var exports = module.exports = {};
-
- var chooseAccountState =  {
+ var enterPinCodeState =  {
     executeAction:function(action,state){
         console.log("chooseAccountState function:"+action);
         var response=[];
@@ -16,5 +14,5 @@
     }
 };
 
-module.exports = chooseAccountState;
+module.exports = enterPinCodeState;
 
