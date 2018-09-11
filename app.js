@@ -26,6 +26,11 @@ app.get("/", (req, res) => {
   res.status(200).send("Deployed");
 });
 
+// Accepts GET requests at the /webhook endpoint
+app.get("/contactus", (req, res) => {
+  res.sendFile('contactus.html');
+});
+
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
   console.log(
