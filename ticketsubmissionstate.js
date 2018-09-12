@@ -33,7 +33,28 @@ var ticketSubmissionState = {
                     }
                 }
 
-            }
+            };
+            response[1] = {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Other services:",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "Rejected Payments",
+                                        payload: "REJECTED_PAYMENTS"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+
+            };
             return { "state": { "state": "ACCOUNT_SERVICE_STATE", "senderPsid": state.senderPsid }, "response": response };
         }
         else if (action === 'YES_REPORT_STOLEN_CARD') {

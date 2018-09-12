@@ -39,7 +39,28 @@ var anotherService = {
                     }
                 }
 
-            }
+            };
+            response[1] = {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Other services:",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "Rejected Payments",
+                                        payload: "REJECTED_PAYMENTS"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+
+            };
             return { "state": { "state": "accountServiceState", "senderPsid": state.senderPsid }, "response": response };
         }
     }
