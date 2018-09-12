@@ -5,7 +5,7 @@ var rejectedPaymentsState = {
   
     var response=[];
 
-    response[0] = {text:'Transaction authorized successfully.'};
+    response[0] = {text:'Transaction authorized successfully. Please redo transaction and it will be granted.'};
       
     response[1] = {
       text: 'Would you like another service?',
