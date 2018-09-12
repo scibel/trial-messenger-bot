@@ -62,7 +62,7 @@ var accountServicesState = {
                         template_type: "generic",
                         elements: [
                             {
-                                title: "Please choose one of the services below:",
+                                title: "Please choose one of the transactions below:",
                                 buttons: [
                                     {
                                         type: "postback",
