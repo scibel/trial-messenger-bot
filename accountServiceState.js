@@ -54,6 +54,30 @@ var accountServicesState = {
             response[0] = { text: 'Please enter name of online store' };
 
             return { "state": { "state": "onlineStoresState", "senderPsid": state.senderPsid }, "response": response };
+        }else if (action === "REJECTED_PAYMENTS") {
+            response[0] = {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Please choose one of the services below:",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "Ebay - 12344885849000",
+                                        payload: "EBAY_TRANSACTION"
+                                    },
+                                ]
+                            }
+                        ]
+                    }
+                }
+
+            };
+
+            return { "state": { "state": "rejectedPaymentsState", "senderPsid": state.senderPsid }, "response": response };
         } else {
             response[0] = {
                 attachment: {

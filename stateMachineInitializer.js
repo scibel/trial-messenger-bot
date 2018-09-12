@@ -19,6 +19,7 @@ const enterTransactionNumberState = require("./enterTransactionNumberState");
 const issuePaymentState = require("./issuePaymentState");
 const enterPinCodeState = require("./enterPinCodeState");
 const enterBankAccountNumberState = require("./enterBankAccountNumberState");
+const rejectedPaymentsState = require("./rejectedPaymentsState");
 
 
 
@@ -45,6 +46,7 @@ stateList["enterTransactionNumberState"] = enterTransactionNumberState;
 stateList["issuePaymentState"] = issuePaymentState;
 stateList["enterPinCodeState"] = enterPinCodeState;
 stateList["enterBankAccountNumberState"] = enterBankAccountNumberState;
+stateList["rejectedPaymentsState"] = rejectedPaymentsState;
 
 
 module.exports = stateList;
