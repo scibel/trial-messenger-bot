@@ -5,6 +5,7 @@ const Thank_you =
   "Thank you for chatting with OLE Bank Bot. For more information, please access our website @ www.olebank.com or contact us @ 19555, say 'Hi' to re-engage with the bot";
 //  "Welcome to our bank"
 
+const TTL = 3600000;
 // Imports dependencies and set up http server
 const request = require("request"),
   express = require("express"),
@@ -13,6 +14,8 @@ const request = require("request"),
 const stateList = require("./stateMachineInitializer");
 const Keyv = require("keyv");
 const path    = require("path");
+
+
 
 const keyv = new Keyv();
 const port = process.env.PORT || 3000;
@@ -150,7 +153,7 @@ function handleMessage(sender_psid, received_message) {
           console.log("76) my response = " + JSON.stringify(response));
 
           // changing the state of the user to the next state
-          keyv.set(sender_psid, currentStateResponse.state, 120000);
+          keyv.set(sender_psid, currentStateResponse.state, TTL);
           sendTextMessages(sender_psid, response, 0);
 
           return response;
@@ -180,7 +183,7 @@ function handleMessage(sender_psid, received_message) {
       } else if (received_message.text.toLowerCase() === "hi") {
         facebookUserState = { state: "helloState", senderPsid: sender_psid };
   
-        keyv.set(sender_psid, facebookUserState, 120000);
+        keyv.set(sender_psid, facebookUserState, TTL);
   
         let payload = "DISPLAY_WELCOME_MESSAGE";
   
@@ -203,7 +206,7 @@ function handleMessage(sender_psid, received_message) {
         response = currentStateResponse.response;
         console.log("my response = " + JSON.stringify(response));
   
-        keyv.set(sender_psid, currentStateResponse.state, 120000);
+        keyv.set(sender_psid, currentStateResponse.state, TTL);
         sendTextMessages(sender_psid, response, 0);
         return;
       } else {
@@ -256,7 +259,7 @@ function handleMessage(sender_psid, received_message) {
             console.log("76) my response = " + JSON.stringify(response));
   
             // changing the state of the user to the next state
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            keyv.set(sender_psid, currentStateResponse.state, TTL);
             
             sendTextMessages(sender_psid, response, 0);
   
@@ -283,7 +286,7 @@ function handleMessage(sender_psid, received_message) {
             console.log("76) my response = " + JSON.stringify(response));
   
             // changing the state of the user to the next state
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            keyv.set(sender_psid, currentStateResponse.state, TTL);
             
             sendTextMessages(sender_psid, response, 0);
           }
@@ -308,7 +311,7 @@ function handleMessage(sender_psid, received_message) {
 
             console.log("76) my response = " + JSON.stringify(response));
 
-            keyv.set(sender_psid, currentStateResponse.state, 120000);
+            keyv.set(sender_psid, currentStateResponse.state, TTL);
             
             sendTextMessages(sender_psid, response, 0);
           }
@@ -354,7 +357,7 @@ function handleMessage(sender_psid, received_message) {
               console.log("76) my response = " + JSON.stringify(response));
     
               // changing the state of the user to the next state
-              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              keyv.set(sender_psid, currentStateResponse.state, TTL);
               
               sendTextMessages(sender_psid, response, 0);
   
@@ -377,7 +380,7 @@ function handleMessage(sender_psid, received_message) {
               console.log("76) my response = " + JSON.stringify(response));
     
               // changing the state of the user to the next state
-              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              keyv.set(sender_psid, currentStateResponse.state, TTL);
               
               sendTextMessages(sender_psid, response, 0);
 
@@ -400,7 +403,7 @@ function handleMessage(sender_psid, received_message) {
               console.log("76) my response = " + JSON.stringify(response));
     
               // changing the state of the user to the next state
-              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              keyv.set(sender_psid, currentStateResponse.state, TTL);
               
               sendTextMessages(sender_psid, response, 0);
 
@@ -423,7 +426,7 @@ function handleMessage(sender_psid, received_message) {
               console.log("76) my response = " + JSON.stringify(response));
     
               // changing the state of the user to the next state
-              keyv.set(sender_psid, currentStateResponse.state, 120000);
+              keyv.set(sender_psid, currentStateResponse.state, TTL);
               
               sendTextMessages(sender_psid, response, 0);
             } else{
@@ -462,7 +465,7 @@ function handlePostback(sender_psid, received_postback) {
 
     facebookUserState = { state: "helloState", senderPsid: sender_psid };
 
-    keyv.set(sender_psid, facebookUserState, 120000);
+    keyv.set(sender_psid, facebookUserState, TTL);
 
     payload = "DISPLAY_WELCOME_MESSAGE";
 
@@ -499,7 +502,7 @@ function handlePostback(sender_psid, received_postback) {
         response = currentStateResponse.response;
         console.log("my response = " + JSON.stringify(response));
 
-        keyv.set(sender_psid, currentStateResponse.state, 120000);
+        keyv.set(sender_psid, currentStateResponse.state, TTL);
         sendTextMessages(sender_psid, response, 0);
 
         return response;

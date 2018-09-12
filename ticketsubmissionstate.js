@@ -24,7 +24,7 @@ var ticketSubmissionState = {
                                     },
                                     {
                                         type: "postback",
-                                        title: "E-Payment",
+                                        title: "Authorize E-Payment",
                                         payload: "EPAYMENT"
                                     }
                                 ]

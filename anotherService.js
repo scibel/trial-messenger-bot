@@ -30,7 +30,7 @@ var anotherService = {
                                     },
                                     {
                                         type: "postback",
-                                        title: "E-Payment",
+                                        title: "Authorize E-Payment",
                                         payload: "EPAYMENT"
                                     }
                                 ]
